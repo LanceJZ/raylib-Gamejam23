@@ -150,10 +150,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameLogic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameLogic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Knightmare\Knightmare Engine.vcxproj">

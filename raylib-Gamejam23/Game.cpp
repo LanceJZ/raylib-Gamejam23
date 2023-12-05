@@ -15,8 +15,9 @@ bool Game::Initialize(Camera &camera) //Initialize
 	Man.Initialize(&Utils);
 	Common::Initialize(&Utils);
 	SetTargetFPS(120);
-	SetWindowTitle("Knightmare Game");
+	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
+	LogicID = Man.EM.AddCommon(&Logic);
 
 	return true;
 }

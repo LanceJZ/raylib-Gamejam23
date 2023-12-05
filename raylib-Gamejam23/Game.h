@@ -3,6 +3,7 @@
 #include "Utilities.h"
 #include "Common.h"
 #include "Managers.h"
+#include "GameLogic.h"
 
 enum GameState
 {
@@ -33,8 +34,11 @@ public:
 	void Draw();
 
 private:
+	size_t LogicID;
+
 	Utilities Utils;
 	Managers Man;
+	GameLogic Logic;
 
 	void NewGame();
 	void Draw3D();
