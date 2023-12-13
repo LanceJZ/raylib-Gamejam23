@@ -14,12 +14,12 @@ public:
 	Model3D();
 	~Model3D();
 
-	virtual bool Initialize(Utilities* utilities);
-	virtual void LoadModel(Model &model, Texture2D &texture);
-	virtual bool BeginRun(Camera* camera);
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	bool Initialize(Utilities* utility);
+	void LoadModel(Model &model, Texture2D &texture);
+	bool BeginRun(Camera* camera);
+	void Input();
+	void Update(float deltaTime);
+	void Draw();
 
 	virtual void AddChild(Model3D* child);
 	virtual void SetModel(Model &model, float scale);

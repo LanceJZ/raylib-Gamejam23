@@ -149,16 +149,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLogic.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLogic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <SubType>
       </SubType>
     </ClInclude>

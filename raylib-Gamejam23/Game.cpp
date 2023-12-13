@@ -10,28 +10,37 @@ Game::~Game()
 
 bool Game::Initialize(Camera &camera) //Initialize
 {
+	Common::Initialize(&Utils);
 	TheCamera = camera;
 
-	Man.Initialize(&Utils);
-	Common::Initialize(&Utils);
 	SetTargetFPS(120);
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
 	LogicID = Man.EM.AddCommon(&Logic);
+	BackGroundID = Man.EM.AddCommon(&BackGround);
+	PlayerID = Man.EM.AddModel3D(&ThePlayer);
+
+	BackGround.SetCamera(&camera);
+	BackGround.SetManagers(&Man);
+
+	//Any Entities added after this point need this method fired manually.
+	Man.Initialize(&Utils);
 
 	return true;
 }
 
 bool Game::Load()
 {
+	ThePlayer.SetModelCopy(Man.CM.LoadAndGetModel("Player Ship"), 1.0f);
+	BackGround.SetStarsModelID(Man.CM.LoadTheModel("Cube"));
 
 	return true;
 }
 
 bool Game::BeginRun()
 {
-	Man.BeginRun(&TheCamera); //Any Entities added after this point need this method fired manually.
-
+	//Any Entities added after this point need this method fired manually.
+	Man.BeginRun(&TheCamera);
 
 	NewGame();
 
@@ -127,7 +136,6 @@ void Game::Draw()
 	EndMode3D();
 
 	//2D drawing, fonts go here.
-
 	Draw2D();
 #ifdef _DEBUG
 	DrawFPS(5, 5);

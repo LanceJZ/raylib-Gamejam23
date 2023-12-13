@@ -6,30 +6,30 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-	for (auto model : LineModels)
-	{
-		delete(model);
-	}
+	//for (auto model : LineModels)
+	//{
+	//	delete(model);
+	//}
 
-	for (auto model : Model3Ds)
-	{
-		delete(model);
-	}
+	//for (auto model : Model3Ds)
+	//{
+	//	delete(model);
+	//}
 
-	for (auto entity : Entities)
-	{
-		delete(entity);
-	}
+	//for (auto entity : Entities)
+	//{
+	//	delete(entity);
+	//}
 
-	for (auto timer : Timers)
-	{
-		delete(timer);
-	}
+	//for (auto timer : Timers)
+	//{
+	//	delete(timer);
+	//}
 
-	for (auto common : Commons)
-	{
-		delete(common);
-	}
+	//for (auto common : Commons)
+	//{
+	//	delete(common);
+	//}
 
 	Entities.clear();
 	LineModels.clear();
@@ -42,6 +42,20 @@ bool EntityManager::Initialize(Utilities* utilities)
 {
 	Utils = utilities;
 
+	for (auto common : Commons)
+	{
+		common->Initialize(utilities);
+	}
+
+	for (auto model3D : Model3Ds)
+	{
+		model3D->Initialize(utilities);
+	}
+
+	for (auto lineModel : LineModels)
+	{
+		lineModel->Initialize(utilities);
+	}
 	return true;
 }
 

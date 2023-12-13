@@ -9,8 +9,9 @@ GameLogic::~GameLogic()
 {
 }
 
-bool GameLogic::Initialize()
+bool GameLogic::Initialize(Utilities* utils)
 {
+	Common::Initialize(utils);
 
 	return false;
 }

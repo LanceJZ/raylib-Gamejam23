@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "Managers.h"
 #include "GameLogic.h"
+#include "Background.h"
+#include "Player.h"
 
 enum GameState
 {
@@ -35,10 +37,14 @@ public:
 
 private:
 	size_t LogicID;
+	size_t BackGroundID;
+	size_t PlayerID;
 
 	Utilities Utils;
 	Managers Man;
 	GameLogic Logic;
+	Background BackGround;
+	Player ThePlayer;
 
 	void NewGame();
 	void Draw3D();
