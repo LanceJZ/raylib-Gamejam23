@@ -61,6 +61,20 @@ bool EntityManager::Initialize(Utilities* utilities)
 
 bool EntityManager::BeginRun(Camera* camera)
 {
+	if (camera == nullptr)
+	{
+		camera = Cam;
+	}
+	else
+	{
+		Cam = camera;
+
+		for (auto common : Commons)
+		{
+			common->BeginRun();
+		}
+	}
+
 	for (auto model3D : Model3Ds)
 	{
 		model3D->BeginRun(camera);
@@ -69,11 +83,6 @@ bool EntityManager::BeginRun(Camera* camera)
 	for (auto lineModel : LineModels)
 	{
 		lineModel->BeginRun();
-	}
-
-	for (auto common : Commons)
-	{
-		common->BeginRun();
 	}
 
 	return true;

@@ -17,16 +17,16 @@ public:
 	bool Initialize(Utilities* utility);
 	void LoadModel(Model &model, Texture2D &texture);
 	bool BeginRun(Camera* camera);
-	void Input();
+	virtual void Input();
 	void Update(float deltaTime);
 	void Draw();
 
-	virtual void AddChild(Model3D* child);
-	virtual void SetModel(Model &model, float scale);
-	virtual void SetModelCopy(Model model, float scale);
-	virtual Model& GetModel();
-	virtual Camera* GetCamera();
-	virtual void Spawn(Vector3 pos, Vector3 vel);
+	void AddChild(Model3D* child);
+	void SetModel(Model &model, float scale);
+	void SetModelCopy(Model model, float scale);
+	Model& GetModel();
+	Camera* GetCamera();
+	void Spawn(Vector3 pos, Vector3 vel);
 	void Unload();
 
 private:

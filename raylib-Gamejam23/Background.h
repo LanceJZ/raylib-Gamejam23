@@ -12,7 +12,6 @@ public:
 	Vector2 FieldSize = {};
 
 	void SetStarsModelID(size_t modelID);
-	void SetCamera(Camera* cam);
 	void SetManagers(Managers* man);
 	bool Initialize(Utilities* utils);
 	bool BeginRun();

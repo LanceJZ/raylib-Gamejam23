@@ -42,6 +42,8 @@ void Model3D::LoadModel(Model &model, Texture2D &texture)
 
 bool Model3D::BeginRun(Camera* camera)
 {
+	Entity::BeginRun();
+
 	TheCamera = camera;
 
 	return false;

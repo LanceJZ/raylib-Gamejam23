@@ -14,11 +14,6 @@ void Background::SetStarsModelID(size_t modelID)
 	StarModelID = modelID;
 }
 
-void Background::SetCamera(Camera* cam)
-{
-	Cam = cam;
-}
-
 void Background::SetManagers(Managers* man)
 {
 	Man = man;
@@ -27,8 +22,6 @@ void Background::SetManagers(Managers* man)
 bool Background::Initialize(Utilities* utils)
 {
 	Common::Initialize(utils);
-
-	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
 
 	return false;
 }
@@ -49,11 +42,7 @@ void Background::Update()
 void Background::BuildStars()
 {
 
-		//star.X(100);
-		//star.Y(100);
-
-
-	size_t numberToMake = 100;
+	size_t numberToMake = 300;
 
 	for (int i = 0; i < numberToMake; i++)
 	{
@@ -67,7 +56,14 @@ void Background::BuildStars()
 
 		Man->EM.Model3Ds[Stars[i]]->TheColor = GetRandomColor();
 		Man->EM.Model3Ds[Stars[i]]->Initialize(nullptr);
-		Man->EM.Model3Ds[Stars[i]]->BeginRun(Cam);
 		Man->EM.Model3Ds[Stars[i]]->Position = {starX, starY, 10.0f};
+		Man->EM.Model3Ds[Stars[i]]->ModelColor =
+			{ (unsigned char)GetRandomValue(10, 200),
+			(unsigned char)GetRandomValue(10, 200),
+			(unsigned char)GetRandomValue(10, 200), 255 };
+		Man->EM.Model3Ds[Stars[i]]->RotationAxis = { 1, 1, 1 };
+		Man->EM.Model3Ds[Stars[i]]->RotationVelocity = GetRandomFloat(-16.66f, 16.666f);
 	}
+
+	Man->EM.BeginRun(nullptr);
 }

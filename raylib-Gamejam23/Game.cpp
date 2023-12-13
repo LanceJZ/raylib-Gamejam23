@@ -13,15 +13,21 @@ bool Game::Initialize(Camera &camera) //Initialize
 	Common::Initialize(&Utils);
 	TheCamera = camera;
 
-	SetTargetFPS(120);
+	SetTargetFPS(280);
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
+
+	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
 
 	LogicID = Man.EM.AddCommon(&Logic);
 	BackGroundID = Man.EM.AddCommon(&BackGround);
 	PlayerID = Man.EM.AddModel3D(&ThePlayer);
 
-	BackGround.SetCamera(&camera);
+	Logic.SetCamera(&TheCamera);
+	Logic.SetPlayer(&ThePlayer);
+	Logic.FieldSize = FieldSize;
+
 	BackGround.SetManagers(&Man);
+	BackGround.FieldSize = FieldSize;
 
 	//Any Entities added after this point need this method fired manually.
 	Man.Initialize(&Utils);

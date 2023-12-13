@@ -40,6 +40,8 @@ private:
 	size_t BackGroundID;
 	size_t PlayerID;
 
+	Vector2 FieldSize = {};
+
 	Utilities Utils;
 	Managers Man;
 	GameLogic Logic;

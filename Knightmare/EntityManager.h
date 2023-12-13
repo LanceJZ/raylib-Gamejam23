@@ -59,6 +59,6 @@ public:
 
 private:
 	Utilities* Utils = {};
-
+	Camera* Cam = {};
 };
 
