@@ -1,5 +1,4 @@
 #include "ParticleCube.h"
-
 ParticleCube::ParticleCube()
 {
 }
@@ -15,9 +14,9 @@ bool ParticleCube::Initialize(Utilities* utilities)
 	return false;
 }
 
-bool ParticleCube::BeginRun(Camera* camera)
+bool ParticleCube::BeginRun()
 {
-	Model3D::BeginRun(camera);
+	Model3D::BeginRun();
 
 	return false;
 }

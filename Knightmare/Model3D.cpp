@@ -40,10 +40,15 @@ void Model3D::LoadModel(Model &model, Texture2D &texture)
 	}
 }
 
-bool Model3D::BeginRun(Camera* camera)
+bool Model3D::BeginRun()
 {
 	Entity::BeginRun();
 
+	return false;
+}
+
+bool Model3D::SetCamera(Camera* camera)
+{
 	TheCamera = camera;
 
 	return false;

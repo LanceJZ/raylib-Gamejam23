@@ -15,8 +15,10 @@ public:
 	int HighScore { 0 };
 	int Lives { 0 };
 
+	void SetFlameModel(Model3D* flameModel);
+
 	bool Initialize(Utilities* utils);
-	bool BeginRun(Camera* camera);
+	bool BeginRun();
 
 	void Input();
 	void Update(float deltaTime);
@@ -35,6 +37,8 @@ private:
 	float ThrustSoundTime = 0;
 	float ShieldPower = 100;
 	float velocityRotZ = 3.666f;
+
+	Model3D* Flame = {};
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

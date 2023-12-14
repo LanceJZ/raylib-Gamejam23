@@ -16,10 +16,17 @@ bool Managers::Initialize(Utilities* utilities)
 	return false;
 }
 
-bool Managers::BeginRun(Camera* camera)
+bool Managers::BeginRun()
 {
 	CM.BeginRun();
-	EM.BeginRun(camera);
+	EM.BeginRun();
+
+	return false;
+}
+
+bool Managers::SetCamera(Camera* camera)
+{
+	EM.SetCamera(camera);
 
 	return false;
 }

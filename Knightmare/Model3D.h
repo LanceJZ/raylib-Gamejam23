@@ -16,7 +16,8 @@ public:
 
 	bool Initialize(Utilities* utility);
 	void LoadModel(Model &model, Texture2D &texture);
-	bool BeginRun(Camera* camera);
+	virtual bool BeginRun();
+	virtual bool SetCamera(Camera* camera);
 	virtual void Input();
 	void Update(float deltaTime);
 	void Draw();

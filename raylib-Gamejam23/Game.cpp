@@ -38,6 +38,8 @@ bool Game::Initialize(Camera &camera) //Initialize
 bool Game::Load()
 {
 	ThePlayer.SetModelCopy(Man.CM.LoadAndGetModel("Player Ship"), 1.0f);
+	ThePlayer.SetFlameModel(Man.EM.CreateModel3D(
+		Man.CM.LoadAndGetModel("Player Flame"), &TheCamera));
 	BackGround.SetStarsModelID(Man.CM.LoadTheModel("Cube"));
 
 	return true;
@@ -46,7 +48,8 @@ bool Game::Load()
 bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
-	Man.BeginRun(&TheCamera);
+	Man.BeginRun();
+	Man.SetCamera(&TheCamera);
 
 	NewGame();
 

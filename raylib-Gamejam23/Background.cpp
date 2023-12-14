@@ -64,6 +64,4 @@ void Background::BuildStars()
 		Man->EM.Model3Ds[Stars[i]]->RotationAxis = { 1, 1, 1 };
 		Man->EM.Model3Ds[Stars[i]]->RotationVelocity = GetRandomFloat(-16.66f, 16.666f);
 	}
-
-	Man->EM.BeginRun(nullptr);
 }

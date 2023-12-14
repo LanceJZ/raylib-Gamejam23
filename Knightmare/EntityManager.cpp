@@ -59,25 +59,11 @@ bool EntityManager::Initialize(Utilities* utilities)
 	return true;
 }
 
-bool EntityManager::BeginRun(Camera* camera)
+bool EntityManager::BeginRun()
 {
-	if (camera == nullptr)
-	{
-		camera = Cam;
-	}
-	else
-	{
-		Cam = camera;
-
-		for (auto common : Commons)
-		{
-			common->BeginRun();
-		}
-	}
-
 	for (auto model3D : Model3Ds)
 	{
-		model3D->BeginRun(camera);
+		model3D->BeginRun();
 	}
 
 	for (auto lineModel : LineModels)
@@ -85,7 +71,20 @@ bool EntityManager::BeginRun(Camera* camera)
 		lineModel->BeginRun();
 	}
 
+	for (auto common : Commons)
+	{
+		common->BeginRun();
+	}
+
 	return true;
+}
+
+void EntityManager::SetCamera(Camera* cam)
+{
+	for (auto model3D : Model3Ds)
+	{
+		model3D->SetCamera(cam);
+	}
 }
 
 void EntityManager::Input()
@@ -231,7 +230,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D, Model model, float scale)
 size_t EntityManager::AddModel3D(Model3D* model3D, Camera* camera)
 {
 	size_t modelNumber = AddModel3D(model3D);
-	Model3Ds[modelNumber]->BeginRun(camera);
+	Model3Ds[modelNumber]->SetCamera(camera);
 
 	return modelNumber;
 }
@@ -270,7 +269,7 @@ size_t EntityManager::AddModel3D(Model model, float scale)
 size_t EntityManager::AddModel3D(Model model, float scale, Camera* camera)
 {
 	size_t modelNumber = AddModel3D(model, scale);
-	Model3Ds[modelNumber]->BeginRun(camera);
+	Model3Ds[modelNumber]->SetCamera(camera);
 
 	return modelNumber;
 }
@@ -326,7 +325,7 @@ Model3D* EntityManager::CreateModel3D(Model model, Camera* camera)
 	Model3Ds.push_back(newModel3D);
 	newModel3D->SetModel(model, 1.0f);
 	newModel3D->Initialize(Utils);
-	newModel3D->BeginRun(camera);
+	newModel3D->SetCamera(camera);
 
 	return newModel3D;
 }

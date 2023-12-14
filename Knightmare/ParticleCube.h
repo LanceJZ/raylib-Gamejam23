@@ -9,7 +9,7 @@ public:
 	virtual ~ParticleCube();
 
 	bool Initialize(Utilities* utilities);
-	bool BeginRun(Camera* camera);
+	bool BeginRun();
 
 	void Update(float deltaTime);
 	void Draw();

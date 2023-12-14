@@ -8,16 +8,27 @@ Player::~Player()
 {
 }
 
+void Player::SetFlameModel(Model3D* flameModel)
+{
+	Flame = flameModel;
+}
+
 bool Player::Initialize(Utilities* utils)
 {
 	Model3D::Initialize(utils);
 
+	Radius = 18.0f;
+
 	return false;
 }
 
-bool Player::BeginRun(Camera* camera)
+bool Player::BeginRun()
 {
-	Model3D::BeginRun(camera);
+	Model3D::BeginRun();
+
+	Flame->X(-20.0f);
+	Flame->RotationVelocityX = 50.0f;
+	AddChild(Flame);
 
 	return false;
 }
@@ -110,11 +121,14 @@ void Player::NewGame()
 void Player::ThrustOn(float deltaTime)
 {
 	Acceleration = AccelerationToMaxAtRotation(540.666f, 0.001f, deltaTime);
+	Flame->Enabled = true;
 }
 
 void Player::ThrustOff(float deltaTime)
 {
 	Acceleration = DecelerationToZero(0.75f, deltaTime);
+	Flame->Enabled = false;
+	Flame->RotationVelocityX = GetRandomFloat(-50.0f, 50.0f);
 }
 
 void Player::RotateLeft()

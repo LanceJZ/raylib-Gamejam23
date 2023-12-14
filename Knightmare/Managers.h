@@ -13,7 +13,8 @@ public:
 	virtual ~Managers();
 
 	bool Initialize(Utilities* utilities);
-	bool BeginRun(Camera* camera);
+	bool BeginRun();
+	bool SetCamera(Camera* camera);
 
 	virtual void Update(float deltaTime);
 
