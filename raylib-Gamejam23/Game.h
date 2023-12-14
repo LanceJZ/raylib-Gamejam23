@@ -17,7 +17,6 @@ enum GameState
 	MainMenu
 };
 
-
 class Game : Common
 {
 public:
@@ -26,9 +25,9 @@ public:
 
 	bool PlayBackgroundMusic = true;
 	GameState State = MainMenu;
-	Camera TheCamera = { 0 };
 
-	bool Initialize(Camera &camera);
+	bool Initialize(Camera &camera, Managers &managers,
+		Utilities &utilities, GameLogic &gameLogic);
 	bool Load();
 	bool BeginRun();
 	void ProcessInput();
@@ -36,17 +35,19 @@ public:
 	void Draw();
 
 private:
-	size_t LogicID;
-	size_t BackGroundID;
-	size_t PlayerID;
+	size_t LogicID = 0;
+	size_t BackGroundID = 0;
+	size_t PlayerID = 0;
 
 	Vector2 FieldSize = {};
 
-	Utilities Utils;
-	Managers Man;
-	GameLogic Logic;
-	Background BackGround;
-	Player ThePlayer;
+	Camera* Cam = {};
+	Utilities* Utils = {};
+	Managers* Man = {};
+	GameLogic* Logic = {};
+
+	Background BackGround = {};
+	Player ThePlayer = {};
 
 	void NewGame();
 	void Draw3D();

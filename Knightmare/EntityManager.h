@@ -38,19 +38,15 @@ public:
 	size_t AddModel3D(Model3D* model3D);
 	size_t AddModel3D(Model3D* model3D, Model model);
 	size_t AddModel3D(Model3D* model3D, Model model, float scale);
-	size_t AddModel3D(Model3D* model3D, Camera* camera);
-	size_t AddModel3D(Model3D* model3D, Model model, Camera* camera);
-	size_t AddModel3D(Model3D* model3D, Model model, float scale, Camera* camera);
 	size_t AddModel3D(Model model);
 	size_t AddModel3D(Model model, float scale);
-	size_t AddModel3D(Model model, float scale, Camera* camera);
 	size_t AddTimer();
 	size_t AddTimer(float amount);
 	size_t AddCommon(Common* common);
 
 	Entity* CreateEntity();
 	LineModel* CreateLineModel();
-	Model3D* CreateModel3D(Model model, Camera* camera);
+	Model3D* CreateModel3D(Model model);
 
 	std::vector<Entity*> Entities = {};
 	std::vector<LineModel*> LineModels = {};

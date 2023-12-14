@@ -46,7 +46,7 @@ void Background::BuildStars()
 
 	for (int i = 0; i < numberToMake; i++)
 	{
-		Stars.push_back(Man->EM.AddModel3D(Man->CM.GetModel(StarModelID), 1.0f));
+		Stars.push_back(Man->EM.AddModel3D(Man->CM.GetModel(StarModelID)));
 
 		int sw = GetScreenWidth() / 2;
 		int sh = GetScreenHeight() / 2;

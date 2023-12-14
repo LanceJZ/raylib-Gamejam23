@@ -7,40 +7,44 @@ Game::Game()
 Game::~Game()
 {
 }
-
-bool Game::Initialize(Camera &camera) //Initialize
+//Initialize Game
+bool Game::Initialize(Camera &camera, Managers &managers,
+	Utilities &utilities, GameLogic &gameLogic)
 {
-	Common::Initialize(&Utils);
-	TheCamera = camera;
+	Man = &managers;
+	Utils = &utilities;
+	Cam = &camera;
+	Logic = &gameLogic;
 
-	SetTargetFPS(280);
+	Common::Initialize(Utils);
+
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
 	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
 
-	LogicID = Man.EM.AddCommon(&Logic);
-	BackGroundID = Man.EM.AddCommon(&BackGround);
-	PlayerID = Man.EM.AddModel3D(&ThePlayer);
+	LogicID = Man->EM.AddCommon(Logic);
+	BackGroundID = Man->EM.AddCommon(&BackGround);
+	PlayerID = Man->EM.AddModel3D(&ThePlayer);
 
-	Logic.SetCamera(&TheCamera);
-	Logic.SetPlayer(&ThePlayer);
-	Logic.FieldSize = FieldSize;
+	Logic->SetCamera(Cam);
+	Logic->SetPlayer(&ThePlayer);
+	Logic->FieldSize = FieldSize;
 
-	BackGround.SetManagers(&Man);
+	BackGround.SetManagers(Man);
 	BackGround.FieldSize = FieldSize;
 
 	//Any Entities added after this point need this method fired manually.
-	Man.Initialize(&Utils);
+	Man->Initialize(Utils);
 
 	return true;
 }
 
 bool Game::Load()
 {
-	ThePlayer.SetModelCopy(Man.CM.LoadAndGetModel("Player Ship"), 1.0f);
-	ThePlayer.SetFlameModel(Man.EM.CreateModel3D(
-		Man.CM.LoadAndGetModel("Player Flame"), &TheCamera));
-	BackGround.SetStarsModelID(Man.CM.LoadTheModel("Cube"));
+	ThePlayer.SetModelCopy(Man->CM.LoadAndGetModel("Player Ship"), 1.0f);
+	ThePlayer.SetFlameModel(Man->EM.CreateModel3D(
+		Man->CM.LoadAndGetModel("Player Flame")));
+	BackGround.SetStarsModelID(Man->CM.LoadTheModel("Cube"));
 
 	return true;
 }
@@ -48,8 +52,8 @@ bool Game::Load()
 bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
-	Man.BeginRun();
-	Man.SetCamera(&TheCamera);
+	Man->BeginRun();
+	Man->SetCamera(Cam);
 
 	NewGame();
 
@@ -58,7 +62,7 @@ bool Game::BeginRun()
 
 void Game::ProcessInput()
 {
-	Man.EM.Input();
+	Man->EM.Input();
 
 	if (State == MainMenu)
 	{
@@ -130,14 +134,14 @@ void Game::Update(float deltaTime)
 	if (State == Pause)
 		return;
 
-	Man.EM.Update(deltaTime);
+	Man->EM.Update(deltaTime);
 }
 
 void Game::Draw()
 {
 	BeginDrawing();
 	ClearBackground({ 8, 2, 16, 100 });
-	BeginMode3D(TheCamera);
+	BeginMode3D(*Cam);
 
 	//3D Drawing here.
 	Draw3D();
@@ -161,7 +165,7 @@ void Game::NewGame()
 
 void Game::Draw3D()
 {
-	Man.EM.Draw3D();
+	Man->EM.Draw3D();
 }
 
 void Game::Draw2D()

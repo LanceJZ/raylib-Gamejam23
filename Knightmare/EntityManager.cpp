@@ -81,9 +81,11 @@ bool EntityManager::BeginRun()
 
 void EntityManager::SetCamera(Camera* cam)
 {
+	Cam = cam;
+
 	for (auto model3D : Model3Ds)
 	{
-		model3D->SetCamera(cam);
+		model3D->SetCamera(Cam);
 	}
 }
 
@@ -210,6 +212,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D)
 
 	Model3Ds.push_back(model3D);
 	Model3Ds[modelNumber]->Initialize(Utils);
+	Model3Ds[modelNumber]->SetCamera(Cam);
 
 	return modelNumber;
 }
@@ -223,27 +226,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D, Model model, float scale)
 {
 	size_t modelNumber = AddModel3D(model3D);
 	Model3Ds[modelNumber]->SetModel(model, scale);
-
-	return modelNumber;
-}
-
-size_t EntityManager::AddModel3D(Model3D* model3D, Camera* camera)
-{
-	size_t modelNumber = AddModel3D(model3D);
-	Model3Ds[modelNumber]->SetCamera(camera);
-
-	return modelNumber;
-}
-
-size_t EntityManager::AddModel3D(Model3D* model3D, Model model, Camera* camera)
-{
-	return AddModel3D(model3D, model, 1.0f, camera);
-}
-
-size_t EntityManager::AddModel3D(Model3D* model3D, Model model, float scale, Camera* camera)
-{
-	size_t modelNumber = AddModel3D(model3D, camera);
-	Model3Ds[modelNumber]->SetModel(model, scale);
+	Model3Ds[modelNumber]->SetCamera(Cam);
 
 	return modelNumber;
 }
@@ -254,6 +237,7 @@ size_t EntityManager::AddModel3D(Model model)
 	Model3Ds.push_back(DBG_NEW Model3D());
 	Model3Ds[modelNumber]->SetModel(model, 1.0f);
 	Model3Ds[modelNumber]->Initialize(Utils);
+	Model3Ds[modelNumber]->SetCamera(Cam);
 
 	return modelNumber;
 }
@@ -261,15 +245,8 @@ size_t EntityManager::AddModel3D(Model model)
 size_t EntityManager::AddModel3D(Model model, float scale)
 {
 	size_t modelNumber = AddModel3D(model);
+	Model3Ds[modelNumber]->SetCamera(Cam);
 	Model3Ds[modelNumber]->Scale = scale;
-
-	return modelNumber;
-}
-
-size_t EntityManager::AddModel3D(Model model, float scale, Camera* camera)
-{
-	size_t modelNumber = AddModel3D(model, scale);
-	Model3Ds[modelNumber]->SetCamera(camera);
 
 	return modelNumber;
 }
@@ -319,13 +296,13 @@ LineModel* EntityManager::CreateLineModel()
 	return newLineModel;
 }
 
-Model3D* EntityManager::CreateModel3D(Model model, Camera* camera)
+Model3D* EntityManager::CreateModel3D(Model model)
 {
 	Model3D* newModel3D = DBG_NEW Model3D();
 	Model3Ds.push_back(newModel3D);
 	newModel3D->SetModel(model, 1.0f);
 	newModel3D->Initialize(Utils);
-	newModel3D->SetCamera(camera);
+	newModel3D->SetCamera(Cam);
 
 	return newModel3D;
 }

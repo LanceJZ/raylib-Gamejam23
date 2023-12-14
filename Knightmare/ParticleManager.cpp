@@ -90,7 +90,7 @@ size_t ParticleManager::SpawnPool(Color color)
 		if (spawnNew)
 		{
 			Particles.push_back(new ParticleCube());
-			Man->EM.AddModel3D(Particles[cubeSpawnNumber], CubeModel, 10.0f, Cam);
+			Man->EM.AddModel3D(Particles[cubeSpawnNumber], CubeModel);
 		}
 
 		Particles[cubeSpawnNumber]->ModelColor = color;
