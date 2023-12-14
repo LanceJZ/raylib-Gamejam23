@@ -26,7 +26,7 @@ bool Player::BeginRun()
 {
 	Model3D::BeginRun();
 
-	Flame->X(-20.0f);
+	Flame->X(-30.0f);
 	Flame->RotationVelocityX = 50.0f;
 	AddChild(Flame);
 
@@ -128,7 +128,19 @@ void Player::ThrustOff(float deltaTime)
 {
 	Acceleration = DecelerationToZero(0.75f, deltaTime);
 	Flame->Enabled = false;
-	Flame->RotationVelocityX = GetRandomFloat(-50.0f, 50.0f);
+
+	float flameRot = 0;
+
+	if (GetRandomValue(1, 10) < 5)
+	{
+		flameRot = GetRandomFloat(-50.0f, -25.0f);
+	}
+	else
+	{
+		flameRot = GetRandomFloat(25.0f, 50.0f);
+	}
+
+	Flame->RotationVelocityX = flameRot;
 }
 
 void Player::RotateLeft()
