@@ -17,7 +17,6 @@ bool Game::Initialize(Camera &camera, Managers &managers,
 	Logic = gameLogic;
 
 	Common::Initialize(Utils);
-	Man->EM.SetUtilities(Utils);
 
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
@@ -45,10 +44,13 @@ bool Game::Initialize(Camera &camera, Managers &managers,
 
 bool Game::Load()
 {
+	size_t cubeID = Man->CM.LoadTheModel("Cube");
+
 	ThePlayer->SetModel(Man->CM.LoadAndGetModel("Player Ship"), 1.0f);
 	ThePlayer->SetFlameModel(Man->EM.CreateModel3D(
 		Man->CM.LoadAndGetModel("Player Flame")));
-	BackGround->SetStarsModelID(Man->CM.LoadTheModel("Cube"));
+	ThePlayer->SetShotModel(Man->CM.GetModel(cubeID));
+	BackGround->SetStarsModelID(cubeID);
 
 	return true;
 }
@@ -57,7 +59,6 @@ bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
 	Man->BeginRun();
-	Man->SetCamera(Cam);
 
 	NewGame();
 

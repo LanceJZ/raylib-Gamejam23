@@ -17,6 +17,8 @@ bool ShotMaster::Initialize(Utilities* utils)
 {
 	Model3D::Initialize(utils);
 
+	Radius = 2.5f;
+
 	return false;
 }
 
@@ -47,6 +49,7 @@ void ShotMaster::Draw()
 
 void ShotMaster::Spawn(Vector3 position, Vector3 velocity, float timer)
 {
+	Enabled = true;
 	Position = position;
 	Velocity = velocity;
 	Man->EM.Timers[TimerID]->Reset(timer);

@@ -1,6 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "Managers.h"
+#include "ShotMaster.h"
 
 class Player : public Model3D
 {
@@ -16,8 +17,11 @@ public:
 	int HighScore { 0 };
 	int Lives { 0 };
 
-	void SetFlameModel(Model3D* flameModel);
+	std::vector<ShotMaster*> Shots;
+
 	void SetManagers(Managers* man);
+	void SetFlameModel(Model3D* flameModel);
+	void SetShotModel(Model& shotModel);
 
 	bool Initialize(Utilities* utils);
 	bool BeginRun();
@@ -41,7 +45,8 @@ private:
 	float velocityRotZ = 3.666f;
 
 	Managers* Man = {};
-	Model3D* Flame = {};
+	Model3D* FlameModel = {};
+	Model* ShotModel = {};
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

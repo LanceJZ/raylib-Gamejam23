@@ -40,6 +40,9 @@ int main()
 	static Utilities TheUtilities = {};
 	static GameLogic* Logic = {};
 
+	TheManagers.EM.SetUtilities(&TheUtilities);
+	TheManagers.EM.SetCamera(&TheCamera);
+
 	// Define the camera to look into our 3D world
 	TheCamera.position = { 0.0f, 0.0f, -500.0f };  // Camera position
 	TheCamera.target = { 0.0f, 0.0f, 0.0f };      // Camera looking at point

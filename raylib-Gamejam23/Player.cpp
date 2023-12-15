@@ -8,14 +8,19 @@ Player::~Player()
 {
 }
 
-void Player::SetFlameModel(Model3D* flameModel)
-{
-	Flame = flameModel;
-}
-
 void Player::SetManagers(Managers* man)
 {
 	Man = man;
+}
+
+void Player::SetFlameModel(Model3D* flameModel)
+{
+	FlameModel = flameModel;
+}
+
+void Player::SetShotModel(Model& shotModel)
+{
+	ShotModel = &shotModel;
 }
 
 bool Player::Initialize(Utilities* utils)
@@ -31,9 +36,9 @@ bool Player::BeginRun()
 {
 	Model3D::BeginRun();
 
-	Flame->X(-30.0f);
-	Flame->RotationVelocityX = 50.0f;
-	AddChild(Flame);
+	FlameModel->X(-30.0f);
+	FlameModel->RotationVelocityX = 50.0f;
+	AddChild(FlameModel);
 
 	return false;
 }
@@ -126,13 +131,13 @@ void Player::NewGame()
 void Player::ThrustOn(float deltaTime)
 {
 	Acceleration = AccelerationToMaxAtRotation(540.666f, 0.001f, deltaTime);
-	Flame->Enabled = true;
+	FlameModel->Enabled = true;
 }
 
 void Player::ThrustOff(float deltaTime)
 {
 	Acceleration = DecelerationToZero(0.75f, deltaTime);
-	Flame->Enabled = false;
+	FlameModel->Enabled = false;
 
 	float flameRot = 0;
 
@@ -145,7 +150,7 @@ void Player::ThrustOff(float deltaTime)
 		flameRot = GetRandomFloat(25.0f, 50.0f);
 	}
 
-	Flame->RotationVelocityX = flameRot;
+	FlameModel->RotationVelocityX = flameRot;
 }
 
 void Player::RotateLeft()
@@ -160,6 +165,35 @@ void Player::RotateRight()
 
 void Player::Fire()
 {
+	bool spawnNewShot = true;
+	size_t shotNumber = Shots.size();
+
+	for (size_t shotCheck = 0; shotCheck < shotNumber; shotCheck++)
+	{
+		if (!Shots[shotCheck]->Enabled)
+		{
+			spawnNewShot = false;
+			shotNumber = shotCheck;
+			break;
+		}
+	}
+
+	if (spawnNewShot)
+	{
+		Shots.push_back(DBG_NEW ShotMaster());
+		Man->EM.AddModel3D(Shots[shotNumber]);
+		Shots[shotNumber]->SetModel(*ShotModel, 2.5f);
+		Shots[shotNumber]->SetManagers(Man);
+		Shots[shotNumber]->Initialize(Utils);
+		Shots[shotNumber]->BeginRun();
+	}
+
+	float speed = 400.0f;
+	float timer = 1.0f;
+	Vector3 drift = { 0.01f, 0.01f, 0.01f };
+
+	Shots[shotNumber]->Spawn(Position,
+		Vector3Add(Velocity, VelocityFromAngleZ(speed)), timer);
 }
 
 void Player::ShieldOn()

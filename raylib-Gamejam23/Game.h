@@ -40,7 +40,7 @@ private:
 	size_t PlayerID = 0;
 
 	Vector2 FieldSize = {};
-	//When adding classes to EM, must be pointer, new {Class}.
+	//When adding classes to EM, must be heap pointer.
 	Camera* Cam = {};
 	Utilities* Utils = {};
 	Managers* Man = {};
