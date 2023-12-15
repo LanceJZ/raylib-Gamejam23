@@ -120,7 +120,7 @@
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
-      <SubSystem>NotSet</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;Knightmare Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -163,6 +163,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ShotMaster.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -175,6 +179,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShotMaster.h">
       <SubType>
       </SubType>
     </ClInclude>

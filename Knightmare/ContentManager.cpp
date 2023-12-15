@@ -73,7 +73,7 @@ Model& ContentManager::GetModel(size_t modelNumber)
 	return LoadedModels[modelNumber];
 }
 
-Model ContentManager::LoadAndGetModel(std::string modelFilename)
+Model& ContentManager::LoadAndGetModel(std::string modelFilename)
 {
 	return GetModel(LoadTheModel(modelFilename));
 }

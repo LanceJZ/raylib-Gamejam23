@@ -7,6 +7,7 @@
 
 #include "raylib.h"
 #include "Game.h"
+#include "glfw/glfw3.h"
 
 #ifdef _DEBUG
 	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
@@ -30,10 +31,14 @@ int main()
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 	SetWindowIcon(icon);
 
+	if (IsWindowState(FLAG_VSYNC_HINT)) ClearWindowState(FLAG_VSYNC_HINT);
+	glfwSwapInterval(0);
+	SetTargetFPS(120);
+
 	static Camera TheCamera = {};
 	static Managers TheManagers = {};
 	static Utilities TheUtilities = {};
-	static GameLogic Logic = {};
+	static GameLogic* Logic = {};
 
 	// Define the camera to look into our 3D world
 	TheCamera.position = { 0.0f, 0.0f, -500.0f };  // Camera position
@@ -50,7 +55,13 @@ int main()
 	{
 		game.ProcessInput();
 		game.Update(GetFrameTime());
+		BeginDrawing();
+		ClearBackground({ 8, 2, 16, 100 });
 		game.Draw();
+#ifdef _DEBUG
+		DrawFPS(5, 5);
+#endif
+		EndDrawing();
 	}
 
 	UnloadImage(icon);

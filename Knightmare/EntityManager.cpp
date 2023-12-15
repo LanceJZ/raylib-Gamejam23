@@ -6,30 +6,30 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-	//for (auto model : LineModels)
-	//{
-	//	delete(model);
-	//}
+	for (auto model : LineModels)
+	{
+		delete(model);
+	}
 
-	//for (auto model : Model3Ds)
-	//{
-	//	delete(model);
-	//}
+	for (auto model : Model3Ds)
+	{
+		delete(model);
+	}
 
-	//for (auto entity : Entities)
-	//{
-	//	delete(entity);
-	//}
+	for (auto entity : Entities)
+	{
+		delete(entity);
+	}
 
-	//for (auto timer : Timers)
-	//{
-	//	delete(timer);
-	//}
+	for (auto timer : Timers)
+	{
+		delete(timer);
+	}
 
-	//for (auto common : Commons)
-	//{
-	//	delete(common);
-	//}
+	for (auto common : Commons)
+	{
+		delete(common);
+	}
 
 	Entities.clear();
 	LineModels.clear();
@@ -38,23 +38,21 @@ EntityManager::~EntityManager()
 	Commons.clear();
 }
 
-bool EntityManager::Initialize(Utilities* utilities)
+bool EntityManager::Initialize()
 {
-	Utils = utilities;
-
 	for (auto common : Commons)
 	{
-		common->Initialize(utilities);
+		common->Initialize(Utils);
 	}
 
 	for (auto model3D : Model3Ds)
 	{
-		model3D->Initialize(utilities);
+		model3D->Initialize(Utils);
 	}
 
 	for (auto lineModel : LineModels)
 	{
-		lineModel->Initialize(utilities);
+		lineModel->Initialize(Utils);
 	}
 	return true;
 }
@@ -87,6 +85,11 @@ void EntityManager::SetCamera(Camera* cam)
 	{
 		model3D->SetCamera(Cam);
 	}
+}
+
+void EntityManager::SetUtilities(Utilities* utilities)
+{
+	Utils = utilities;
 }
 
 void EntityManager::Input()

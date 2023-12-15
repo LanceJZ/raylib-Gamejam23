@@ -20,8 +20,8 @@ public:
 
 private:
 	size_t StarModelID = {};
+
 	Managers* Man = {};
-	Camera* Cam = {};
 	std::vector<size_t> Stars;
 
 	void BuildStars();

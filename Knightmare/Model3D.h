@@ -32,7 +32,7 @@ public:
 
 private:
 	Model TheModel = {};
-	Camera* TheCamera = nullptr;
+	Camera* TheCamera = {};
 	std::vector <Model3D*> Children;
 	std::vector <Model3D*> Parents;
 

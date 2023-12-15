@@ -12,7 +12,7 @@ public:
 	Managers();
 	virtual ~Managers();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 	bool SetCamera(Camera* camera);
 

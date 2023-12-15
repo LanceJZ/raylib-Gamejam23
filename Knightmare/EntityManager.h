@@ -21,9 +21,10 @@ public:
 	EntityManager();
 	virtual ~EntityManager();
 
-	bool Initialize(Utilities* utilities);
+	bool Initialize();
 	bool BeginRun();
 	void SetCamera(Camera* cam);
+	void SetUtilities(Utilities* utilities);
 
 	void Input();
 	void Update(float deltaTime);

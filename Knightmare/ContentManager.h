@@ -21,7 +21,7 @@ public:
 	size_t LoadTheSound(std::string soundFileName); //Without path or ext.
 	size_t LoadTheTexture(std::string textureFileName); //Without path or ext.
 	Model& GetModel(size_t modelNumber);
-	Model LoadAndGetModel(std::string modelFileName); //Without path or ext.
+	Model& LoadAndGetModel(std::string modelFileName); //Without path or ext.
 	LineModelPoints& GetLineModel(size_t modelNumber);
 	LineModelPoints LoadAndGetLineModel(std::string modelFileName);
 	Sound& GetSound(size_t soundNumber);

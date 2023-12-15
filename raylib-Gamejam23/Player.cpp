@@ -13,6 +13,11 @@ void Player::SetFlameModel(Model3D* flameModel)
 	Flame = flameModel;
 }
 
+void Player::SetManagers(Managers* man)
+{
+	Man = man;
+}
+
 bool Player::Initialize(Utilities* utils)
 {
 	Model3D::Initialize(utils);

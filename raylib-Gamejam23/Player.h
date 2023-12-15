@@ -1,5 +1,6 @@
 #pragma once
 #include "Model3D.h"
+#include "Managers.h"
 
 class Player : public Model3D
 {
@@ -16,6 +17,7 @@ public:
 	int Lives { 0 };
 
 	void SetFlameModel(Model3D* flameModel);
+	void SetManagers(Managers* man);
 
 	bool Initialize(Utilities* utils);
 	bool BeginRun();
@@ -38,6 +40,7 @@ private:
 	float ShieldPower = 100;
 	float velocityRotZ = 3.666f;
 
+	Managers* Man = {};
 	Model3D* Flame = {};
 
 	void ThrustOn(float deltaTime);

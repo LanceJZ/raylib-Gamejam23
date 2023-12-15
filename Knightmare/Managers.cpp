@@ -8,10 +8,10 @@ Managers::~Managers()
 {
 }
 
-bool Managers::Initialize(Utilities* utilities)
+bool Managers::Initialize()
 {
 	CM.Initialize();
-	EM.Initialize(utilities);
+	EM.Initialize();
 
 	return false;
 }

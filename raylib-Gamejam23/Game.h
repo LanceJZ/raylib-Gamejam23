@@ -27,7 +27,7 @@ public:
 	GameState State = MainMenu;
 
 	bool Initialize(Camera &camera, Managers &managers,
-		Utilities &utilities, GameLogic &gameLogic);
+		Utilities &utilities, GameLogic* gameLogic);
 	bool Load();
 	bool BeginRun();
 	void ProcessInput();
@@ -40,17 +40,18 @@ private:
 	size_t PlayerID = 0;
 
 	Vector2 FieldSize = {};
-
+	//When adding classes to EM, must be pointer, new {Class}.
 	Camera* Cam = {};
 	Utilities* Utils = {};
 	Managers* Man = {};
 	GameLogic* Logic = {};
 
-	Background BackGround = {};
-	Player ThePlayer = {};
+	Background* BackGround = {};
+	Player* ThePlayer = {};
 
-	void NewGame();
+	void GameInput();
 	void Draw3D();
 	void Draw2D();
+	void NewGame();
 };
 

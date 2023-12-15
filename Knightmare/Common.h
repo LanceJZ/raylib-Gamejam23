@@ -13,6 +13,8 @@ public:
 	float GameWindowHalfWidth = { 0 };
 	float GameWindowHalfHeight = { 0 };
 
+	Utilities* Utils = {};
+
 	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();
 	virtual void Update();
@@ -30,5 +32,4 @@ public:
 	Color GetRandomColor();
 
 private:
-	Utilities* Utils = {};
 };

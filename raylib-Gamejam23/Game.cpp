@@ -9,42 +9,46 @@ Game::~Game()
 }
 //Initialize Game
 bool Game::Initialize(Camera &camera, Managers &managers,
-	Utilities &utilities, GameLogic &gameLogic)
+	Utilities &utilities, GameLogic* gameLogic)
 {
 	Man = &managers;
 	Utils = &utilities;
 	Cam = &camera;
-	Logic = &gameLogic;
+	Logic = gameLogic;
 
 	Common::Initialize(Utils);
+	Man->EM.SetUtilities(Utils);
 
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
 	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
 
-	LogicID = Man->EM.AddCommon(Logic);
-	BackGroundID = Man->EM.AddCommon(&BackGround);
-	PlayerID = Man->EM.AddModel3D(&ThePlayer);
+	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
+	LogicID = Man->EM.AddCommon(Logic = new GameLogic());
+	BackGroundID = Man->EM.AddCommon(BackGround = new Background());
+	PlayerID = Man->EM.AddModel3D(ThePlayer = new Player());
 
 	Logic->SetCamera(Cam);
-	Logic->SetPlayer(&ThePlayer);
+	Logic->SetPlayer(ThePlayer);
 	Logic->FieldSize = FieldSize;
 
-	BackGround.SetManagers(Man);
-	BackGround.FieldSize = FieldSize;
+	BackGround->SetManagers(Man);
+	BackGround->FieldSize = FieldSize;
+
+	ThePlayer->SetManagers(Man);
 
 	//Any Entities added after this point need this method fired manually.
-	Man->Initialize(Utils);
+	Man->Initialize();
 
 	return true;
 }
 
 bool Game::Load()
 {
-	ThePlayer.SetModelCopy(Man->CM.LoadAndGetModel("Player Ship"), 1.0f);
-	ThePlayer.SetFlameModel(Man->EM.CreateModel3D(
+	ThePlayer->SetModel(Man->CM.LoadAndGetModel("Player Ship"), 1.0f);
+	ThePlayer->SetFlameModel(Man->EM.CreateModel3D(
 		Man->CM.LoadAndGetModel("Player Flame")));
-	BackGround.SetStarsModelID(Man->CM.LoadTheModel("Cube"));
+	BackGround->SetStarsModelID(Man->CM.LoadTheModel("Cube"));
 
 	return true;
 }
@@ -62,8 +66,31 @@ bool Game::BeginRun()
 
 void Game::ProcessInput()
 {
+	GameInput();
 	Man->EM.Input();
+}
 
+
+void Game::Update(float deltaTime)
+{
+	if (State == Pause)
+		return;
+
+	Man->EM.Update(deltaTime);
+}
+
+void Game::Draw()
+{
+	BeginMode3D(*Cam);
+	//3D Drawing here.
+	Draw3D();
+	EndMode3D();
+	//2D drawing, fonts go here.
+	Draw2D();
+}
+
+void Game::GameInput()
+{
 	if (State == MainMenu)
 	{
 		if (IsGamepadAvailable(0))
@@ -128,41 +155,6 @@ void Game::ProcessInput()
 	}
 }
 
-
-void Game::Update(float deltaTime)
-{
-	if (State == Pause)
-		return;
-
-	Man->EM.Update(deltaTime);
-}
-
-void Game::Draw()
-{
-	BeginDrawing();
-	ClearBackground({ 8, 2, 16, 100 });
-	BeginMode3D(*Cam);
-
-	//3D Drawing here.
-	Draw3D();
-
-	EndMode3D();
-
-	//2D drawing, fonts go here.
-	Draw2D();
-#ifdef _DEBUG
-	DrawFPS(5, 5);
-#endif
-
-	EndDrawing();
-}
-
-void Game::NewGame()
-{
-	State = InPlay;
-
-}
-
 void Game::Draw3D()
 {
 	Man->EM.Draw3D();
@@ -170,4 +162,11 @@ void Game::Draw3D()
 
 void Game::Draw2D()
 {
+
+}
+
+void Game::NewGame()
+{
+	State = InPlay;
+
 }
