@@ -19,9 +19,9 @@ void GameLogic::SetPlayer(Player* thePlayer)
 	ThePlayer = thePlayer;
 }
 
-bool GameLogic::Initialize(Utilities* utils)
+bool GameLogic::Initialize(Utilities* utilities)
 {
-	Common::Initialize(utils);
+	Common::Initialize(utilities);
 
 	return false;
 }

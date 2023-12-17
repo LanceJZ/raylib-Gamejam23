@@ -8,14 +8,9 @@ ShotMaster::~ShotMaster()
 {
 }
 
-void ShotMaster::SetManagers(Managers* man)
+bool ShotMaster::Initialize(Utilities* utilities)
 {
-	Man = man;
-}
-
-bool ShotMaster::Initialize(Utilities* utils)
-{
-	Model3D::Initialize(utils);
+	Model3D::Initialize(utilities);
 
 	Radius = 2.5f;
 
@@ -26,7 +21,7 @@ bool ShotMaster::BeginRun()
 {
 	Model3D::BeginRun();
 
-	TimerID = Man->EM.AddTimer();
+	TimerID = TheManagers.EM.AddTimer();
 
 	return false;
 }
@@ -35,7 +30,7 @@ void ShotMaster::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	if (Man->EM.Timers[TimerID]->Elapsed())
+	if (TheManagers.EM.Timers[TimerID]->Elapsed())
 	{
 		Enabled = false;
 	}
@@ -52,5 +47,5 @@ void ShotMaster::Spawn(Vector3 position, Vector3 velocity, float timer)
 	Enabled = true;
 	Position = position;
 	Velocity = velocity;
-	Man->EM.Timers[TimerID]->Reset(timer);
+	TheManagers.EM.Timers[TimerID]->Reset(timer);
 }

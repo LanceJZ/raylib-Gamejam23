@@ -8,11 +8,6 @@ Player::~Player()
 {
 }
 
-void Player::SetManagers(Managers* man)
-{
-	Man = man;
-}
-
 void Player::SetFlameModel(Model3D* flameModel)
 {
 	FlameModel = flameModel;
@@ -23,9 +18,9 @@ void Player::SetShotModel(Model& shotModel)
 	ShotModel = &shotModel;
 }
 
-bool Player::Initialize(Utilities* utils)
+bool Player::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utils);
+	Model3D::Initialize(utilities);
 
 	Radius = 18.0f;
 
@@ -165,34 +160,33 @@ void Player::RotateRight()
 
 void Player::Fire()
 {
-	bool spawnNewShot = true;
-	size_t shotNumber = Shots.size();
+	bool spawnNew = true;
+	size_t spawnNumber = Shots.size();
 
-	for (size_t shotCheck = 0; shotCheck < shotNumber; shotCheck++)
+	for (size_t check = 0; check < spawnNumber; check++)
 	{
-		if (!Shots[shotCheck]->Enabled)
+		if (!Shots[check]->Enabled)
 		{
-			spawnNewShot = false;
-			shotNumber = shotCheck;
+			spawnNew = false;
+			spawnNumber = check;
 			break;
 		}
 	}
 
-	if (spawnNewShot)
+	if (spawnNew)
 	{
+		//When adding as a new class, make sure to use DBG_NEW.
 		Shots.push_back(DBG_NEW ShotMaster());
-		Man->EM.AddModel3D(Shots[shotNumber]);
-		Shots[shotNumber]->SetModel(*ShotModel, 2.5f);
-		Shots[shotNumber]->SetManagers(Man);
-		Shots[shotNumber]->Initialize(Utils);
-		Shots[shotNumber]->BeginRun();
+		TheManagers.EM.AddModel3D(Shots[spawnNumber], *ShotModel, 2.5f);
+		Shots[spawnNumber]->Initialize(TheUtilities);
+		Shots[spawnNumber]->BeginRun();
 	}
 
-	float speed = 400.0f;
+	float speed = 600.0f;
 	float timer = 1.0f;
 	Vector3 drift = { 0.01f, 0.01f, 0.01f };
 
-	Shots[shotNumber]->Spawn(Position,
+	Shots[spawnNumber]->Spawn(Position,
 		Vector3Add(Velocity, VelocityFromAngleZ(speed)), timer);
 }
 

@@ -14,7 +14,7 @@ public:
 	void SetCamera(Camera* cam);
 	void SetPlayer(Player* thePlayer);
 
-	bool Initialize(Utilities* utils);
+	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Input();

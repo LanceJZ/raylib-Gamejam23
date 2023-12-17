@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include "Model3D.h"
 #include "Managers.h"
 
@@ -8,9 +9,7 @@ public:
 	ShotMaster();
 	virtual ~ShotMaster();
 
-	void SetManagers(Managers* man);
-
-	bool Initialize(Utilities* utils);
+	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Update(float deltaTime);
@@ -21,5 +20,4 @@ public:
 private:
 	size_t TimerID = 0;
 
-	Managers* Man = {};
 };

@@ -14,14 +14,9 @@ void Background::SetStarsModelID(size_t modelID)
 	StarModelID = modelID;
 }
 
-void Background::SetManagers(Managers* man)
+bool Background::Initialize(Utilities* utilities)
 {
-	Man = man;
-}
-
-bool Background::Initialize(Utilities* utils)
-{
-	Common::Initialize(utils);
+	Common::Initialize(utilities);
 
 	return false;
 }
@@ -46,7 +41,8 @@ void Background::BuildStars()
 
 	for (int i = 0; i < numberToMake; i++)
 	{
-		Stars.push_back(Man->EM.AddModel3D(Man->CM.GetModel(StarModelID)));
+		Stars.push_back(TheManagers.EM.AddModel3D(TheManagers.CM.GetModel(StarModelID),
+			1.75f));
 
 		int sw = GetScreenWidth() / 2;
 		int sh = GetScreenHeight() / 2;
@@ -54,14 +50,15 @@ void Background::BuildStars()
 		float starX = GetRandomFloat(-FieldSize.x * 0.5f, FieldSize.x * 0.5f);
 		float starY = GetRandomFloat(-FieldSize.y * 0.5f, FieldSize.y * 0.5f);
 
-		Man->EM.Model3Ds[Stars[i]]->TheColor = GetRandomColor();
-		Man->EM.Model3Ds[Stars[i]]->Initialize(nullptr);
-		Man->EM.Model3Ds[Stars[i]]->Position = {starX, starY, 10.0f};
-		Man->EM.Model3Ds[Stars[i]]->ModelColor =
-			{ (unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200),
-			(unsigned char)GetRandomValue(10, 200), 255 };
-		Man->EM.Model3Ds[Stars[i]]->RotationAxis = { 1, 1, 1 };
-		Man->EM.Model3Ds[Stars[i]]->RotationVelocity = GetRandomFloat(-16.66f, 16.666f);
+		TheManagers.EM.Model3Ds[Stars[i]]->Initialize(nullptr);
+		TheManagers.EM.Model3Ds[Stars[i]]->Position = {starX, starY, 10.0f};
+		TheManagers.EM.Model3Ds[Stars[i]]->RotationAxis = { 1, 1, 1 };
+		TheManagers.EM.Model3Ds[Stars[i]]->RotationVelocity = GetRandomFloat(-16.66f, 16.666f);
+		TheManagers.EM.Model3Ds[Stars[i]]->ModelColor =
+			{
+				(unsigned char)GetRandomValue(50, 200),
+				(unsigned char)GetRandomValue(10, 100),
+				(unsigned char)GetRandomValue(50, 200), 255
+			};
 	}
 }

@@ -1,11 +1,12 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include "raylib.h"
+#include "raymath.h"
 #include "Entity.h"
 #include "LineModel.h"
 #include "Model3D.h"
 #include "Timer.h"
-#include "Common.h"
 
 #ifdef _DEBUG
 	#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
@@ -15,7 +16,7 @@
 	#define DBG_NEW new
 #endif
 
-class EntityManager : Common
+class EntityManager
 {
 public:
 	EntityManager();
@@ -56,7 +57,7 @@ public:
 	std::vector<Common*> Commons = {};
 
 private:
-	Utilities* Utils = {};
+	Utilities* TheUtilities = {};
 	Camera* Cam = {};
 };
 

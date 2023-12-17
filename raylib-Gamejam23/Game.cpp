@@ -7,50 +7,52 @@ Game::Game()
 Game::~Game()
 {
 }
+
 //Initialize Game
-bool Game::Initialize(Camera &camera, Managers &managers,
+bool Game::Initialize(Camera &camera,
 	Utilities &utilities, GameLogic* gameLogic)
 {
-	Man = &managers;
-	Utils = &utilities;
+	TheUtilities = &utilities;
 	Cam = &camera;
 	Logic = gameLogic;
 
-	Common::Initialize(Utils);
-
+	Common::Initialize(&utilities);
+	//https://itch.io/jam/raylib-slo-jam
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
 	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
 
 	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
-	LogicID = Man->EM.AddCommon(Logic = new GameLogic());
-	BackGroundID = Man->EM.AddCommon(BackGround = new Background());
-	PlayerID = Man->EM.AddModel3D(ThePlayer = new Player());
+	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
+	BackGroundID = TheManagers.EM.AddCommon(BackGround = DBG_NEW Background());
+	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
+	PlayerID = TheManagers.EM.AddModel3D(ThePlayer = DBG_NEW Player());
 
 	Logic->SetCamera(Cam);
 	Logic->SetPlayer(ThePlayer);
 	Logic->FieldSize = FieldSize;
 
-	BackGround->SetManagers(Man);
 	BackGround->FieldSize = FieldSize;
 
-	ThePlayer->SetManagers(Man);
+	Enemies->SetPlayer(ThePlayer);
 
 	//Any Entities added after this point need this method fired manually.
-	Man->Initialize();
+	TheManagers.Initialize();
 
 	return true;
 }
 
 bool Game::Load()
 {
-	size_t cubeID = Man->CM.LoadTheModel("Cube");
+	size_t cubeID = TheManagers.CM.LoadTheModel("Cube");
 
-	ThePlayer->SetModel(Man->CM.LoadAndGetModel("Player Ship"), 1.0f);
-	ThePlayer->SetFlameModel(Man->EM.CreateModel3D(
-		Man->CM.LoadAndGetModel("Player Flame")));
-	ThePlayer->SetShotModel(Man->CM.GetModel(cubeID));
+	ThePlayer->SetModel(TheManagers.CM.LoadAndGetModel("Player Ship"), 1.0f);
+	ThePlayer->SetFlameModel(TheManagers.EM.CreateModel3D(
+		TheManagers.CM.LoadAndGetModel("Player Flame")));
+	ThePlayer->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	BackGround->SetStarsModelID(cubeID);
+	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
+	Enemies->SetShotModel(TheManagers.CM.GetModel(cubeID));
 
 	return true;
 }
@@ -58,7 +60,7 @@ bool Game::Load()
 bool Game::BeginRun()
 {
 	//Any Entities added after this point need this method fired manually.
-	Man->BeginRun();
+	TheManagers.BeginRun();
 
 	NewGame();
 
@@ -68,7 +70,7 @@ bool Game::BeginRun()
 void Game::ProcessInput()
 {
 	GameInput();
-	Man->EM.Input();
+	TheManagers.EM.Input();
 }
 
 
@@ -77,7 +79,7 @@ void Game::Update(float deltaTime)
 	if (State == Pause)
 		return;
 
-	Man->EM.Update(deltaTime);
+	TheManagers.EM.Update(deltaTime);
 }
 
 void Game::Draw()
@@ -158,7 +160,7 @@ void Game::GameInput()
 
 void Game::Draw3D()
 {
-	Man->EM.Draw3D();
+	TheManagers.EM.Draw3D();
 }
 
 void Game::Draw2D()

@@ -131,8 +131,6 @@ void Model3D::Draw()
 				rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y,
 					parent->RotationAxis.z);
 				rlScalef(parent->Scale, parent->Scale, parent->Scale);
-				rlColor4ub(parent->TheColor.r, parent->TheColor.g, parent->TheColor.b,
-					parent->TheColor.a);
 			}
 		}
 
@@ -143,7 +141,6 @@ void Model3D::Draw()
 		rlRotatef(RotationZ, 0, 0, 1);
 		rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
 		rlScalef(Scale, Scale, Scale);
-		rlColor4ub(TheColor.r, TheColor.g, TheColor.b, TheColor.a);
 
 		DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
 
@@ -170,6 +167,11 @@ void Model3D::SetModel(Model &model, float scale)
 {
 	TheModel = model;
 	ModelScale = scale;
+}
+
+void Model3D::SetModel(Model& model)
+{
+	SetModel(model, 1.0f);
 }
 
 void Model3D::SetModelCopy(Model model, float scale)

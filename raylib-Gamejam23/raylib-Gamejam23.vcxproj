@@ -153,11 +153,24 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyControl.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyOne.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLogic.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Globals.h" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
@@ -170,6 +183,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyControl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyOne.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include "Model3D.h"
 #include "Managers.h"
 #include "ShotMaster.h"
@@ -19,11 +20,10 @@ public:
 
 	std::vector<ShotMaster*> Shots;
 
-	void SetManagers(Managers* man);
 	void SetFlameModel(Model3D* flameModel);
 	void SetShotModel(Model& shotModel);
 
-	bool Initialize(Utilities* utils);
+	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Input();
@@ -44,9 +44,9 @@ private:
 	float ShieldPower = 100;
 	float velocityRotZ = 3.666f;
 
-	Managers* Man = {};
 	Model3D* FlameModel = {};
 	Model* ShotModel = {};
+	//Managers* TheManagers = {};
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

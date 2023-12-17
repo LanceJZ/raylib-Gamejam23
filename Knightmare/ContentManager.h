@@ -1,13 +1,15 @@
 #pragma once
-#include "Common.h"
 #include <string>
+#include <vector>
+#include "raylib.h"
+#include "raymath.h"
 
 typedef struct LineModelPoints
 {
 	std::vector<Vector3> linePoints;
 } LineModelPoints;
 
-class ContentManager : Common
+class ContentManager
 {
 public:
 	ContentManager();

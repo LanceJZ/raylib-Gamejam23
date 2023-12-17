@@ -17,6 +17,8 @@
 	#define DBG_NEW new
 #endif
 
+Managers TheManagers = {};
+
 int main()
 {
 	static Game game;
@@ -36,7 +38,6 @@ int main()
 	SetTargetFPS(120);
 
 	static Camera TheCamera = {};
-	static Managers TheManagers = {};
 	static Utilities TheUtilities = {};
 	static GameLogic* Logic = {};
 
@@ -50,7 +51,7 @@ int main()
 	TheCamera.fovy = (float)GetScreenHeight();		//Camera/World space is screen space.
 	TheCamera.projection = CAMERA_ORTHOGRAPHIC;   // Camera mode type
 
-	game.Initialize(TheCamera, TheManagers, TheUtilities, Logic);
+	game.Initialize(TheCamera, TheUtilities, Logic);
 	game.Load();
 	game.BeginRun();
 

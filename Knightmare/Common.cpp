@@ -5,7 +5,7 @@ bool Common::Initialize(Utilities* utilities)
 	GameWindowHalfHeight = GetScreenHeight() * 0.5f;
 	GameWindowHalfWidth = GetScreenWidth() * 0.5f;
 
-	Utils = utilities;
+	TheUtilities = utilities;
 
 	return false;
 }
@@ -36,7 +36,7 @@ float Common::GetRandomScreenX()
 
 float Common::GetRandomFloat(float min, float max)
 {
-	return Utils->GetRandomFloat(min, max);
+	return TheUtilities->GetRandomFloat(min, max);
 }
 
 float Common::GetRandomRadian()

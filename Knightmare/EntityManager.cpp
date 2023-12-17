@@ -42,17 +42,17 @@ bool EntityManager::Initialize()
 {
 	for (auto common : Commons)
 	{
-		common->Initialize(Utils);
+		common->Initialize(TheUtilities);
 	}
 
 	for (auto model3D : Model3Ds)
 	{
-		model3D->Initialize(Utils);
+		model3D->Initialize(TheUtilities);
 	}
 
 	for (auto lineModel : LineModels)
 	{
-		lineModel->Initialize(Utils);
+		lineModel->Initialize(TheUtilities);
 	}
 	return true;
 }
@@ -89,7 +89,7 @@ void EntityManager::SetCamera(Camera* cam)
 
 void EntityManager::SetUtilities(Utilities* utilities)
 {
-	Utils = utilities;
+	TheUtilities = utilities;
 }
 
 void EntityManager::Input()
@@ -163,7 +163,7 @@ size_t EntityManager::AddEntity(Entity* entity)
 {
 	size_t entityNumber = Entities.size();
 	Entities.push_back(entity);
-	Entities[entityNumber]->Initialize(Utils);
+	Entities[entityNumber]->Initialize(TheUtilities);
 
 	return entityNumber;
 }
@@ -173,7 +173,7 @@ size_t EntityManager::AddEntity()
 	size_t entityNumber = Entities.size();
 	Entity* newEntity = DBG_NEW Entity();
 	Entities.push_back(newEntity);
-	Entities[entityNumber]->Initialize(Utils);
+	Entities[entityNumber]->Initialize(TheUtilities);
 
 	return entityNumber;
 }
@@ -183,7 +183,7 @@ size_t EntityManager::AddLineModel(LineModel* model)
 	size_t number = LineModels.size();
 
 	LineModels.push_back(model);
-	LineModels[number]->Initialize(Utils);
+	LineModels[number]->Initialize(TheUtilities);
 
 	return number;
 }
@@ -194,7 +194,7 @@ size_t EntityManager::AddLineModel(LineModelPoints model)
 
 	LineModels.push_back(DBG_NEW LineModel());
 	LineModels[number]->SetModel(model);
-	LineModels[number]->Initialize(Utils);
+	LineModels[number]->Initialize(TheUtilities);
 
 	return number;
 }
@@ -204,7 +204,7 @@ size_t EntityManager::AddLineModel()
 	size_t number = LineModels.size();
 
 	LineModels.push_back(DBG_NEW LineModel());
-	LineModels[number]->Initialize(Utils);
+	LineModels[number]->Initialize(TheUtilities);
 
 	return number;
 }
@@ -214,7 +214,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D)
 	size_t modelNumber = Model3Ds.size();
 
 	Model3Ds.push_back(model3D);
-	Model3Ds[modelNumber]->Initialize(Utils);
+	Model3Ds[modelNumber]->Initialize(TheUtilities);
 	Model3Ds[modelNumber]->SetCamera(Cam);
 
 	return modelNumber;
@@ -239,7 +239,7 @@ size_t EntityManager::AddModel3D(Model model)
 	size_t modelNumber = Model3Ds.size();
 	Model3Ds.push_back(DBG_NEW Model3D());
 	Model3Ds[modelNumber]->SetModel(model, 1.0f);
-	Model3Ds[modelNumber]->Initialize(Utils);
+	Model3Ds[modelNumber]->Initialize(TheUtilities);
 	Model3Ds[modelNumber]->SetCamera(Cam);
 
 	return modelNumber;
@@ -274,7 +274,7 @@ size_t EntityManager::AddCommon(Common* common)
 {
 	size_t commonNumber = Commons.size();
 	Commons.push_back(common);
-	Commons[commonNumber]->Initialize(Utils);
+	Commons[commonNumber]->Initialize(TheUtilities);
 
 	return commonNumber;
 }
@@ -283,7 +283,7 @@ Entity* EntityManager::CreateEntity()
 {
 	Entity* newEntity = DBG_NEW Entity();
 	Entities.push_back(newEntity);
-	newEntity->Initialize(Utils);
+	newEntity->Initialize(TheUtilities);
 	newEntity->BeginRun();
 
 	return newEntity;
@@ -293,7 +293,7 @@ LineModel* EntityManager::CreateLineModel()
 {
 	LineModel* newLineModel = DBG_NEW LineModel();
 	LineModels.push_back(newLineModel);
-	newLineModel->Initialize(Utils);
+	newLineModel->Initialize(TheUtilities);
 	newLineModel->BeginRun();
 
 	return newLineModel;
@@ -304,7 +304,7 @@ Model3D* EntityManager::CreateModel3D(Model model)
 	Model3D* newModel3D = DBG_NEW Model3D();
 	Model3Ds.push_back(newModel3D);
 	newModel3D->SetModel(model, 1.0f);
-	newModel3D->Initialize(Utils);
+	newModel3D->Initialize(TheUtilities);
 	newModel3D->SetCamera(Cam);
 
 	return newModel3D;

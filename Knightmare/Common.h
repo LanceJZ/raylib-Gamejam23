@@ -13,7 +13,7 @@ public:
 	float GameWindowHalfWidth = { 0 };
 	float GameWindowHalfHeight = { 0 };
 
-	Utilities* Utils = {};
+	Utilities* TheUtilities = {};
 
 	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();

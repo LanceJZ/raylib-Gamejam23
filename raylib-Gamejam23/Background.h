@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include "Common.h"
 #include "Managers.h"
 #include "Model3D.h"
@@ -12,8 +13,7 @@ public:
 	Vector2 FieldSize = {};
 
 	void SetStarsModelID(size_t modelID);
-	void SetManagers(Managers* man);
-	bool Initialize(Utilities* utils);
+	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Update();
@@ -21,7 +21,6 @@ public:
 private:
 	size_t StarModelID = {};
 
-	Managers* Man = {};
 	std::vector<size_t> Stars;
 
 	void BuildStars();

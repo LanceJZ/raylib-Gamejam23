@@ -9,12 +9,11 @@ public:
 	Vector2 ViewableArea = { 0 };
 	Vector3 ModelPosition = { 0 };
 	Color ModelColor = WHITE;
-	Color TheColor = WHITE;
 
 	Model3D();
 	~Model3D();
 
-	bool Initialize(Utilities* utility);
+	bool Initialize(Utilities* utilities);
 	void LoadModel(Model &model, Texture2D &texture);
 	virtual bool BeginRun();
 	virtual bool SetCamera(Camera* camera);
@@ -24,6 +23,7 @@ public:
 
 	void AddChild(Model3D* child);
 	void SetModel(Model &model, float scale);
+	void SetModel(Model &model);
 	void SetModelCopy(Model model, float scale);
 	Model& GetModel();
 	Camera* GetCamera();
