@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include "Common.h"
 #include "Utilities.h"
 #include "Player.h"
@@ -8,8 +9,6 @@ class GameLogic : public Common
 public:
 	GameLogic();
 	virtual ~GameLogic();
-
-	Vector2 FieldSize = {};
 
 	void SetCamera(Camera* cam);
 	void SetPlayer(Player* thePlayer);

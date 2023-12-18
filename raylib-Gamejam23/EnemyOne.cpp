@@ -10,19 +10,19 @@ EnemyOne::~EnemyOne()
 
 bool EnemyOne::BeginRun()
 {
-	Model3D::BeginRun();
+	EnemyBase::BeginRun();
 
 	return false;
 }
 
 void EnemyOne::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	EnemyBase::Update(deltaTime);
 
 }
 
 void EnemyOne::Draw()
 {
-	Model3D::Draw();
+	EnemyBase::Draw();
 
 }

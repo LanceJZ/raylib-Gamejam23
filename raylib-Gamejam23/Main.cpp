@@ -18,6 +18,7 @@
 #endif
 
 Managers TheManagers = {};
+Vector2 FieldSize = {};
 
 int main()
 {

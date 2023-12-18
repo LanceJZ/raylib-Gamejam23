@@ -30,9 +30,6 @@ bool Game::Initialize(Camera &camera,
 
 	Logic->SetCamera(Cam);
 	Logic->SetPlayer(ThePlayer);
-	Logic->FieldSize = FieldSize;
-
-	BackGround->FieldSize = FieldSize;
 
 	Enemies->SetPlayer(ThePlayer);
 
@@ -161,6 +158,15 @@ void Game::GameInput()
 void Game::Draw3D()
 {
 	TheManagers.EM.Draw3D();
+
+#ifdef _DEBUG
+	Vector2 fs = { FieldSize.x * 0.5f, FieldSize.y * 0.5f };
+
+	DrawLine(-fs.x, -fs.y, fs.x, -fs.y, { DARKBLUE });
+	DrawLine(fs.x, -fs.y, fs.x, fs.y, { DARKBLUE });
+	DrawLine(fs.x, fs.y, -fs.x, fs.y, { DARKBLUE });
+	DrawLine(-fs.x, fs.y, -fs.x, -fs.y, { DARKBLUE });
+#endif
 }
 
 void Game::Draw2D()

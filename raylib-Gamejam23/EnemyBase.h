@@ -11,7 +11,6 @@ public:
 
 	std::vector<ShotMaster*> Shots;
 
-	void SetManagers(Managers* man);
 	void SetShotModel(Model& shotModel);
 
 	virtual bool Initialize(Utilities* utils);

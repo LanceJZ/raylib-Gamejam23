@@ -62,3 +62,7 @@ void Background::BuildStars()
 			};
 	}
 }
+
+void Background::BuildBorders()
+{
+}

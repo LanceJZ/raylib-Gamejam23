@@ -10,8 +10,6 @@ public:
 	Background();
 	virtual ~Background();
 
-	Vector2 FieldSize = {};
-
 	void SetStarsModelID(size_t modelID);
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -24,5 +22,6 @@ private:
 	std::vector<size_t> Stars;
 
 	void BuildStars();
+	void BuildBorders();
 };
 
