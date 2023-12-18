@@ -74,53 +74,61 @@ void EnemyControl::SpawnEnemyOne(int amount)
 		float maxX = 0;
 		float minY = 0;
 		float maxY = 0;
+		float sw = GetScreenWidth() * 0.5f;
+		float sh = GetScreenHeight() * 0.5f;
 
-		if (ThePlayer->X() < (-FieldSize.x + GetScreenWidth()))
+		float sx = GetRandomValue(1, 10);
+		float sy = GetRandomValue(1, 10);
+
+		Vector2 fs = {};
+		fs.x = FieldSize.x * 0.5f;
+		fs.y = FieldSize.y * 0.5f;
+
+		if (ThePlayer->X() < (-fs.x + sw))
 		{
-			minX = ThePlayer->X() + GetScreenWidth();
-			maxX = FieldSize.x;
+			minX = ThePlayer->X() + sw;
+			maxX = fs.x;
 		}
-		else if (ThePlayer->X() > (FieldSize.x - GetScreenWidth()))
+		else if (ThePlayer->X() > (fs.x - sw))
 		{
-			minX = FieldSize.x - GetScreenWidth();
-			maxX = -ThePlayer->X() + GetScreenWidth();
+			minX = -fs.x;
+			maxX = ThePlayer->X() - sw;
 		}
 		else
 		{
-			if (GetRandomValue(1, 10 > 5))
+			if (sx > 5)
 			{
-				minX = -FieldSize.x;
-				maxX = -ThePlayer->X() - GetScreenWidth();
+				minX = -fs.x;
+				maxX = ThePlayer->X() - sw;
 			}
 			else
 			{
-				minX = ThePlayer->X() + GetScreenWidth();
-				maxX = FieldSize.x;
+				minX = ThePlayer->X() + sw;
+				maxX = fs.x;
 			}
-
 		}
 
-		if (ThePlayer->Y() < (-FieldSize.y + GetScreenHeight()))
+		if (ThePlayer->Y() < (-fs.y + sh))
 		{
-			minY = ThePlayer->Y() - GetScreenHeight();
-			maxY = FieldSize.y;
+			minY = ThePlayer->Y() + sh;
+			maxY = fs.y;
 		}
-		else if (ThePlayer->Y() > (FieldSize.y - GetScreenHeight()))
+		else if (ThePlayer->Y() > (fs.y - sh))
 		{
-			minY = ThePlayer->Y() - GetScreenHeight();
-			maxY = -ThePlayer->Y() + GetScreenHeight();
+			minY = -fs.y;
+			maxY = ThePlayer->Y() - sh;
 		}
 		else
 		{
-			if (GetRandomValue(1, 10) > 5)
+			if (sy > 5)
 			{
-				minY = -FieldSize.y;
-				maxY = FieldSize.y;
+				minY = -fs.y;
+				maxY = ThePlayer->Y() - sh;
 			}
 			else
 			{
-				minY = -FieldSize.y;
-				maxY = FieldSize.y;
+				minY = ThePlayer->Y() + sh;
+				maxY = fs.y;
 			}
 		}
 

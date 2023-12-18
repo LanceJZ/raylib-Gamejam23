@@ -36,7 +36,7 @@ int main()
 
 	if (IsWindowState(FLAG_VSYNC_HINT)) ClearWindowState(FLAG_VSYNC_HINT);
 	glfwSwapInterval(0);
-	SetTargetFPS(120);
+	SetTargetFPS(480);
 
 	static Camera TheCamera = {};
 	static Utilities TheUtilities = {};

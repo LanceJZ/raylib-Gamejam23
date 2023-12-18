@@ -24,6 +24,16 @@ bool Player::Initialize(Utilities* utilities)
 
 	Radius = 18.0f;
 
+	//Enemy Spawn Test.
+	//X(1300);
+	//Y(980);
+	//X(-1300);
+	//Y(-980);
+	//X(1000);
+	//Y(900);
+	//X(-1000);
+	//Y(-900);
+
 	return false;
 }
 
