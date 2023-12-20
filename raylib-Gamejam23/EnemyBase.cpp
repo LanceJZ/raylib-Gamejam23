@@ -8,6 +8,11 @@ EnemyBase::~EnemyBase()
 {
 }
 
+void EnemyBase::SetPlayer(Player* player)
+{
+	ThePlayer = player;
+}
+
 void EnemyBase::SetShotModel(Model &shotModel)
 {
 	ShotModel = ShotModel;

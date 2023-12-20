@@ -32,8 +32,8 @@ public:
 	bool Load();
 	bool BeginRun();
 	void ProcessInput();
-	void Update(float deltaTime);
-	void Draw();
+	void Update(float deltaTime) const;
+	void Draw() const;
 
 private:
 	size_t LogicID = 0;
@@ -50,8 +50,8 @@ private:
 	EnemyControl* Enemies = {};
 
 	void GameInput();
-	void Draw3D();
-	void Draw2D();
+	void Draw3D() const;
+	void Draw2D() const;
 	void NewGame();
 };
 

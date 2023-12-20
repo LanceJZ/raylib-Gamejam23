@@ -41,6 +41,11 @@ bool EnemyControl::BeginRun()
 	SpawnEnemyOne(10);
 	SpawnRocks(20);
 
+	for (auto one : Ones)
+	{
+		one->SetRocks(Rocks);
+	}
+
 	return false;
 }
 
@@ -76,6 +81,7 @@ void EnemyControl::SpawnEnemyOne(int amount)
 			//When adding as a new class, make sure to use DBG_NEW.
 			Ones.push_back(DBG_NEW EnemyOne());
 			TheManagers.EM.AddModel3D(Ones[spawnNumber], EnemyOneModel);
+			Ones[spawnNumber]->SetPlayer(ThePlayer);
 			Ones[spawnNumber]->Initialize(TheUtilities);
 			Ones[spawnNumber]->BeginRun();
 		}
@@ -118,15 +124,15 @@ void EnemyControl::SpawnRocks(int amount)
 Vector3 EnemyControl::PositionAwayFromPlayer()
 {
 		Vector3 spawnPosition = {};
-		float minX = 0;
-		float maxX = 0;
-		float minY = 0;
-		float maxY = 0;
+		float minX = 0.0f;
+		float maxX = 0.0f;
+		float minY = 0.0f;
+		float maxY = 0.0f;
 		float sw = GetScreenWidth() * 0.5f;
 		float sh = GetScreenHeight() * 0.5f;
 
-		float sx = GetRandomValue(1, 10);
-		float sy = GetRandomValue(1, 10);
+		int sx = GetRandomValue(1, 10);
+		int sy = GetRandomValue(1, 10);
 
 		Vector2 fs = {};
 		fs.x = FieldSize.x * 0.5f;

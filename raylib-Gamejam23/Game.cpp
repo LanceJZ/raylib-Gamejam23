@@ -72,7 +72,7 @@ void Game::ProcessInput()
 }
 
 
-void Game::Update(float deltaTime)
+void Game::Update(float deltaTime) const
 {
 	if (State == Pause)
 		return;
@@ -80,7 +80,7 @@ void Game::Update(float deltaTime)
 	TheManagers.EM.Update(deltaTime);
 }
 
-void Game::Draw()
+void Game::Draw() const
 {
 	BeginMode3D(*Cam);
 	//3D Drawing here.
@@ -156,21 +156,22 @@ void Game::GameInput()
 	}
 }
 
-void Game::Draw3D()
+void Game::Draw3D() const
 {
 	TheManagers.EM.Draw3D();
 
 #ifdef _DEBUG
-	Vector2 fs = { FieldSize.x * 0.5f, FieldSize.y * 0.5f };
+	int fsx = FieldSize.x * 0.5f;
+	int fsy = FieldSize.y * 0.5f;
 
-	DrawLine(-fs.x, -fs.y, fs.x, -fs.y, { DARKBLUE });
-	DrawLine(fs.x, -fs.y, fs.x, fs.y, { DARKBLUE });
-	DrawLine(fs.x, fs.y, -fs.x, fs.y, { DARKBLUE });
-	DrawLine(-fs.x, fs.y, -fs.x, -fs.y, { DARKBLUE });
+	DrawLine(-fsx, -fsy, fsx, -fsy, { DARKBLUE });
+	DrawLine(fsx, -fsy, fsx, fsy, { DARKBLUE });
+	DrawLine(fsx, fsy, -fsx, fsy, { DARKBLUE });
+	DrawLine(-fsx, fsy, -fsx, -fsy, { DARKBLUE });
 #endif
 }
 
-void Game::Draw2D()
+void Game::Draw2D() const
 {
 
 }

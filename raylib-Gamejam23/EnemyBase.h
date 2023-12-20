@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Model3D.h"
 #include "ShotMaster.h"
+#include "Player.h"
 
 class EnemyBase : public Model3D
 {
@@ -11,7 +12,8 @@ public:
 
 	std::vector<ShotMaster*> Shots;
 
-	void SetShotModel(Model& shotModel);
+	void SetPlayer(Player* player);
+	void SetShotModel(Model &shotModel);
 
 	virtual bool Initialize(Utilities* utils);
 	virtual bool BeginRun();
@@ -21,8 +23,13 @@ public:
 
 	void Spawn(Vector3 position);
 
+protected:
+	Player* ThePlayer = {};
+
+	void Fire();
+
 private:
 
 	Model ShotModel = {};
-	void Fire();
+
 };
