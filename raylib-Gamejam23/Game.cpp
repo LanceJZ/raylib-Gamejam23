@@ -48,8 +48,9 @@ bool Game::Load()
 		TheManagers.CM.LoadAndGetModel("Player Flame")));
 	ThePlayer->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	BackGround->SetStarsModelID(cubeID);
-	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
 	Enemies->SetShotModel(TheManagers.CM.GetModel(cubeID));
+	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
+	Enemies->SetRockModel(TheManagers.CM.LoadAndGetModel("Rock"));
 
 	return true;
 }

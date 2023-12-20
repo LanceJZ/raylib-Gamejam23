@@ -15,7 +15,7 @@ void Player::SetFlameModel(Model3D* flameModel)
 
 void Player::SetShotModel(Model& shotModel)
 {
-	ShotModel = &shotModel;
+	ShotModel = shotModel;
 }
 
 bool Player::Initialize(Utilities* utilities)
@@ -187,7 +187,7 @@ void Player::Fire()
 	{
 		//When adding as a new class, make sure to use DBG_NEW.
 		Shots.push_back(DBG_NEW ShotMaster());
-		TheManagers.EM.AddModel3D(Shots[spawnNumber], *ShotModel, 2.5f);
+		TheManagers.EM.AddModel3D(Shots[spawnNumber], ShotModel, 2.5f);
 		Shots[spawnNumber]->Initialize(TheUtilities);
 		Shots[spawnNumber]->BeginRun();
 	}

@@ -16,12 +16,17 @@ void EnemyControl::SetPlayer(Player* player)
 
 void EnemyControl::SetShotModel(Model& shotModel)
 {
-	ShotModel = ShotModel;
+	ShotModel = shotModel;
 }
 
 void EnemyControl::SetEnemyOneModel(Model& enemyModel)
 {
-	EnemyOneModel = &enemyModel;
+	EnemyOneModel = enemyModel;
+}
+
+void EnemyControl::SetRockModel(Model& rockModel)
+{
+	RockModel = rockModel;
 }
 
 bool EnemyControl::Initialize(Utilities* utilities)
@@ -34,11 +39,17 @@ bool EnemyControl::Initialize(Utilities* utilities)
 bool EnemyControl::BeginRun()
 {
 	SpawnEnemyOne(10);
+	SpawnRocks(20);
 
 	return false;
 }
 
 void EnemyControl::Update()
+{
+
+}
+
+void EnemyControl::Reset()
 {
 
 }
@@ -64,11 +75,48 @@ void EnemyControl::SpawnEnemyOne(int amount)
 		{
 			//When adding as a new class, make sure to use DBG_NEW.
 			Ones.push_back(DBG_NEW EnemyOne());
-			TheManagers.EM.AddModel3D(Ones[spawnNumber], *EnemyOneModel);
+			TheManagers.EM.AddModel3D(Ones[spawnNumber], EnemyOneModel);
 			Ones[spawnNumber]->Initialize(TheUtilities);
 			Ones[spawnNumber]->BeginRun();
 		}
 
+		Ones[spawnNumber]->Spawn(PositionAwayFromPlayer());
+	}
+}
+
+void EnemyControl::SpawnRocks(int amount)
+{
+	for (int i = 0; i < amount; i++)
+	{
+		bool spawnNew = true;
+		size_t spawnNumber = Rocks.size();
+
+		for (size_t check = 0; check < spawnNumber; check++)
+		{
+			if (!Rocks[check]->Enabled)
+			{
+				spawnNew = false;
+				spawnNumber = check;
+				break;
+			}
+		}
+
+		if (spawnNew)
+		{
+			//When adding as a new class, make sure to use DBG_NEW.
+			Rocks.push_back(DBG_NEW Rock());
+			TheManagers.EM.AddModel3D(Rocks[spawnNumber], RockModel);
+			Rocks[spawnNumber]->Initialize(TheUtilities);
+			Rocks[spawnNumber]->BeginRun();
+		}
+
+		Rocks[spawnNumber]->Spawn(PositionAwayFromPlayer());
+	}
+
+}
+
+Vector3 EnemyControl::PositionAwayFromPlayer()
+{
 		Vector3 spawnPosition = {};
 		float minX = 0;
 		float maxX = 0;
@@ -135,6 +183,6 @@ void EnemyControl::SpawnEnemyOne(int amount)
 		spawnPosition.x = GetRandomFloat(minX, maxX);
 		spawnPosition.y = GetRandomFloat(minY, maxY);
 
-		Ones[spawnNumber]->Spawn(spawnPosition);
-	}
+
+	return spawnPosition;
 }

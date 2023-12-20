@@ -23,6 +23,6 @@ public:
 
 private:
 
-	Model* ShotModel = {};
+	Model ShotModel = {};
 	void Fire();
 };

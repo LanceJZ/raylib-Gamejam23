@@ -8,7 +8,7 @@ EnemyBase::~EnemyBase()
 {
 }
 
-void EnemyBase::SetShotModel(Model& shotModel)
+void EnemyBase::SetShotModel(Model &shotModel)
 {
 	ShotModel = ShotModel;
 }
@@ -65,7 +65,7 @@ void EnemyBase::Fire()
 		//When adding as a new class, make sure to use DBG_NEW.
 		Shots.push_back(DBG_NEW ShotMaster());
 		TheManagers.EM.AddModel3D(Shots[shotNumber]);
-		Shots[shotNumber]->SetModel(*ShotModel, 2.5f);
+		Shots[shotNumber]->SetModel(ShotModel, 2.5f);
 		Shots[shotNumber]->Initialize(TheUtilities);
 		Shots[shotNumber]->BeginRun();
 	}

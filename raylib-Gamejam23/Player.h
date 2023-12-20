@@ -45,8 +45,7 @@ private:
 	float velocityRotZ = 3.666f;
 
 	Model3D* FlameModel = {};
-	Model* ShotModel = {};
-	//Managers* TheManagers = {};
+	Model ShotModel = {};
 
 	void ThrustOn(float deltaTime);
 	void ThrustOff(float deltaTime);

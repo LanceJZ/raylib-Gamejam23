@@ -220,12 +220,12 @@ size_t EntityManager::AddModel3D(Model3D* model3D)
 	return modelNumber;
 }
 
-size_t EntityManager::AddModel3D(Model3D* model3D, Model model)
+size_t EntityManager::AddModel3D(Model3D* model3D, Model &model)
 {
 	return AddModel3D(model3D, model, 1.0f);
 }
 
-size_t EntityManager::AddModel3D(Model3D* model3D, Model model, float scale)
+size_t EntityManager::AddModel3D(Model3D* model3D, Model &model, float scale)
 {
 	size_t modelNumber = AddModel3D(model3D);
 	Model3Ds[modelNumber]->SetModel(model, scale);
@@ -234,7 +234,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D, Model model, float scale)
 	return modelNumber;
 }
 
-size_t EntityManager::AddModel3D(Model model)
+size_t EntityManager::AddModel3D(Model &model)
 {
 	size_t modelNumber = Model3Ds.size();
 	Model3Ds.push_back(DBG_NEW Model3D());
@@ -245,7 +245,7 @@ size_t EntityManager::AddModel3D(Model model)
 	return modelNumber;
 }
 
-size_t EntityManager::AddModel3D(Model model, float scale)
+size_t EntityManager::AddModel3D(Model &model, float scale)
 {
 	size_t modelNumber = AddModel3D(model);
 	Model3Ds[modelNumber]->SetCamera(Cam);
