@@ -12,6 +12,8 @@ public:
 
 	std::vector<ShotMaster*> Shots;
 
+	bool Hit = false;
+
 	void SetPlayer(Player* player);
 	void SetShotModel(Model &shotModel);
 

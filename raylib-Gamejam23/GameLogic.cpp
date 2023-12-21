@@ -19,6 +19,16 @@ void GameLogic::SetPlayer(Player* thePlayer)
 	ThePlayer = thePlayer;
 }
 
+void GameLogic::SetEnemies(EnemyControl* enemies)
+{
+	Enemies = enemies;
+}
+
+void GameLogic::SetOreModel(Model& model)
+{
+	OreModel = model;
+}
+
 bool GameLogic::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -41,6 +51,39 @@ void GameLogic::Update()
 {
 	CameraUpdate();
 	PlayerOverEdge();
+	CheckForOreToSpawn();
+}
+
+void GameLogic::SpawnOre(int amount, Vector3 position)
+{
+	for (int i = 0; i < amount; i++)
+	{
+		bool spawnNew = true;
+		size_t spawnNumber = OreCollection.size();
+
+		for (size_t check = 0; check < spawnNumber; check++)
+		{
+			if (!OreCollection[check]->Enabled)
+			{
+				spawnNew = false;
+				spawnNumber = check;
+				break;
+			}
+		}
+
+		if (spawnNew)
+		{
+			//When adding as a new class, make sure to use DBG_NEW.
+			OreCollection.push_back(DBG_NEW Ore());
+			TheManagers.EM.AddModel3D(OreCollection[spawnNumber], OreModel);
+			OreCollection[spawnNumber]->SetPlayer(ThePlayer);
+			OreCollection[spawnNumber]->Initialize(TheUtilities);
+			OreCollection[spawnNumber]->BeginRun();
+		}
+
+		OreCollection[spawnNumber]->Spawn(position);
+	}
+
 }
 
 void GameLogic::PlayerOverEdge()
@@ -60,4 +103,16 @@ void GameLogic::CameraUpdate()
 	Cam->position.y = ThePlayer->Position.y;
 	Cam->target.x = Cam->position.x;
 	Cam->target.y = Cam->position.y;
+}
+
+void GameLogic::CheckForOreToSpawn()
+{
+	for (auto rock : Enemies->Rocks)
+	{
+		if (rock->Hit)
+		{
+			rock->Hit = false;
+			SpawnOre(rock->GetAmountOfOre(), rock->Position);
+		}
+	}
 }

@@ -32,17 +32,20 @@ private:
 	size_t MineTimer = {};
 	size_t BumpTimer = {};
 
-	bool WaypointReached = {};
 	bool WasBumped = {};
 	bool HasOre = {};
 
 	AIState InState = {};
 
-	float Thrust = 30.666f;
+	float Thrust = 4.666f;
+	float Deceleration = 0.125f;
+	float MaxVelocity = 50;
+	float MinVelocity = 3;
 
-	Rock* rockToMine = {};
+	Rock* RockToMine = {};
 
 	void Search();
 	Rock* FindCloseRock();
-	void GoToRock();
+	void HeadToRock(float deltaTime);
+	void MineRock();
 };

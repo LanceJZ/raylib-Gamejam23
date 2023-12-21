@@ -135,7 +135,7 @@ void Player::NewGame()
 
 void Player::ThrustOn(float deltaTime)
 {
-	Acceleration = AccelerationToMaxAtRotation(540.666f, 0.001f, deltaTime);
+	SetAccelerationToMaxAtRotation(540.666f, 0.001f, deltaTime);
 	FlameModel->Enabled = true;
 }
 

@@ -30,6 +30,8 @@ void PositionedObject::Update(float deltaTime)
 	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX, RotationAccelerationX, deltaTime);
 	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY, RotationAccelerationY, deltaTime);
 	RotationZ = AddRotationVelAcc(RotationZ, RotationVelocityZ, RotationAccelerationZ, deltaTime);
+
+	Rotation = RadianSpin(Rotation);
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)
@@ -59,14 +61,6 @@ Vector3 PositionedObject::VelocityFromAngleZ(float magnitude)
 	return { cosf(Rotation) * magnitude, sinf(Rotation) * magnitude, 0 };
 }
 
-//Returns Vector3 acceleration based on acceleration amount this frame, to a max amount.
-Vector3 PositionedObject::AccelerationToMaxAtRotation(float accelerationAmount, float topSpeed, float deltaTime)
-{
-	return { ((cosf(Rotation) - (Velocity.x * topSpeed)) *
-		accelerationAmount) * deltaTime,
-			((sinf(Rotation) - (Velocity.y * topSpeed)) *
-				accelerationAmount) * deltaTime, 0 };
-}
 //Returns Vector3 deceleration down to zero.
 Vector3 PositionedObject::DecelerationToZero(float decelerationAmount, float deltaTime)
 {
@@ -115,6 +109,16 @@ float PositionedObject::Y()
 float PositionedObject::Z()
 {
 	return Position.z;
+}
+
+//Sets Acceleration based on acceleration amount this frame, to a max amount.
+void PositionedObject::SetAccelerationToMaxAtRotation(float accelerationAmount,
+	float topSpeed, float deltaTime)
+{
+	Acceleration = { ((cosf(Rotation) - (Velocity.x * topSpeed)) *
+		accelerationAmount) * deltaTime,
+			((sinf(Rotation) - (Velocity.y * topSpeed)) *
+				accelerationAmount) * deltaTime, 0 };
 }
 
 void PositionedObject::X(float x)
@@ -330,6 +334,47 @@ void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 	{
 		Y(GetScreenHeight() * top + (GetScreenHeight() * 0.5f));
 	}
+}
+
+float PositionedObject::AimAtTarget(Vector3 target, float facingAngle, float magnitude)
+{
+	float turnVelocity = 0;
+	float targetAngle = GetAngleFromVectors(target);
+	float targetLessFacing = targetAngle - facingAngle;
+	float facingLessTarget = facingAngle - targetAngle;
+
+	if (abs(targetLessFacing) > PI)
+	{
+		if (facingAngle > targetAngle)
+		{
+			facingLessTarget = ((TwoPi - facingAngle) + targetAngle) * -1;
+		}
+		else
+		{
+			facingLessTarget = (TwoPi - targetAngle) + facingAngle;
+		}
+	}
+
+	if (facingLessTarget > 0)
+	{
+		turnVelocity = -magnitude;
+	}
+	else
+	{
+		turnVelocity = magnitude;
+	}
+
+	return turnVelocity;
+}
+
+float PositionedObject::GetAngleFromVectors(Vector3 target)
+{
+	return (float)(atan2f(target.y - Position.y, target.x - Position.x));
+}
+
+void PositionedObject::SetHeading(Vector3 waypoint, float rotationSpeed)
+{
+	RotationVelocity = AimAtTarget(waypoint, Rotation, rotationSpeed);
 }
 
 float PositionedObject::RadianSpin(float radian)

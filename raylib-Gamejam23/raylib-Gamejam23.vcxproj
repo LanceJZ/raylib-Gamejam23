@@ -120,7 +120,7 @@
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;Knightmare Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -172,6 +172,10 @@
     </ClCompile>
     <ClCompile Include="Globals.h" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Ore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -204,6 +208,10 @@
     </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLogic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Ore.h">
       <SubType>
       </SubType>
     </ClInclude>

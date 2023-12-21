@@ -30,6 +30,7 @@ bool Game::Initialize(Camera &camera,
 
 	Logic->SetCamera(Cam);
 	Logic->SetPlayer(ThePlayer);
+	Logic->SetEnemies(Enemies);
 
 	Enemies->SetPlayer(ThePlayer);
 
@@ -51,6 +52,7 @@ bool Game::Load()
 	Enemies->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
 	Enemies->SetRockModel(TheManagers.CM.LoadAndGetModel("Rock"));
+	Logic->SetOreModel(TheManagers.CM.LoadAndGetModel("Ore"));
 
 	return true;
 }
@@ -161,8 +163,8 @@ void Game::Draw3D() const
 	TheManagers.EM.Draw3D();
 
 #ifdef _DEBUG
-	int fsx = FieldSize.x * 0.5f;
-	int fsy = FieldSize.y * 0.5f;
+	int fsx = int(FieldSize.x * 0.5f);
+	int fsy = int(FieldSize.y * 0.5f);
 
 	DrawLine(-fsx, -fsy, fsx, -fsy, { DARKBLUE });
 	DrawLine(fsx, -fsy, fsx, fsy, { DARKBLUE });

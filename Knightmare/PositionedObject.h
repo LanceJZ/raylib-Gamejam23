@@ -53,10 +53,10 @@ public:
 	float AngleFromVectorZ(Vector3 target);
 	Vector3 RandomVelocity(float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
-	Vector3 AccelerationToMaxAtRotation(float accelerationAmount, float topSpeed,
-		float deltaTime);
 	Vector3 DecelerationToZero(float decelerationAmount, float deltaTime);
 	Quaternion EulerToQuaternion(float yaw, float pitch, float roll);
+	void SetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed,
+		float deltaTime);
 	void SetParent(PositionedObject* parent);
 	void RemoveFromParents();
 	void DisconnectChild(PositionedObject* child);
@@ -73,6 +73,9 @@ public:
 	void RotateVelocity(Vector3 position, float turnSpeed, float speed);
 	void CheckPlayfieldSidesWarp(float left, float right);
 	void CheckPlayfieldHeightWarp(float top, float bottom);
+	float AimAtTarget(Vector3 target, float facingAngle, float magnitute);
+	float GetAngleFromVectors(Vector3 target);
+	void SetHeading(Vector3 waypoint, float rotationSpeed);
 
 private:
 	float RadianSpin(float radian);

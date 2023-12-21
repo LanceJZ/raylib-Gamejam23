@@ -2,13 +2,15 @@
 #include "Globals.h"
 #include "Model3D.h"
 #include "Managers.h"
-#include "EnemyBase.h"
+#include "Player.h"
 
-class Rock : public EnemyBase
+class Ore : public Model3D
 {
 public:
-	Rock();
-	virtual ~Rock();
+	Ore();
+	virtual ~Ore();
+
+	void SetPlayer(Player* player);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -17,9 +19,8 @@ public:
 	void Draw();
 
 	void Spawn(Vector3 position);
-	bool CheckCollision();
-	int GetAmountOfOre();
 
 private:
-	int OreAmount = 0;
+
+	Player* ThePlayer = {};
 };

@@ -89,28 +89,28 @@ void Model3D::Draw()
 					parentTest = Vector3Add(parent->Position, parentTest);
 				}
 
-				if (TheCamera->position.x > parentTest.x + ViewableArea.x
-					|| TheCamera->position.x < parentTest.x + -ViewableArea.x)
+				if (TheCamera->position.x > parentTest.x + Radius + ViewableArea.x
+					|| TheCamera->position.x < parentTest.x + -Radius + -ViewableArea.x)
 				{
 					return;
 				}
 
-				if (TheCamera->position.y > parentTest.y + ViewableArea.y ||
-					TheCamera->position.y < parentTest.y + -ViewableArea.y)
+				if (TheCamera->position.y > parentTest.y + Radius + ViewableArea.y ||
+					TheCamera->position.y < parentTest.y + -Radius + -ViewableArea.y)
 				{
 					return;
 				}
 			}
 			else
 			{
-				if (TheCamera->position.x > Position.x + ViewableArea.x
-					|| TheCamera->position.x < Position.x + -ViewableArea.x)
+				if (TheCamera->position.x > Position.x + Radius + ViewableArea.x
+					|| TheCamera->position.x < Position.x + -Radius + -ViewableArea.x)
 				{
 					return;
 				}
 
-				if (TheCamera->position.y > Position.y + ViewableArea.y ||
-					TheCamera->position.y < Position.y + -ViewableArea.y)
+				if (TheCamera->position.y > Position.y + Radius + ViewableArea.y ||
+					TheCamera->position.y < Position.y + -Radius + -ViewableArea.y)
 				{
 					return;
 				}

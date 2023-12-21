@@ -38,13 +38,8 @@ bool EnemyControl::Initialize(Utilities* utilities)
 
 bool EnemyControl::BeginRun()
 {
-	SpawnEnemyOne(10);
 	SpawnRocks(20);
-
-	for (auto one : Ones)
-	{
-		one->SetRocks(Rocks);
-	}
+	SpawnEnemyOne(10);
 
 	return false;
 }
@@ -82,6 +77,7 @@ void EnemyControl::SpawnEnemyOne(int amount)
 			Ones.push_back(DBG_NEW EnemyOne());
 			TheManagers.EM.AddModel3D(Ones[spawnNumber], EnemyOneModel);
 			Ones[spawnNumber]->SetPlayer(ThePlayer);
+			Ones[spawnNumber]->SetRocks(Rocks);
 			Ones[spawnNumber]->Initialize(TheUtilities);
 			Ones[spawnNumber]->BeginRun();
 		}
@@ -112,6 +108,7 @@ void EnemyControl::SpawnRocks(int amount)
 			//When adding as a new class, make sure to use DBG_NEW.
 			Rocks.push_back(DBG_NEW Rock());
 			TheManagers.EM.AddModel3D(Rocks[spawnNumber], RockModel);
+			Rocks[spawnNumber]->SetPlayer(ThePlayer);
 			Rocks[spawnNumber]->Initialize(TheUtilities);
 			Rocks[spawnNumber]->BeginRun();
 		}
