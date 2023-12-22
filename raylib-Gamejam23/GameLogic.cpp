@@ -89,11 +89,8 @@ void GameLogic::SpawnOre(int amount, Vector3 position)
 void GameLogic::PlayerOverEdge()
 {
 	if (ThePlayer->X() > FieldSize.x * 0.5f) ThePlayer->X(-FieldSize.x * 0.5f);
-
 	if (ThePlayer->X() < -FieldSize.x * 0.5f) ThePlayer->X(FieldSize.x * 0.5f);
-
 	if (ThePlayer->Y() > FieldSize.y * 0.5f) ThePlayer->Y(-FieldSize.y * 0.5f);
-
 	if (ThePlayer->Y() < -FieldSize.y * 0.5f) ThePlayer->Y(FieldSize.y * 0.5f);
 }
 
@@ -109,10 +106,14 @@ void GameLogic::CheckForOreToSpawn()
 {
 	for (auto rock : Enemies->Rocks)
 	{
-		if (rock->Hit)
+		if (rock == nullptr) return;
+
+		if (rock->Hit && rock->Enabled)
 		{
 			rock->Hit = false;
+			rock->Enabled = false;
 			SpawnOre(rock->GetAmountOfOre(), rock->Position);
+			Enemies->SpawnRocks(1);
 		}
 	}
 }

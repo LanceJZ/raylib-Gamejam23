@@ -15,12 +15,14 @@ void EnemyBase::SetPlayer(Player* player)
 
 void EnemyBase::SetShotModel(Model &shotModel)
 {
-	ShotModel = ShotModel;
+	ShotModel = shotModel;
 }
 
-bool EnemyBase::Initialize(Utilities* utils)
+bool EnemyBase::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utils);
+	Model3D::Initialize(utilities);
+
+	ShotTimer = TheManagers.EM.AddTimer();
 
 	return false;
 }
@@ -37,11 +39,8 @@ void EnemyBase::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 
 	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
-
 	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
-
 	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
-
 	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
 }
 
@@ -59,6 +58,7 @@ void EnemyBase::Spawn(Vector3 position)
 
 void EnemyBase::Fire()
 {
+	TheManagers.EM.Timers[ShotTimer]->Reset(5.0f);
 	bool spawnNewShot = true;
 	size_t shotNumber = Shots.size();
 
@@ -82,10 +82,9 @@ void EnemyBase::Fire()
 		Shots[shotNumber]->BeginRun();
 	}
 
-	float speed = 600.0f;
-	float timer = 1.0f;
+	float speed = 100.0f;
 	Vector3 drift = { 0.01f, 0.01f, 0.01f };
 
 	Shots[shotNumber]->Spawn(Position,
-		Vector3Add(Velocity, VelocityFromAngleZ(speed)), timer);
+		Vector3Add(Velocity, VelocityFromAngleZ(speed)), ShotTimerTime);
 }

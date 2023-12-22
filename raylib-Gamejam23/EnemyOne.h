@@ -19,10 +19,9 @@ public:
 	EnemyOne();
 	virtual ~EnemyOne();
 
-	std::vector<Rock*> Rocks;
-
 	void SetRocks(std::vector<Rock*> rocks);
 
+	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
 	void Update(float deltaTime);
@@ -43,9 +42,13 @@ private:
 	float MinVelocity = 3;
 
 	Rock* RockToMine = {};
+	std::vector<Rock*> Rocks;
 
 	void Search();
 	Rock* FindCloseRock();
 	void HeadToRock(float deltaTime);
 	void MineRock();
+
+	bool CheckCollusion();
+	bool CheckMining();
 };

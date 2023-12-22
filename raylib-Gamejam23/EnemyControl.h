@@ -25,6 +25,8 @@ public:
 
 	void Update();
 
+	void SpawnRocks(int amount);
+
 private:
 	Model ShotModel = {};
 	Model EnemyOneModel = {};
@@ -34,7 +36,6 @@ private:
 	void Reset();
 
 	void SpawnEnemyOne(int amount);
-	void SpawnRocks(int amount);
 
 	Vector3 PositionAwayFromPlayer();
 };

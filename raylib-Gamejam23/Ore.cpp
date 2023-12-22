@@ -17,6 +17,10 @@ bool Ore::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
 
+	RotationVelocityX = GetRandomFloat(-0.5f, 0.5f);
+	RotationVelocityY = GetRandomFloat(-0.25f, 0.25f);
+	RotationVelocityZ = GetRandomFloat(-0.1f, 0.1f);
+
 	return false;
 }
 
@@ -42,4 +46,15 @@ void Ore::Draw()
 void Ore::Spawn(Vector3 position)
 {
 	Position = position;
+	OreType = GetRandomValue(1, 4);
+}
+
+int Ore::GetOreType() const
+{
+	return OreType;
+}
+
+bool Ore::CheckCollision()
+{
+	return false;
 }

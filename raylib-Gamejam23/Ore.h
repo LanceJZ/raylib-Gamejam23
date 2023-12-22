@@ -19,8 +19,11 @@ public:
 	void Draw();
 
 	void Spawn(Vector3 position);
+	int GetOreType() const;
 
 private:
-
+	int OreType = 0;
 	Player* ThePlayer = {};
+
+	bool CheckCollision();
 };

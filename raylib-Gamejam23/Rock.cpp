@@ -8,9 +8,14 @@ Rock::~Rock()
 {
 }
 
+void Rock::SetPlayer(Player* player)
+{
+	ThePlayer = player;
+}
+
 bool Rock::Initialize(Utilities* utilities)
 {
-	EnemyBase::Initialize(utilities);
+	Model3D::Initialize(utilities);
 
 	RotationVelocityX = GetRandomFloat(-0.5f, 0.5f);
 	RotationVelocityY = GetRandomFloat(-0.25f, 0.25f);
@@ -23,32 +28,37 @@ bool Rock::Initialize(Utilities* utilities)
 
 bool Rock::BeginRun()
 {
-	EnemyBase::BeginRun();
+	Model3D::BeginRun();
 
 	return false;
 }
 
 void Rock::Update(float deltaTime)
 {
-	EnemyBase::Update(deltaTime);
+	Model3D::Update(deltaTime);
 
-	if (CheckCollision())
+	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
+	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
+	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
+	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
+
+	if (Hit = CheckCollision())
 	{
-		Enabled = false;
-		Hit = true;
 	}
 }
 
 void Rock::Draw()
 {
-	EnemyBase::Draw();
+	Model3D::Draw();
 
 }
 
 void Rock::Spawn(Vector3 position)
 {
-	EnemyBase::Spawn(position);
+	Position = position;
+	Enabled = true;
 
+	Hardness = 100;
 	float speed = 30.0f;
 	OreAmount = GetRandomValue(0, 5);
 
@@ -63,15 +73,21 @@ bool Rock::CheckCollision()
 	{
 		if (CirclesIntersect(*shot) && shot->Enabled)
 		{
-			hit = true;
 			shot->Enabled = false;
+
+			Hardness -= 50;
+
+			if (Hardness <= 0)
+			{
+				hit = true;
+			}
 		}
 	}
 
 	return hit;
 }
 
-int Rock::GetAmountOfOre()
+int Rock::GetAmountOfOre() const
 {
 	return OreAmount;
 }

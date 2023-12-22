@@ -17,7 +17,7 @@ public:
 	void SetPlayer(Player* player);
 	void SetShotModel(Model &shotModel);
 
-	virtual bool Initialize(Utilities* utils);
+	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();
 
 	virtual void Update(float deltaTime);
@@ -26,6 +26,9 @@ public:
 	void Spawn(Vector3 position);
 
 protected:
+	size_t ShotTimer = 0;
+	float ShotTimerTime = 0;
+
 	Player* ThePlayer = {};
 
 	void Fire();

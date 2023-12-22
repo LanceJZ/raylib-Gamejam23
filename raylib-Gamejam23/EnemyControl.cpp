@@ -78,6 +78,7 @@ void EnemyControl::SpawnEnemyOne(int amount)
 			TheManagers.EM.AddModel3D(Ones[spawnNumber], EnemyOneModel);
 			Ones[spawnNumber]->SetPlayer(ThePlayer);
 			Ones[spawnNumber]->SetRocks(Rocks);
+			Ones[spawnNumber]->SetShotModel(ShotModel);
 			Ones[spawnNumber]->Initialize(TheUtilities);
 			Ones[spawnNumber]->BeginRun();
 		}

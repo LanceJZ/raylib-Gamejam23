@@ -13,12 +13,21 @@ void EnemyOne::SetRocks(std::vector<Rock*> rocks)
 	Rocks = rocks;
 }
 
+bool EnemyOne::Initialize(Utilities* utilities)
+{
+	EnemyBase::Initialize(utilities);
+
+	MaxSpeed = 0.00004f;
+	ShotTimerTime = 6.666f;
+	InState = AIState::FindRock;
+
+	return false;
+}
+
 bool EnemyOne::BeginRun()
 {
 	EnemyBase::BeginRun();
 
-	MaxSpeed = 0.00004f;
-	InState = AIState::FindRock;
 
 	return false;
 }
@@ -93,19 +102,21 @@ void EnemyOne::HeadToRock(float deltaTime)
 		return;
 	}
 
-	if (Vector3Distance(RockToMine->Position, Position) < 30 + RockToMine->Radius)
+	float distance = Vector3Distance(RockToMine->Position, Position);
+
+	if (distance < 30 + RockToMine->Radius)
 	{
 		InState = AIState::Mine;
+		TheManagers.EM.Timers[ShotTimer]->Reset(10.0f);
 		return;
 	}
-	else if (Vector3Distance(RockToMine->Position, Position) > 1000.0f)
+	else if (distance > 1000.0f)
 	{
 		InState = AIState::FindRock;
 		return;
 	}
 
-
-	if (Vector3Distance(RockToMine->Position, Position) < 150.0f + RockToMine->Radius)
+	if (distance < 150.0f + RockToMine->Radius)
 	{
 		MaxVelocity = 3.0f;
 		SetHeading(RockToMine->Position, 3.666f);
@@ -116,13 +127,7 @@ void EnemyOne::HeadToRock(float deltaTime)
 		MaxVelocity = 50.0f;
 		SetHeading(RockToMine->Position, 2.666f);
 		SetAccelerationToMaxAtRotation(200.0f, 0.00015f, deltaTime);
-}
-
-
-	Vector3 accel = Acceleration;
-	Vector3 vel = Velocity;
-	float rotv = RotationVelocity;
-	float rot = Rotation;
+	}
 }
 
 void EnemyOne::MineRock()
@@ -139,6 +144,41 @@ void EnemyOne::MineRock()
 
 	if (Vector3Distance(RockToMine->Position, Position) > 40 + RockToMine->Radius)
 	{
-		InState = AIState::GoToRock;
+		InState = AIState::FindRock;
+		return;
 	}
+
+	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
+	{
+		Fire();
+	}
+
+	CheckMining();
+}
+
+bool EnemyOne::CheckCollusion()
+{
+	return false;
+}
+
+bool EnemyOne::CheckMining()
+{
+	for (auto shot : Shots)
+	{
+		for (auto rock : Rocks)
+		{
+			if (shot->CirclesIntersect(*rock) && rock->Enabled && shot->Enabled)
+			{
+				shot->Enabled = false;
+				rock->Hardness -= 10;
+
+				if (rock->Hardness <= 0)
+				{
+					rock->Hit = true;
+				}
+			}
+		}
+	}
+
+	return false;
 }
