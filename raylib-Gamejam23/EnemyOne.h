@@ -65,4 +65,6 @@ private:
 	bool CheckCollusion();
 	bool CheckMining();
 	bool CheckForOre();
+
+	void Reset();
 };

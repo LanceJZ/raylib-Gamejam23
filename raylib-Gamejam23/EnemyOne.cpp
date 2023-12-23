@@ -237,9 +237,15 @@ void EnemyOne::HeadToOre(float deltaTime)
 void EnemyOne::HeadToBase(float deltaTime)
 {
 	SetHeading(EnemyBase->Position, 1.666f);
-	SetAccelerationToMaxAtRotation(1, 0.05f, deltaTime);
+	SetAccelerationToMaxAtRotation(1, 0.015f, deltaTime);
 
 	OreToGrab->Position = Vector3Add(Position, OreInGraspPosition);
+
+	if (Vector3Distance(Position, EnemyBase->Position) < 50)
+	{
+		EnemyBase->DropOffOre();
+		Reset();
+	}
 }
 
 void EnemyOne::MineRock()
@@ -317,4 +323,15 @@ bool EnemyOne::CheckForOre()
 	}
 
 	return false;
+}
+
+void EnemyOne::Reset()
+{
+	Velocity = {};
+	Acceleration = {};
+	RotationVelocity = 0;
+	OreToGrab->Enabled = false;
+	OreToGrab->Grabbed = false;
+	OreToGrab = nullptr;
+	InState = AIState::FindRock;
 }

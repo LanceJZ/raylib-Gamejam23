@@ -8,6 +8,8 @@ public:
 	Base();
 	virtual ~Base();
 
+	void DropOffOre();
+
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
 
@@ -17,6 +19,6 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-
+	int AmountOfOre = 0;
 
 };

@@ -8,6 +8,11 @@ Base::~Base()
 {
 }
 
+void Base::DropOffOre()
+{
+	AmountOfOre++;
+}
+
 bool Base::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
