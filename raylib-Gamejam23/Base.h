@@ -2,11 +2,11 @@
 #include "Globals.h"
 #include "Model3D.h"
 
-class ShotMaster : public Model3D
+class Base : public Model3D
 {
 public:
-	ShotMaster();
-	virtual ~ShotMaster();
+	Base();
+	virtual ~Base();
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -14,9 +14,9 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-	void Spawn(Vector3 position, Vector3 velocity, float timer);
+	void Spawn(Vector3 position);
 
 private:
-	size_t TimerID = 0;
+
 
 };

@@ -8,18 +8,31 @@ EnemyOne::~EnemyOne()
 {
 }
 
+void EnemyOne::SetBase(Base* base)
+{
+	EnemyBase = base;
+}
+
 void EnemyOne::SetRocks(std::vector<Rock*> rocks)
 {
 	Rocks = rocks;
+}
+
+void EnemyOne::SetOre(std::vector<Ore*> ore)
+{
+	OreCollection = ore;
 }
 
 bool EnemyOne::Initialize(Utilities* utilities)
 {
 	EnemyBase::Initialize(utilities);
 
+	Radius = 9.5f;
 	MaxSpeed = 0.00004f;
 	ShotTimerTime = 6.666f;
 	InState = AIState::FindRock;
+
+	ThrustTimer = TheManagers.EM.AddTimer();
 
 	return false;
 }
@@ -41,8 +54,17 @@ void EnemyOne::Update(float deltaTime)
 		case AIState::FindRock:
 			Search();
 			break;
+
 		case AIState::GoToRock:
 			HeadToRock(deltaTime);
+			break;
+
+		case AIState::RetrieveOre:
+			HeadToOre(deltaTime);
+			break;
+
+		case AIState::ReturnToBase:
+			HeadToBase(deltaTime);
 			break;
 
 		case AIState::Mine:
@@ -62,9 +84,7 @@ void EnemyOne::Draw()
 
 void EnemyOne::Search()
 {
-	Velocity = {};
 	Acceleration = {};
-	RotationVelocity = 0;
 	RockToMine = FindCloseRock();
 	InState = AIState::GoToRock;
 }
@@ -75,6 +95,7 @@ Rock* EnemyOne::FindCloseRock()
 	Velocity = {};
 	Acceleration = {};
 	RotationVelocity = 0;
+	Rock* foundRock = nullptr;
 
 
 	for (auto rock : Rocks)
@@ -86,17 +107,45 @@ Rock* EnemyOne::FindCloseRock()
 			if (rockDistance < distance || distance < 0.0f)
 			{
 				distance = rockDistance;
-				RockToMine = rock;
+				foundRock = rock;
 			}
 		}
 	}
 
-	return RockToMine;
+	return foundRock;
+}
+
+Ore* EnemyOne::FindCloseOre()
+{
+	float distance = -1.0f;
+	Ore* foundOre = nullptr;
+
+	for (auto ore : OreCollection)
+	{
+		if (ore->Enabled && !ore->Grabbed)
+		{
+			float rockDistance = Vector3Distance(ore->Position, Position);
+
+			if (rockDistance < distance || distance < 0.0f)
+			{
+				distance = rockDistance;
+				foundOre = ore;
+			}
+		}
+	}
+
+	return foundOre;
 }
 
 void EnemyOne::HeadToRock(float deltaTime)
 {
-	if (RockToMine == nullptr || RockToMine->Enabled == false)
+	if (RockToMine == nullptr)
+	{
+		InState = AIState::FindRock;
+		return;
+	}
+
+	if (RockToMine->Enabled == false)
 	{
 		InState = AIState::FindRock;
 		return;
@@ -117,17 +166,80 @@ void EnemyOne::HeadToRock(float deltaTime)
 	}
 
 	if (distance < 150.0f + RockToMine->Radius)
-	{
+	{//Closer
 		MaxVelocity = 3.0f;
-		SetHeading(RockToMine->Position, 3.666f);
-		SetAccelerationToMaxAtRotation(300.0f, 0.0015f, deltaTime);
+
+		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
+		{
+			Thrust = GetRandomFloat(10.0f, 40.0f);
+			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
+		}
+
+		SetHeading(RockToMine->Position, 4.666f);
+		SetAccelerationToMaxAtRotation(Thrust, 0.02f, deltaTime);
 	}
 	else
-	{
+	{//Further
 		MaxVelocity = 50.0f;
+
+		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
+		{
+			Thrust = GetRandomFloat(20.0f, 50.0f);
+			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
+		}
+
 		SetHeading(RockToMine->Position, 2.666f);
-		SetAccelerationToMaxAtRotation(200.0f, 0.00015f, deltaTime);
+		SetAccelerationToMaxAtRotation(Thrust, 0.015f, deltaTime);
 	}
+
+	CheckForOre();
+}
+
+void EnemyOne::HeadToOre(float deltaTime)
+{
+	if (OreToGrab == nullptr)
+	{
+		InState = AIState::FindRock;
+		return;
+	}
+
+	if (!OreToGrab->Enabled || OreToGrab->Grabbed)
+	{
+		InState = AIState::FindRock;
+		return;
+	}
+
+	float distance = Vector3Distance(OreToGrab->Position, Position);
+
+	MaxVelocity = 30.0f;
+	SetHeading(OreToGrab->Position, 5.666f);
+
+	if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
+	{
+		Thrust = GetRandomFloat(10.0f, 30.0f);
+		TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
+	}
+
+	SetAccelerationToMaxAtRotation(Thrust, 0.012f, deltaTime);
+
+	if (CirclesIntersect(*OreToGrab) && !OreToGrab->Grabbed)
+	{
+		OreToGrab->Grabbed = true;
+		SetHeading(OreToGrab->Position, 4.666f);
+		Velocity = {};
+		Acceleration = {};
+		RotationVelocity = 0;
+		OreInGraspPosition = Vector3Subtract(OreToGrab->Position, Position);
+		InState = AIState::ReturnToBase;
+	}
+}
+
+void EnemyOne::HeadToBase(float deltaTime)
+{
+	SetHeading(EnemyBase->Position, 1.666f);
+	SetAccelerationToMaxAtRotation(1, 0.05f, deltaTime);
+
+	OreToGrab->Position = Vector3Add(Position, OreInGraspPosition);
 }
 
 void EnemyOne::MineRock()
@@ -154,6 +266,7 @@ void EnemyOne::MineRock()
 	}
 
 	CheckMining();
+	CheckForOre();
 }
 
 bool EnemyOne::CheckCollusion()
@@ -178,6 +291,29 @@ bool EnemyOne::CheckMining()
 				}
 			}
 		}
+	}
+
+	return false;
+}
+
+bool EnemyOne::CheckForOre()
+{
+	OreToGrab = FindCloseOre();
+
+	if (OreToGrab == nullptr)
+	{
+		return false;
+	}
+
+	if (!OreToGrab->Grabbed)
+	{
+		InState = AIState::RetrieveOre;
+		return true;
+	}
+	else
+	{
+		InState = AIState::FindRock;
+
 	}
 
 	return false;

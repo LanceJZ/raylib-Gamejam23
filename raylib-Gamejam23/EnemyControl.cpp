@@ -14,6 +14,12 @@ void EnemyControl::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
+void EnemyControl::SetEnemyBaseModels(Model& baseModel, Model& turretModel)
+{
+	EnemyBaseModel = baseModel;
+	EnemyBaseTurretModel = turretModel;
+}
+
 void EnemyControl::SetShotModel(Model& shotModel)
 {
 	ShotModel = shotModel;
@@ -38,20 +44,30 @@ bool EnemyControl::Initialize(Utilities* utilities)
 
 bool EnemyControl::BeginRun()
 {
-	SpawnRocks(20);
-	SpawnEnemyOne(10);
+	EnemyBase = new Base();
+	TheManagers.EM.AddModel3D(EnemyBase, EnemyBaseModel);
+
+	Reset();
 
 	return false;
 }
 
 void EnemyControl::Update()
 {
+	Common::Update();
 
 }
 
 void EnemyControl::Reset()
 {
+	SpawnEnemyBase();
+	SpawnRocks(20);
+	SpawnEnemyOne(10);
+}
 
+void EnemyControl::SpawnEnemyBase()
+{
+	EnemyBase->Spawn(PositionAwayFromPlayer());
 }
 
 void EnemyControl::SpawnEnemyOne(int amount)
@@ -77,6 +93,7 @@ void EnemyControl::SpawnEnemyOne(int amount)
 			Ones.push_back(DBG_NEW EnemyOne());
 			TheManagers.EM.AddModel3D(Ones[spawnNumber], EnemyOneModel);
 			Ones[spawnNumber]->SetPlayer(ThePlayer);
+			Ones[spawnNumber]->SetBase(EnemyBase);
 			Ones[spawnNumber]->SetRocks(Rocks);
 			Ones[spawnNumber]->SetShotModel(ShotModel);
 			Ones[spawnNumber]->Initialize(TheUtilities);

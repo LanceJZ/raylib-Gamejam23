@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Model3D.h"
-#include "Managers.h"
 #include "Player.h"
 
 class Ore : public Model3D
@@ -9,6 +8,8 @@ class Ore : public Model3D
 public:
 	Ore();
 	virtual ~Ore();
+
+	bool Grabbed = false;
 
 	void SetPlayer(Player* player);
 
@@ -22,7 +23,7 @@ public:
 	int GetOreType() const;
 
 private:
-	int OreType = 0;
+	int Type = 0;
 	Player* ThePlayer = {};
 
 	bool CheckCollision();

@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Managers.h"
 #include "Model3D.h"
 
 class Background : public Common

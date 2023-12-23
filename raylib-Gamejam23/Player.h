@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Model3D.h"
-#include "Managers.h"
 #include "ShotMaster.h"
 
 class Player : public Model3D

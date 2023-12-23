@@ -1,8 +1,8 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Managers.h"
 #include "Player.h"
+#include "Base.h"
 #include "EnemyOne.h"
 #include "Rock.h"
 
@@ -14,8 +14,10 @@ public:
 
 	std::vector<EnemyOne*> Ones;
 	std::vector<Rock*> Rocks;
+	Base* EnemyBase = {};
 
 	void SetPlayer(Player* player);
+	void SetEnemyBaseModels(Model& baseModel, Model& turretModel);
 	void SetShotModel(Model& shotModel);
 	void SetEnemyOneModel(Model& enemyModel);
 	void SetRockModel(Model& rockModel);
@@ -28,6 +30,8 @@ public:
 	void SpawnRocks(int amount);
 
 private:
+	Model EnemyBaseModel = {};
+	Model EnemyBaseTurretModel = {};
 	Model ShotModel = {};
 	Model EnemyOneModel = {};
 	Model RockModel = {};
@@ -35,6 +39,7 @@ private:
 
 	void Reset();
 
+	void SpawnEnemyBase();
 	void SpawnEnemyOne(int amount);
 
 	Vector3 PositionAwayFromPlayer();

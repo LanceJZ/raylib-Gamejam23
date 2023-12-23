@@ -391,7 +391,8 @@ float PositionedObject::RadianSpin(float radian)
 	return radian;
 }
 
-float PositionedObject::AddRotationVelAcc(float rotation, float rotationVelocity, float rotationAcceleration, float deltaTime)
+float PositionedObject::AddRotationVelAcc(float rotation, float rotationVelocity,
+	float rotationAcceleration, float deltaTime)
 {
 	rotationVelocity += rotationAcceleration * deltaTime;
 	rotation += rotationVelocity * deltaTime;

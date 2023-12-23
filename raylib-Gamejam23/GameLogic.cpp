@@ -113,7 +113,13 @@ void GameLogic::CheckForOreToSpawn()
 			rock->Hit = false;
 			rock->Enabled = false;
 			SpawnOre(rock->GetAmountOfOre(), rock->Position);
+			//SpawnOre(1, rock->Position);
 			Enemies->SpawnRocks(1);
+
+			for (auto enemyOne : Enemies->Ones)
+			{
+				enemyOne->SetOre(OreCollection);
+			}
 		}
 	}
 }

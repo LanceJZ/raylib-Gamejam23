@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Model3D.h"
-#include "Managers.h"
 #include "Player.h"
 
 class Rock : public Model3D
