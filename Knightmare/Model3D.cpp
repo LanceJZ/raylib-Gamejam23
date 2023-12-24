@@ -128,8 +128,8 @@ void Model3D::Draw()
 				rlRotatef(parent->RotationX, 1, 0, 0);
 				rlRotatef(parent->RotationY, 0, 1, 0);
 				rlRotatef(parent->RotationZ, 0, 0, 1);
-				rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y,
-					parent->RotationAxis.z);
+				//rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y,
+				//	parent->RotationAxis.z);
 				rlScalef(parent->Scale, parent->Scale, parent->Scale);
 			}
 		}
@@ -139,7 +139,7 @@ void Model3D::Draw()
 		rlRotatef(RotationX, 1, 0, 0);
 		rlRotatef(RotationY, 0, 1, 0);
 		rlRotatef(RotationZ, 0, 0, 1);
-		rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
+		//rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
 		rlScalef(Scale, Scale, Scale);
 
 		DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model

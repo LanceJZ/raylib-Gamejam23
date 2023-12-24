@@ -160,12 +160,12 @@ void Player::ThrustOff(float deltaTime)
 
 void Player::RotateLeft()
 {
-	RotationVelocity = -velocityRotZ;
+	RotationVelocityZ = -velocityRotZ;
 }
 
 void Player::RotateRight()
 {
-	RotationVelocity = velocityRotZ;
+	RotationVelocityZ = velocityRotZ;
 }
 
 void Player::Fire()
@@ -234,6 +234,10 @@ void Player::Gamepad()
 	{
 		RotateRight();
 	}
+	else
+	{
+		RotationVelocityZ = 0;
+	}
 
 	if (IsGamepadButtonPressed(0, 7))
 	{
@@ -262,7 +266,7 @@ void Player::Keyboard()
 	}
 	else
 	{
-		RotationVelocity = 0;
+		RotationVelocityZ = 0;
 	}
 
 	if (IsKeyDown(KEY_UP))

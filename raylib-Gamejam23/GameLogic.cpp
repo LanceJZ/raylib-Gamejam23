@@ -38,6 +38,7 @@ bool GameLogic::Initialize(Utilities* utilities)
 
 bool GameLogic::BeginRun()
 {
+	RockSpawnTimer = TheManagers.EM.AddTimer();
 
 	return false;
 }
@@ -52,6 +53,7 @@ void GameLogic::Update()
 	CameraUpdate();
 	PlayerOverEdge();
 	CheckForOreToSpawn();
+	CheckToSpawnRocks();
 }
 
 void GameLogic::SpawnOre(int amount, Vector3 position)
@@ -110,16 +112,24 @@ void GameLogic::CheckForOreToSpawn()
 
 		if (rock->Hit && rock->Enabled)
 		{
-			rock->Hit = false;
 			rock->Enabled = false;
-			SpawnOre(rock->GetAmountOfOre(), rock->Position);
-			//SpawnOre(1, rock->Position);
-			Enemies->SpawnRocks(1);
+			SpawnOre(GetRandomValue(0, 5), rock->Position);
+			RocksToSpawn++;
+			TheManagers.EM.Timers[RockSpawnTimer]->Reset(3);
 
 			for (auto enemyOne : Enemies->Ones)
 			{
 				enemyOne->SetOre(OreCollection);
 			}
 		}
+	}
+}
+
+void GameLogic::CheckToSpawnRocks()
+{
+	if (RocksToSpawn > 0 && TheManagers.EM.Timers[RockSpawnTimer]->Elapsed())
+	{
+		Enemies->SpawnRocks(RocksToSpawn);
+		RocksToSpawn = 0;
 	}
 }

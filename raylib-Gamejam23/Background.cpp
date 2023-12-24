@@ -52,8 +52,12 @@ void Background::BuildStars()
 
 		TheManagers.EM.Model3Ds[Stars[i]]->Initialize(nullptr);
 		TheManagers.EM.Model3Ds[Stars[i]]->Position = {starX, starY, 10.0f};
-		TheManagers.EM.Model3Ds[Stars[i]]->RotationAxis = { 1, 1, 1 };
-		TheManagers.EM.Model3Ds[Stars[i]]->RotationVelocity = GetRandomFloat(-16.66f, 16.666f);
+		TheManagers.EM.Model3Ds[Stars[i]]->RotationVelocityX =
+			GetRandomFloat(-16.66f, 16.66f);
+		TheManagers.EM.Model3Ds[Stars[i]]->RotationVelocityY =
+			GetRandomFloat(-16.66f, 16.66f);
+		TheManagers.EM.Model3Ds[Stars[i]]->RotationVelocityZ =
+			GetRandomFloat(-16.66f, 16.66f);
 		TheManagers.EM.Model3Ds[Stars[i]]->ModelColor =
 			{
 				(unsigned char)GetRandomValue(50, 200),

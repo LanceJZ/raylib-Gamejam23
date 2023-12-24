@@ -28,6 +28,9 @@ public:
 	void SpawnOre(int amount, Vector3 position);
 
 private:
+	size_t RockSpawnTimer = 0;
+	int RocksToSpawn = 0;
+
 	Model OreModel = {};
 	Camera* Cam = {};
 	Player* ThePlayer = {};
@@ -36,5 +39,6 @@ private:
 	void PlayerOverEdge();
 	void CameraUpdate();
 	void CheckForOreToSpawn();
+	void CheckToSpawnRocks();
 };
 

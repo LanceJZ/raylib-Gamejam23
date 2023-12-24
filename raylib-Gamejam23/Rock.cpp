@@ -87,7 +87,7 @@ bool Rock::CheckCollision()
 	return hit;
 }
 
-int Rock::GetAmountOfOre() const
+int Rock::GetAmountOfOre()
 {
 	return OreAmount;
 }

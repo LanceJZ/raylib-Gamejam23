@@ -26,12 +26,14 @@ void PositionedObject::Update(float deltaTime)
 	Velocity = Vector3Add(Velocity, Acceleration);
 	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime }, Velocity), Position);
 
-	Rotation = AddRotationVelAcc(Rotation, RotationVelocity, RotationAcceleration, deltaTime);
+	//Rotation = AddRotationVelAcc(Rotation, RotationVelocity, RotationAcceleration, deltaTime);
 	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX, RotationAccelerationX, deltaTime);
 	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY, RotationAccelerationY, deltaTime);
 	RotationZ = AddRotationVelAcc(RotationZ, RotationVelocityZ, RotationAccelerationZ, deltaTime);
 
-	Rotation = RadianSpin(Rotation);
+	RotationX = RadianSpin(RotationX);
+	RotationY = RadianSpin(RotationY);
+	RotationZ = RadianSpin(RotationZ);
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)
@@ -39,9 +41,9 @@ float PositionedObject::Chase(PositionedObject Chasing)
 	return 0.0f;
 }
 
-float PositionedObject::RotateTowardsTargetZ(Vector3 target, float magnitude)
+void PositionedObject::RotateTowardsTargetZ(Vector3& target, float magnitude)
 {
-	return Common::RotateTowardsTargetZ(Position, target, Rotation, magnitude);
+	RotationZ = Common::RotateTowardsTargetZ(Position, target, RotationZ, magnitude);
 }
 
 float PositionedObject::AngleFromVectorZ(Vector3 target)
@@ -58,7 +60,7 @@ Vector3 PositionedObject::RandomVelocity(float magnitude)
 
 Vector3 PositionedObject::VelocityFromAngleZ(float magnitude)
 {
-	return { cosf(Rotation) * magnitude, sinf(Rotation) * magnitude, 0 };
+	return { cosf(RotationZ) * magnitude, sinf(RotationZ) * magnitude, 0 };
 }
 
 //Returns Vector3 deceleration down to zero.
@@ -115,9 +117,9 @@ float PositionedObject::Z()
 void PositionedObject::SetAccelerationToMaxAtRotation(float accelerationAmount,
 	float topSpeed, float deltaTime)
 {
-	Acceleration = { ((cosf(Rotation) - (Velocity.x * topSpeed)) *
+	Acceleration = { ((cosf(RotationZ) - (Velocity.x * topSpeed)) *
 		accelerationAmount) * deltaTime,
-			((sinf(Rotation) - (Velocity.y * topSpeed)) *
+			((sinf(RotationZ) - (Velocity.y * topSpeed)) *
 				accelerationAmount) * deltaTime, 0 };
 }
 
@@ -150,14 +152,14 @@ void PositionedObject::SetParent(PositionedObject* parent)
 	parent->IsParent = true;
 	IsChild = true;
 	ChildPosition = Position;
-	ChildRotation = Rotation;
+	//ChildRotation = Rotation;
 }
 
 void PositionedObject::RemoveFromParents()
 {
 	IsChild = false;
 	Position = WorldPosition;
-	Rotation = WorldRotation;
+	//Rotation = WorldRotation;
 }
 
 void PositionedObject::DisconnectChild(PositionedObject* child)
@@ -168,10 +170,10 @@ void PositionedObject::DisconnectChild(PositionedObject* child)
 
 	child->IsConnectedChild = false;
 	child->ChildPosition = child->Position;
-	child->ChildRotation = child->Rotation;
+	//child->ChildRotation = child->Rotation;
 	child->IsChild = false;
 	child->Position = WorldPosition;
-	child->Rotation = WorldRotation;
+	//child->Rotation = WorldRotation;
 }
 
 void PositionedObject::ConnectChild(PositionedObject* child)
@@ -180,7 +182,7 @@ void PositionedObject::ConnectChild(PositionedObject* child)
 
 	child->IsChild = true;
 	child->Position = child->ChildPosition;
-	child->Rotation = child->ChildRotation;
+	//child->Rotation = child->ChildRotation;
 }
 
 void PositionedObject::CheckScreenEdge()
@@ -303,13 +305,16 @@ void PositionedObject::LeavePlay(float turnSpeed, float speed)
 		stageLeft = -60;
 	}
 
-	RotateVelocity({ stageLeft, Position.y, 0 }, turnSpeed, speed);
+	Vector3 pos = { stageLeft, Position.y, 0 };
+
+	RotateVelocity(pos, turnSpeed, speed);
 }
 
-void PositionedObject::RotateVelocity(Vector3 position, float turnSpeed, float speed)
+void PositionedObject::RotateVelocity(Vector3& position, float turnSpeed, float speed)
 {
-	RotationVelocity = RotateTowardsTargetZ(position, turnSpeed);
-	Velocity = GetVelocityFromAngleZ(Rotation, speed);
+	RotationVelocityZ = Common::RotateTowardsTargetZ(Position, position, RotationZ,
+		turnSpeed);
+	Velocity = GetVelocityFromAngleZ(RotationZ, speed);
 }
 
 void PositionedObject::CheckPlayfieldSidesWarp(float left, float right)
@@ -336,7 +341,7 @@ void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 	}
 }
 
-float PositionedObject::AimAtTarget(Vector3 target, float facingAngle, float magnitude)
+float PositionedObject::AimAtTarget(Vector3& target, float facingAngle, float magnitude)
 {
 	float turnVelocity = 0;
 	float targetAngle = GetAngleFromVectors(target);
@@ -367,25 +372,25 @@ float PositionedObject::AimAtTarget(Vector3 target, float facingAngle, float mag
 	return turnVelocity;
 }
 
-float PositionedObject::GetAngleFromVectors(Vector3 target)
+float PositionedObject::GetAngleFromVectors(Vector3& target)
 {
 	return (float)(atan2f(target.y - Position.y, target.x - Position.x));
 }
 
-void PositionedObject::SetHeading(Vector3 waypoint, float rotationSpeed)
+void PositionedObject::SetHeading(Vector3& waypoint, float rotationSpeed)
 {
-	RotationVelocity = AimAtTarget(waypoint, Rotation, rotationSpeed);
+	RotationVelocityZ = AimAtTarget(waypoint, RotationZ, rotationSpeed);
 }
 
 float PositionedObject::RadianSpin(float radian)
 {
 	if (radian > PI * 2)
 	{
-		radian = 0;
+		radian -= PI * 2;
 	}
 	else if (radian < 0)
 	{
-		radian = PI * 2;
+		radian += PI * 2;
 	}
 
 	return radian;

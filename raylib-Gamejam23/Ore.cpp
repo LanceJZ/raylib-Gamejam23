@@ -48,6 +48,7 @@ void Ore::Draw()
 void Ore::Spawn(Vector3 position)
 {
 	Position = position;
+	Enabled = true;
 
 	Position.x += GetRandomFloat(-50.0f, 50.0f);
 	Position.y += GetRandomFloat(-50.0f, 50.0f);

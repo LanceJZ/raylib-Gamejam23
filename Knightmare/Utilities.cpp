@@ -26,13 +26,14 @@ float Utilities::GetRandomFloat(float min, float max)
 	{
 		std::uniform_real_distribution<> urd(min, max);
 
-		return urd(Random19937);
+		return (float)urd(Random19937);
 	}
 	else
 	{
 		float rand = 0;
 		float acc = 1000.0f;
 
-		return GetRandomValue(min * acc, max * acc) / acc;
+		return (float)GetRandomValue((int)min * (int)acc,
+			(int)max * (int)acc) / (int)acc;
 	}
 }

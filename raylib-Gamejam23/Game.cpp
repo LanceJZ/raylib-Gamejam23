@@ -49,8 +49,8 @@ bool Game::Load()
 		TheManagers.CM.LoadAndGetModel("Player Flame")));
 	ThePlayer->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	BackGround->SetStarsModelID(cubeID);
-	Enemies->SetEnemyBaseModels(TheManagers.CM.LoadAndGetModel("Base-1"),
-		TheManagers.CM.LoadAndGetModel("Base-0"));
+	Enemies->SetEnemyBaseModel(TheManagers.CM.LoadAndGetModel("Base-1"));
+	Enemies->SetEnemyBaseTurretModel(TheManagers.CM.LoadAndGetModel("Base-0"));
 	Enemies->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
 	Enemies->SetRockModel(TheManagers.CM.LoadAndGetModel("Rock"));

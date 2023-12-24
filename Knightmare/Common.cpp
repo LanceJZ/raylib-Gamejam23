@@ -44,7 +44,8 @@ float Common::GetRandomRadian()
 	return GetRandomFloat(0, PI * 2);
 }
 
-float Common::RotateTowardsTargetZ(Vector3 origin, Vector3 target, float facingAngle, float magnitude)
+float Common::RotateTowardsTargetZ(Vector3& origin, Vector3& target,
+	float facingAngle, float magnitude)
 {
 	float turnVelocity = 0;
 	float targetAngle = GetAngleFromVectorsZ(origin, target);
@@ -75,7 +76,7 @@ float Common::RotateTowardsTargetZ(Vector3 origin, Vector3 target, float facingA
 	return turnVelocity;
 }
 
-float Common::GetAngleFromVectorsZ(Vector3 origin, Vector3 target)
+float Common::GetAngleFromVectorsZ(Vector3& origin, Vector3& target)
 {
 	return { atan2f(target.y - origin.y, target.x - origin.x) };
 }

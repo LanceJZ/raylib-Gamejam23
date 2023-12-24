@@ -15,11 +15,11 @@ public:
 	float Radius = 0;
 	float WindowWidth = 0;
 	float WindowHeight = 0;
-	float Rotation = 0;
+	//float Rotation = 0;
 	float RotationX = 0;
 	float RotationY = 0;
 	float RotationZ = 0;
-	float RotationVelocity = 0;
+	//float RotationVelocity = 0;
 	float RotationVelocityX = 0;
 	float RotationVelocityY = 0;
 	float RotationVelocityZ = 0;
@@ -27,15 +27,15 @@ public:
 	float RotationAccelerationX = 0;
 	float RotationAccelerationY = 0;
 	float RotationAccelerationZ = 0;
-	float ChildRotation = 0;
-	float WorldRotation = 0;
+	//float ChildRotation = 0;
+	//float WorldRotation = 0;
 
 	Vector3 WorldPosition = Vector3Zero();
 	Vector3 Acceleration = Vector3Zero();
 	Vector3 Velocity = Vector3Zero();
 	Vector3 Position = Vector3Zero();
 	Vector3 LastFramePosition = Vector3Zero();
-	Vector3 RotationAxis = { 0, 0, 1 };
+	//Vector3 RotationAxis = { 0, 0, 1 };
 	Vector3 ChildPosition = Vector3Zero();
 	std::vector<PositionedObject*> Parents;
 
@@ -49,7 +49,7 @@ public:
 	virtual void Y(float y);
 	virtual void Z(float z);
 	float Chase(PositionedObject Chasing);
-	float RotateTowardsTargetZ(Vector3 target, float magnitude);
+	void RotateTowardsTargetZ(Vector3& target, float magnitude);
 	float AngleFromVectorZ(Vector3 target);
 	Vector3 RandomVelocity(float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
@@ -70,15 +70,16 @@ public:
 	bool OffScreenSide();
 	bool OffScreenTopBottom();
 	void LeavePlay(float turnSpeed, float speed);
-	void RotateVelocity(Vector3 position, float turnSpeed, float speed);
+	void RotateVelocity(Vector3& position, float turnSpeed, float speed);
 	void CheckPlayfieldSidesWarp(float left, float right);
 	void CheckPlayfieldHeightWarp(float top, float bottom);
-	float AimAtTarget(Vector3 target, float facingAngle, float magnitute);
-	float GetAngleFromVectors(Vector3 target);
-	void SetHeading(Vector3 waypoint, float rotationSpeed);
+	float AimAtTarget(Vector3& target, float facingAngle, float magnitute);
+	float GetAngleFromVectors(Vector3& target);
+	void SetHeading(Vector3& waypoint, float rotationSpeed);
 
 private:
 	float RadianSpin(float radian);
-	float AddRotationVelAcc(float rotation, float rotationVelocity, float rotationAcceleration, float deltaTime);
+	float AddRotationVelAcc(float rotation, float rotationVelocity,
+		float rotationAcceleration, float deltaTime);
 };
 

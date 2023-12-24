@@ -22,7 +22,7 @@ public:
 
 	void Spawn(Vector3 position);
 	bool CheckCollision();
-	int GetAmountOfOre() const;
+	int GetAmountOfOre();
 
 private:
 	int OreAmount = 0;

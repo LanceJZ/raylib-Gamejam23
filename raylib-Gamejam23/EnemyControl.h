@@ -17,7 +17,8 @@ public:
 	Base* EnemyBase = {};
 
 	void SetPlayer(Player* player);
-	void SetEnemyBaseModels(Model& baseModel, Model& turretModel);
+	void SetEnemyBaseModel(Model& baseModel);
+	void SetEnemyBaseTurretModel(Model& turretModel);
 	void SetShotModel(Model& shotModel);
 	void SetEnemyOneModel(Model& enemyModel);
 	void SetRockModel(Model& rockModel);
