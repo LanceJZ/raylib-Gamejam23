@@ -37,11 +37,6 @@ void Rock::Update(float deltaTime)
 {
 	Mirrored::Update(deltaTime);
 
-	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
-	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
-	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
-	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
-
 	if (Hit = CheckCollision())
 	{
 	}
@@ -72,7 +67,7 @@ bool Rock::CheckCollision()
 	{
 		if (CirclesIntersect(*shot) && shot->Enabled)
 		{
-			shot->Enabled = false;
+			shot->Disable();
 
 			Hardness -= 50;
 

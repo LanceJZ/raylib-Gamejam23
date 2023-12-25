@@ -10,7 +10,7 @@ ShotMaster::~ShotMaster()
 
 bool ShotMaster::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	Mirrored::Initialize(utilities);
 
 	Radius = 2.5f;
 
@@ -19,7 +19,7 @@ bool ShotMaster::Initialize(Utilities* utilities)
 
 bool ShotMaster::BeginRun()
 {
-	Model3D::BeginRun();
+	Mirrored::BeginRun();
 
 	TimerID = TheManagers.EM.AddTimer();
 
@@ -28,28 +28,23 @@ bool ShotMaster::BeginRun()
 
 void ShotMaster::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
-
-	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
-	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
-	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
-	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
+	Mirrored::Update(deltaTime);
 
 	if (TheManagers.EM.Timers[TimerID]->Elapsed())
 	{
-		Enabled = false;
+		Disable();
 	}
 }
 
 void ShotMaster::Draw()
 {
-	Model3D::Draw();
+	Mirrored::Draw();
 
 }
 
 void ShotMaster::Spawn(Vector3 position, Vector3 velocity, float timer)
 {
-	Entity::Spawn(position);
+	Mirrored::Spawn(position);
 
 	Velocity = velocity;
 	TheManagers.EM.Timers[TimerID]->Reset(timer);

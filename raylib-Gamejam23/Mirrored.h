@@ -1,12 +1,21 @@
 #pragma once
 #include "Globals.h"
-#include "Player.h"
 
 class Mirrored : public Model3D
 {
 public:
 	Mirrored();
 	virtual ~Mirrored();
+
+	Vector3 WorldPosition = {};
+	Model3D* MirrorModelL = {};
+	Model3D* MirrorModelR = {};
+	Model3D* MirrorModelT = {};
+	Model3D* MirrorModelB = {};
+	Model3D* MirrorModelTR = {};
+	Model3D* MirrorModelBR = {};
+	Model3D* MirrorModelTL = {};
+	Model3D* MirrorModelBL = {};
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -16,11 +25,7 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-protected:
-	Player* ThePlayer = {};
-	Model3D* MirrorModelL = {};
-	Model3D* MirrorModelR = {};
-
+	void Disable();
 private:
 	Vector2 AdjustedSize = {};
 

@@ -241,7 +241,7 @@ void EnemyOne::HeadToBase(float deltaTime)
 
 	OreToGrab->Position = Vector3Add(Position, OreInGraspPosition);
 
-	if (Vector3Distance(Position, EnemyBase->Position) < 50)
+	if (OreToGrab->CirclesIntersect(*EnemyBase))
 	{
 		EnemyBase->DropOffOre();
 		Reset();
@@ -289,6 +289,11 @@ bool EnemyOne::CheckMining()
 			if (shot->CirclesIntersect(*rock) && rock->Enabled && shot->Enabled)
 			{
 				shot->Enabled = false;
+				shot->MirrorModelT->Enabled = false;
+				shot->MirrorModelB->Enabled = false;
+				shot->MirrorModelL->Enabled = false;
+				shot->MirrorModelR->Enabled = false;
+
 				rock->Hardness -= 10;
 
 				if (rock->Hardness <= 0)

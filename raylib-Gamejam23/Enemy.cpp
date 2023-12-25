@@ -38,10 +38,6 @@ void Enemy::Update(float deltaTime)
 {
 	Mirrored::Update(deltaTime);
 
-	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
-	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
-	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
-	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
 }
 
 void Enemy::Draw()

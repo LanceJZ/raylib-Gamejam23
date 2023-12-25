@@ -34,5 +34,6 @@ protected:
 private:
 
 	Model ShotModel = {};
+	Player* ThePlayer = {};
 
 };

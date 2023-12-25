@@ -23,12 +23,21 @@ bool Mirrored::BeginRun()
 
 	TheManagers.EM.AddModel3D(MirrorModelL = new Model3D());
 	TheManagers.EM.AddModel3D(MirrorModelR = new Model3D());
+	TheManagers.EM.AddModel3D(MirrorModelT = new Model3D());
+	TheManagers.EM.AddModel3D(MirrorModelB = new Model3D());
+	//TheManagers.EM.AddModel3D(MirrorModelTR = new Model3D());
+	//TheManagers.EM.AddModel3D(MirrorModelBR = new Model3D());
+	//TheManagers.EM.AddModel3D(MirrorModelTL = new Model3D());
+	//TheManagers.EM.AddModel3D(MirrorModelBL = new Model3D());
 
 	MirrorModelL->SetModel(GetModel());
 	MirrorModelR->SetModel(GetModel());
-	MirrorModelL->Cull = false;
-	MirrorModelR->Cull = false;
-
+	MirrorModelT->SetModel(GetModel());
+	MirrorModelB->SetModel(GetModel());
+	//MirrorModelTL->SetModel(GetModel());
+	//MirrorModelTR->SetModel(GetModel());
+	//MirrorModelBL->SetModel(GetModel());
+	//MirrorModelBR->SetModel(GetModel());
 
 	return true;
 }
@@ -37,6 +46,14 @@ void Mirrored::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	if (IsChild)
+		return;
+
+	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
+	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
+	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
+	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
+
 	if (Position.x > AdjustedSize.x - (GetScreenWidth() * 0.5f))
 	{
 		MirrorModelL->Position.x = Position.x - FieldSize.x;
@@ -44,11 +61,29 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelL->RotationX = RotationX;
 		MirrorModelL->RotationY = RotationY;
 		MirrorModelL->RotationZ = RotationZ;
-		MirrorModelL->Enabled = true;
+		MirrorModelL->ModelColor = ModelColor;
+		MirrorModelL->ModelScale = ModelScale;
+		MirrorModelL->Enabled = Enabled;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelL->Children)
+			{
+				child->Enabled = MirrorModelL->Enabled;
+			}
+		}
 	}
 	else
 	{
 		MirrorModelL->Enabled = false;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelL->Children)
+			{
+				child->Enabled = MirrorModelL->Enabled;
+			}
+		}
 	}
 
 	if (Position.x < -AdjustedSize.x + (GetScreenWidth() * 0.5f))
@@ -58,13 +93,97 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelR->RotationX = RotationX;
 		MirrorModelR->RotationY = RotationY;
 		MirrorModelR->RotationZ = RotationZ;
-		MirrorModelR->Enabled = true;
+		MirrorModelR->ModelColor = ModelColor;
+		MirrorModelR->ModelScale = ModelScale;
+		MirrorModelR->Enabled = Enabled;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelR->Children)
+			{
+				child->Enabled = MirrorModelR->Enabled;
+			}
+		}
 	}
 	else
 	{
 		MirrorModelR->Enabled = false;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelR->Children)
+			{
+				child->Enabled = MirrorModelR->Enabled;
+			}
+		}
 	}
 
+
+	if (Position.y > AdjustedSize.y - (GetScreenHeight() * 0.5f))
+	{
+		MirrorModelT->Position.x = Position.x;
+		MirrorModelT->Position.y = Position.y - FieldSize.y;
+		MirrorModelT->RotationX = RotationX;
+		MirrorModelT->RotationY = RotationY;
+		MirrorModelT->RotationZ = RotationZ;
+		MirrorModelT->ModelColor = ModelColor;
+		MirrorModelT->ModelScale = ModelScale;
+		MirrorModelT->Enabled = Enabled;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelT->Children)
+			{
+				child->Enabled = MirrorModelT->Enabled;
+			}
+		}
+	}
+	else
+	{
+		MirrorModelT->Enabled = false;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelT->Children)
+			{
+				child->Enabled = MirrorModelT->Enabled;
+			}
+		}
+	}
+
+	if (Position.y < -AdjustedSize.y + (GetScreenHeight() * 0.5f))
+	{
+		MirrorModelB->Position.x = Position.x;
+		MirrorModelB->Position.y = Position.y + FieldSize.y;
+		MirrorModelB->RotationX = RotationX;
+		MirrorModelB->RotationY = RotationY;
+		MirrorModelB->RotationZ = RotationZ;
+		MirrorModelB->ModelColor = ModelColor;
+		MirrorModelB->ModelScale = ModelScale;
+		MirrorModelB->Enabled = Enabled;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelB->Children)
+			{
+				child->Enabled = MirrorModelB->Enabled;
+			}
+		}
+	}
+	else
+	{
+		MirrorModelB->Enabled = false;
+
+		if (IsParent)
+		{
+			for (auto child : MirrorModelB->Children)
+			{
+				child->Enabled = MirrorModelB->Enabled;
+			}
+		}
+	}
+
+	//if (Position.y)
 
 }
 
@@ -72,6 +191,15 @@ void Mirrored::Draw()
 {
 	Model3D::Draw();
 
+}
+
+void Mirrored::Disable()
+{
+	Enabled = false;
+	MirrorModelT->Enabled = false;
+	MirrorModelB->Enabled = false;
+	MirrorModelL->Enabled = false;
+	MirrorModelR->Enabled = false;
 }
 
 void Mirrored::Spawn(Vector3 position)

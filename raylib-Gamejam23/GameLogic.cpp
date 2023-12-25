@@ -121,7 +121,8 @@ void GameLogic::CheckForOreToSpawn()
 
 		if (rock->Hit && rock->Enabled)
 		{
-			rock->Enabled = false;
+			rock->Disable();
+
 			SpawnOre(GetRandomValue(0, 5), rock->Position);
 			RocksToSpawn++;
 			TheManagers.EM.Timers[RockSpawnTimer]->Reset(3);

@@ -38,9 +38,57 @@ bool Base::BeginRun()
 		Turrets[i]->SetPlayer(ThePlayer);
 		Turrets[i]->BeginRun();
 		AddChild(Turrets[i]);
+		// Have to do for all of the mirrors too.
+		MirrorModelT->AddChild(Turrets[i]->MirrorModelT);
+		MirrorModelB->AddChild(Turrets[i]->MirrorModelB);
+		MirrorModelL->AddChild(Turrets[i]->MirrorModelL);
+		MirrorModelR->AddChild(Turrets[i]->MirrorModelR);
+
+		Turrets[i]->MirrorModelT->Cull = false;
+		Turrets[i]->MirrorModelB->Cull = false;
+		Turrets[i]->MirrorModelL->Cull = false;
+		Turrets[i]->MirrorModelR->Cull = false;
 	}
 
-	RotationVelocityZ = 0.05f; //Need to fix child rotation, not quite right.
+	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
+	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, -100.0f};
+
+	Turrets[2]->Position = Turrets[0]->Position;
+	Turrets[2]->X(Turrets[2]->Position.x *= -1);
+
+	Turrets[3]->Position = Turrets[1]->Position;
+	Turrets[3]->X(Turrets[3]->Position.x *= -1);
+
+	Turrets[4]->Position = Turrets[0]->Position;
+	Turrets[4]->Y(Turrets[4]->Position.y *= -1);
+
+	Turrets[5]->Position = Turrets[1]->Position;
+	Turrets[5]->Y(Turrets[5]->Position.y *= -1);
+
+	Turrets[6]->Position = Turrets[4]->Position;
+	Turrets[6]->X(Turrets[6]->Position.x *= -1);
+
+	Turrets[7]->Position = Turrets[5]->Position;
+	Turrets[7]->X(Turrets[7]->Position.x *= -1);
+
+	for (auto turret : Turrets)
+	{
+		turret->MirrorModelT->Position = turret->Position;
+		turret->MirrorModelB->Position = turret->Position;
+		turret->MirrorModelL->Position = turret->Position;
+		turret->MirrorModelR->Position = turret->Position;
+		//turret->MirrorModelTR->Position = turret->Position;
+		//turret->MirrorModelTL->Position = turret->Position;
+		//turret->MirrorModelBL->Position = turret->Position;
+		//turret->MirrorModelBR->Position = turret->Position;
+	}
+
+	RotationVelocityZ = 0.05f;
+
+	MirrorModelT->Radius = Radius;
+	MirrorModelB->Radius = Radius;
+	MirrorModelL->Radius = Radius;
+	MirrorModelR->Radius = Radius;
 
 	return true;
 }
@@ -71,26 +119,6 @@ void Base::Spawn(Vector3 position)
 	Position = position;
 	Z(-200.0f);
 
-	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
-	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, -100.0f};
-
-	Turrets[2]->Position = Turrets[0]->Position;
-	Turrets[2]->X(Turrets[2]->Position.x *= -1);
-
-	Turrets[3]->Position = Turrets[1]->Position;
-	Turrets[3]->X(Turrets[3]->Position.x *= -1);
-
-	Turrets[4]->Position = Turrets[0]->Position;
-	Turrets[4]->Y(Turrets[4]->Position.y *= -1);
-
-	Turrets[5]->Position = Turrets[1]->Position;
-	Turrets[5]->Y(Turrets[5]->Position.y *= -1);
-
-	Turrets[6]->Position = Turrets[4]->Position;
-	Turrets[6]->X(Turrets[6]->Position.x *= -1);
-
-	Turrets[7]->Position = Turrets[5]->Position;
-	Turrets[7]->X(Turrets[7]->Position.x *= -1);
 }
 
 void Base::DropOffOre()

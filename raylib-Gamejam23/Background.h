@@ -1,7 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Model3D.h"
+#include "Star.h"
 
 class Background : public Common
 {
@@ -18,7 +18,7 @@ public:
 private:
 	size_t StarModelID = {};
 
-	std::vector<size_t> Stars;
+	std::vector<Star*> Stars;
 
 	void BuildStars();
 	void BuildBorders();

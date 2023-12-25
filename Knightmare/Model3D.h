@@ -10,6 +10,9 @@ public:
 	Vector3 ModelPosition = { 0 };
 	Color ModelColor = WHITE;
 
+	std::vector <Model3D*> Parents;
+	std::vector <Model3D*> Children;
+
 	Model3D();
 	~Model3D();
 
@@ -33,8 +36,6 @@ public:
 private:
 	Model TheModel = {};
 	Camera* TheCamera = {};
-	std::vector <Model3D*> Children;
-	std::vector <Model3D*> Parents;
 
 	virtual void AddChildren(Model3D* child);
 };

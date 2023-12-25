@@ -117,9 +117,9 @@ void EntityManager::Update(float deltaTime)
 		if (lm->Enabled) lm->Update(deltaTime);
 	}
 
-	for (auto m3D : Model3Ds)
+	for (int i = 0; i < Model3Ds.size(); i++)
 	{
-		if (m3D->Enabled) m3D->Update(deltaTime);
+		if (Model3Ds[i]->Enabled) Model3Ds[i]->Update(deltaTime);
 	}
 
 	for (auto timer : Timers)

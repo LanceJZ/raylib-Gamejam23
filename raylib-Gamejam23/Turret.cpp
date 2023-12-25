@@ -36,5 +36,5 @@ void Turret::Draw()
 
 void Turret::PointAtPlayer()
 {
-	//RotateTowardsTargetZ(ThePlayer->Position, 1.5f);
+
 }

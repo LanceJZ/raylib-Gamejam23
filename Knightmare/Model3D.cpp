@@ -81,20 +81,22 @@ void Model3D::Draw()
 			if (IsChild)
 			{
 				Vector3 parentTest = Position;
+				float radius = 0;
 
 				for (auto parent : Parents)
 				{
 					parentTest = Vector3Add(parent->Position, parentTest);
+					radius += parent->Radius;
 				}
 
-				if (TheCamera->position.x > parentTest.x + Radius + ViewableArea.x
-					|| TheCamera->position.x < parentTest.x + -Radius + -ViewableArea.x)
+				if (TheCamera->position.x > parentTest.x + radius + Radius + ViewableArea.x
+					|| TheCamera->position.x < parentTest.x + -radius + -Radius + -ViewableArea.x)
 				{
 					return;
 				}
 
-				if (TheCamera->position.y > parentTest.y + Radius + ViewableArea.y ||
-					TheCamera->position.y < parentTest.y + -Radius + -ViewableArea.y)
+				if (TheCamera->position.y > parentTest.y + radius + Radius + ViewableArea.y ||
+					TheCamera->position.y < parentTest.y + -radius + -Radius + -ViewableArea.y)
 				{
 					return;
 				}

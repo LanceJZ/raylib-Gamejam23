@@ -1,21 +1,22 @@
 #pragma once
 #include "Globals.h"
-#include "Enemy.h"
+#include "Mirrored.h"
 
-class Turret : public Enemy
+class Star : public Mirrored
 {
 public:
-	Turret();
-	virtual ~Turret();
+	Star();
+	virtual ~Star();
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
+
+	void Spawn(Vector3 position);
 
 	void Update(float deltaTime);
 	void Draw();
 
 private:
 
-	void PointAtPlayer();
 
 };
