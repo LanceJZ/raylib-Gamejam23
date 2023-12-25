@@ -1,10 +1,10 @@
 #pragma once
-#include "EnemyBase.h"
+#include "Enemy.h"
 #include "Base.h"
 #include "Rock.h"
 #include "Ore.h"
 
-class EnemyOne : public EnemyBase
+class EnemyOne : public Enemy
 {
 	enum  AIState
 	{

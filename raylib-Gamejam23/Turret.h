@@ -1,12 +1,14 @@
 #pragma once
 #include "Globals.h"
-#include "EnemyBase.h"
+#include "Enemy.h"
 
-class Turret : public EnemyBase
+class Turret : public Enemy
 {
 public:
 	Turret();
 	virtual ~Turret();
+
+	Vector3 WorldPosition;
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -15,6 +17,7 @@ public:
 	void Draw();
 
 private:
+
 	void PointAtPlayer();
 
 };

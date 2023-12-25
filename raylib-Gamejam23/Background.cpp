@@ -64,6 +64,7 @@ void Background::BuildStars()
 				(unsigned char)GetRandomValue(10, 100),
 				(unsigned char)GetRandomValue(50, 200), 255
 			};
+
 	}
 }
 

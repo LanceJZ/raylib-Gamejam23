@@ -24,7 +24,7 @@ public:
 
 	bool Initialize();
 	bool BeginRun();
-	void SetCamera(Camera* cam);
+	void SetCamera(Camera& camera);
 	void SetUtilities(Utilities* utilities);
 
 	void Input();
@@ -58,6 +58,6 @@ public:
 
 private:
 	Utilities* TheUtilities = {};
-	Camera* Cam = {};
+	Camera* TheCamera = {};
 };
 

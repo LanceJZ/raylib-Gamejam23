@@ -48,6 +48,12 @@ void Entity::Draw()
 #endif
 }
 
+void Entity::Spawn(Vector3 position)
+{
+	Position = position;
+	Enabled = true;
+}
+
 /// <summary>
 /// Circle collusion detection. Target circle will be compared to this class's.
 /// Will return true of they intersect. Only for use with 2D Z plane.

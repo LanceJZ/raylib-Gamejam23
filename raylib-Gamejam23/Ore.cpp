@@ -15,7 +15,7 @@ void Ore::SetPlayer(Player* player)
 
 bool Ore::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	Mirrored::Initialize(utilities);
 
 	RotationVelocityX = GetRandomFloat(-0.5f, 0.5f);
 	RotationVelocityY = GetRandomFloat(-0.25f, 0.25f);
@@ -28,14 +28,14 @@ bool Ore::Initialize(Utilities* utilities)
 
 bool Ore::BeginRun()
 {
-	Model3D::BeginRun();
+	Mirrored::BeginRun();
 
 	return false;
 }
 
 void Ore::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Mirrored::Update(deltaTime);
 
 }
 
@@ -47,8 +47,7 @@ void Ore::Draw()
 
 void Ore::Spawn(Vector3 position)
 {
-	Position = position;
-	Enabled = true;
+	Mirrored::Spawn(position);
 
 	Position.x += GetRandomFloat(-50.0f, 50.0f);
 	Position.y += GetRandomFloat(-50.0f, 50.0f);

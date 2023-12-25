@@ -25,7 +25,7 @@ void EnemyOne::SetOre(std::vector<Ore*> ore)
 
 bool EnemyOne::Initialize(Utilities* utilities)
 {
-	EnemyBase::Initialize(utilities);
+	Enemy::Initialize(utilities);
 
 	Radius = 9.5f;
 	MaxSpeed = 0.00004f;
@@ -39,7 +39,7 @@ bool EnemyOne::Initialize(Utilities* utilities)
 
 bool EnemyOne::BeginRun()
 {
-	EnemyBase::BeginRun();
+	Enemy::BeginRun();
 
 
 	return false;
@@ -47,7 +47,7 @@ bool EnemyOne::BeginRun()
 
 void EnemyOne::Update(float deltaTime)
 {
-	EnemyBase::Update(deltaTime);
+	Enemy::Update(deltaTime);
 
 	switch (InState)
 	{
@@ -78,7 +78,7 @@ void EnemyOne::Update(float deltaTime)
 
 void EnemyOne::Draw()
 {
-	EnemyBase::Draw();
+	Enemy::Draw();
 
 }
 

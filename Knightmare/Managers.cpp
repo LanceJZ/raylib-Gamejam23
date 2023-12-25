@@ -24,7 +24,7 @@ bool Managers::BeginRun()
 	return false;
 }
 
-bool Managers::SetCamera(Camera* camera)
+bool Managers::SetCamera(Camera& camera)
 {
 	EM.SetCamera(camera);
 

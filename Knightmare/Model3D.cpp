@@ -18,8 +18,6 @@ Model3D::~Model3D()
 		Parents.clear();
 		IsParent = false;
 	}
-
-	TheCamera = nullptr;
 }
 
 bool Model3D::Initialize(Utilities* utilities)

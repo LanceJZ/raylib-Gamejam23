@@ -27,8 +27,7 @@ public:
 	bool PlayBackgroundMusic = true;
 	GameState State = MainMenu;
 
-	bool Initialize(Camera &camera,
-		Utilities &utilities, GameLogic* gameLogic);
+	bool Initialize(Utilities &utilities, GameLogic* gameLogic);
 	bool Load();
 	bool BeginRun();
 	void ProcessInput();
@@ -42,7 +41,6 @@ private:
 	size_t EnemiesID = 0;
 
 	//When adding classes to EM, must be heap pointer.
-	Camera* Cam = {};
 	GameLogic* Logic = {};
 
 	Background* BackGround = {};

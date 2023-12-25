@@ -1,9 +1,9 @@
 #pragma once
 #include "Globals.h"
-#include "Model3D.h"
+#include "Mirrored.h"
 #include "Player.h"
 
-class Ore : public Model3D
+class Ore : public Mirrored
 {
 public:
 	Ore();

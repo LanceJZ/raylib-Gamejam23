@@ -20,17 +20,16 @@ void Base::SetPlayer(Player* thePlayer)
 
 bool Base::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	Mirrored::Initialize(utilities);
 
 	Radius = 45;
-	Z(-50.0f);
 
-	return false;
+	return true;
 }
 
 bool Base::BeginRun()
 {
-	Model3D::BeginRun();
+	Mirrored::BeginRun();
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -38,32 +37,31 @@ bool Base::BeginRun()
 		Turrets[i]->Initialize(TheUtilities);
 		Turrets[i]->SetPlayer(ThePlayer);
 		Turrets[i]->BeginRun();
-		Turrets[i]->Cull = false;
 		AddChild(Turrets[i]);
 	}
 
 	RotationVelocityZ = 0.05f; //Need to fix child rotation, not quite right.
 
-	return false;
+	return true;
 }
 
 void Base::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Mirrored::Update(deltaTime);
 
 	for (auto turret : Turrets)
 	{
-		//turret->RotationVelocityZ = Common::RotateTowardsTargetZ(Position,
-		//	ThePlayer->Position, turret->RotationZ, 0.5f);
-
 		turret->RotationZ = turret->GetAngleFromVectorsZ(Position,
 			ThePlayer->Position) - RotationZ;
+
+		turret->WorldPosition = Vector3Add(turret->Position, Position);
+		// Take rotation into account.
 	}
 }
 
 void Base::Draw()
 {
-	Model3D::Draw();
+	Mirrored::Draw();
 
 }
 
@@ -71,9 +69,10 @@ void Base::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;
+	Z(-200.0f);
 
-	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, 0.0f};
-	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, 0.0f};
+	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
+	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, -100.0f};
 
 	Turrets[2]->Position = Turrets[0]->Position;
 	Turrets[2]->X(Turrets[2]->Position.x *= -1);

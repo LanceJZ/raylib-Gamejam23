@@ -1,8 +1,9 @@
 #pragma once
 #include "Globals.h"
+#include "Mirrored.h"
 #include "Turret.h"
 
-class Base : public Model3D
+class Base : public Mirrored
 {
 public:
 	Base();

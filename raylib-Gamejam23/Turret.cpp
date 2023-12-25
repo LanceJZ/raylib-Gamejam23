@@ -10,27 +10,27 @@ Turret::~Turret()
 
 bool Turret::Initialize(Utilities* utilities)
 {
-	EnemyBase::Initialize(utilities);
+	Enemy::Initialize(utilities);
 
 	return false;
 }
 
 bool Turret::BeginRun()
 {
-	EnemyBase::BeginRun();
+	Enemy::BeginRun();
 
 	return false;
 }
 
 void Turret::Update(float deltaTime)
 {
-	EnemyBase::Update(deltaTime);
+	Enemy::Update(deltaTime);
 	PointAtPlayer();
 }
 
 void Turret::Draw()
 {
-	EnemyBase::Draw();
+	Enemy::Draw();
 
 }
 

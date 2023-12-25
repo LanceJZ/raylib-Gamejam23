@@ -15,7 +15,7 @@ void Rock::SetPlayer(Player* player)
 
 bool Rock::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	Mirrored::Initialize(utilities);
 
 	RotationVelocityX = GetRandomFloat(-0.5f, 0.5f);
 	RotationVelocityY = GetRandomFloat(-0.25f, 0.25f);
@@ -28,14 +28,14 @@ bool Rock::Initialize(Utilities* utilities)
 
 bool Rock::BeginRun()
 {
-	Model3D::BeginRun();
+	Mirrored::BeginRun();
 
 	return false;
 }
 
 void Rock::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Mirrored::Update(deltaTime);
 
 	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
 	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
@@ -49,14 +49,13 @@ void Rock::Update(float deltaTime)
 
 void Rock::Draw()
 {
-	Model3D::Draw();
+	Mirrored::Draw();
 
 }
 
 void Rock::Spawn(Vector3 position)
 {
-	Position = position;
-	Enabled = true;
+	Mirrored::Spawn(position);
 
 	Hardness = 100;
 	float speed = 30.0f;

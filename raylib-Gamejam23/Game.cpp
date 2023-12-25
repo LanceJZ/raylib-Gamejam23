@@ -9,11 +9,9 @@ Game::~Game()
 }
 
 //Initialize Game
-bool Game::Initialize(Camera &camera,
-	Utilities &utilities, GameLogic* gameLogic)
+bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic)
 {
 	TheUtilities = &utilities;
-	Cam = &camera;
 	Logic = gameLogic;
 
 	Common::Initialize(&utilities);
@@ -28,7 +26,6 @@ bool Game::Initialize(Camera &camera,
 	EnemiesID = TheManagers.EM.AddCommon(Enemies = DBG_NEW EnemyControl());
 	PlayerID = TheManagers.EM.AddModel3D(ThePlayer = DBG_NEW Player());
 
-	Logic->SetCamera(Cam);
 	Logic->SetPlayer(ThePlayer);
 	Logic->SetEnemies(Enemies);
 
@@ -86,7 +83,7 @@ void Game::Update(float deltaTime) const
 
 void Game::Draw() const
 {
-	BeginMode3D(*Cam);
+	BeginMode3D(TheCamera);
 	//3D Drawing here.
 	Draw3D();
 	EndMode3D();

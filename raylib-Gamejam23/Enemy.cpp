@@ -1,42 +1,42 @@
-#include "EnemyBase.h"
+#include "Enemy.h"
 
-EnemyBase::EnemyBase()
+Enemy::Enemy()
 {
 }
 
-EnemyBase::~EnemyBase()
+Enemy::~Enemy()
 {
 }
 
-void EnemyBase::SetPlayer(Player* player)
+void Enemy::SetPlayer(Player* player)
 {
 	ThePlayer = player;
 }
 
-void EnemyBase::SetShotModel(Model &shotModel)
+void Enemy::SetShotModel(Model &shotModel)
 {
 	ShotModel = shotModel;
 }
 
-bool EnemyBase::Initialize(Utilities* utilities)
+bool Enemy::Initialize(Utilities* utilities)
 {
-	Model3D::Initialize(utilities);
+	Mirrored::Initialize(utilities);
 
 	ShotTimer = TheManagers.EM.AddTimer();
 
 	return false;
 }
 
-bool EnemyBase::BeginRun()
+bool Enemy::BeginRun()
 {
-	Model3D::BeginRun();
+	Mirrored::BeginRun();
 
 	return false;
 }
 
-void EnemyBase::Update(float deltaTime)
+void Enemy::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Mirrored::Update(deltaTime);
 
 	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
 	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
@@ -44,19 +44,18 @@ void EnemyBase::Update(float deltaTime)
 	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
 }
 
-void EnemyBase::Draw()
+void Enemy::Draw()
 {
-	Model3D::Draw();
+	Mirrored::Draw();
 
 }
 
-void EnemyBase::Spawn(Vector3 position)
+void Enemy::Spawn(Vector3 position)
 {
-	Position = position;
-	Enabled = true;
+	Mirrored::Spawn(position);
 }
 
-void EnemyBase::Fire()
+void Enemy::Fire()
 {
 	TheManagers.EM.Timers[ShotTimer]->Reset(5.0f);
 	bool spawnNewShot = true;

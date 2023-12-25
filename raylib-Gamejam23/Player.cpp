@@ -21,7 +21,7 @@ void Player::SetShotModel(Model& shotModel)
 bool Player::Initialize(Utilities* utilities)
 {
 	Model3D::Initialize(utilities);
-
+	Cull = false;
 	Radius = 18.0f;
 
 	//Enemy Spawn Test.

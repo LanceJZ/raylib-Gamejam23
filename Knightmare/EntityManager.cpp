@@ -77,13 +77,13 @@ bool EntityManager::BeginRun()
 	return true;
 }
 
-void EntityManager::SetCamera(Camera* cam)
+void EntityManager::SetCamera(Camera& camera)
 {
-	Cam = cam;
+	TheCamera = &camera;
 
 	for (auto model3D : Model3Ds)
 	{
-		model3D->SetCamera(Cam);
+		model3D->SetCamera(TheCamera);
 	}
 }
 
@@ -215,7 +215,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D)
 
 	Model3Ds.push_back(model3D);
 	Model3Ds[modelNumber]->Initialize(TheUtilities);
-	Model3Ds[modelNumber]->SetCamera(Cam);
+	Model3Ds[modelNumber]->SetCamera(TheCamera);
 
 	return modelNumber;
 }
@@ -229,7 +229,7 @@ size_t EntityManager::AddModel3D(Model3D* model3D, Model &model, float scale)
 {
 	size_t modelNumber = AddModel3D(model3D);
 	Model3Ds[modelNumber]->SetModel(model, scale);
-	Model3Ds[modelNumber]->SetCamera(Cam);
+	Model3Ds[modelNumber]->SetCamera(TheCamera);
 
 	return modelNumber;
 }
@@ -240,7 +240,7 @@ size_t EntityManager::AddModel3D(Model &model)
 	Model3Ds.push_back(DBG_NEW Model3D());
 	Model3Ds[modelNumber]->SetModel(model, 1.0f);
 	Model3Ds[modelNumber]->Initialize(TheUtilities);
-	Model3Ds[modelNumber]->SetCamera(Cam);
+	Model3Ds[modelNumber]->SetCamera(TheCamera);
 
 	return modelNumber;
 }
@@ -248,7 +248,7 @@ size_t EntityManager::AddModel3D(Model &model)
 size_t EntityManager::AddModel3D(Model &model, float scale)
 {
 	size_t modelNumber = AddModel3D(model);
-	Model3Ds[modelNumber]->SetCamera(Cam);
+	Model3Ds[modelNumber]->SetCamera(TheCamera);
 	Model3Ds[modelNumber]->Scale = scale;
 
 	return modelNumber;
@@ -305,7 +305,7 @@ Model3D* EntityManager::CreateModel3D(Model model)
 	Model3Ds.push_back(newModel3D);
 	newModel3D->SetModel(model, 1.0f);
 	newModel3D->Initialize(TheUtilities);
-	newModel3D->SetCamera(Cam);
+	newModel3D->SetCamera(TheCamera);
 
 	return newModel3D;
 }

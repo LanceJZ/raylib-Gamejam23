@@ -9,11 +9,6 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::SetCamera(Camera* cam)
-{
-	Cam = cam;
-}
-
 void GameLogic::SetPlayer(Player* thePlayer)
 {
 	ThePlayer = thePlayer;
@@ -32,6 +27,20 @@ void GameLogic::SetOreModel(Model& model)
 bool GameLogic::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
+
+	AdjustedSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
+
+	for (int i = 0; i < 3; i++)
+	{
+		// Camera up vector (rotation towards target)
+		OtherSideCameras[i].up = {0.0f, -1.0f, 0.0f};
+		//Camera/World space is screen space.
+		OtherSideCameras[i].fovy = (float)GetScreenHeight();
+		// Camera mode type
+		OtherSideCameras[i].projection = CAMERA_ORTHOGRAPHIC;
+		OtherSideCameras[i].target = {};
+		OtherSideCameras[i].position = {};
+	}
 
 	return false;
 }
@@ -90,18 +99,18 @@ void GameLogic::SpawnOre(int amount, Vector3 position)
 
 void GameLogic::PlayerOverEdge()
 {
-	if (ThePlayer->X() > FieldSize.x * 0.5f) ThePlayer->X(-FieldSize.x * 0.5f);
-	if (ThePlayer->X() < -FieldSize.x * 0.5f) ThePlayer->X(FieldSize.x * 0.5f);
-	if (ThePlayer->Y() > FieldSize.y * 0.5f) ThePlayer->Y(-FieldSize.y * 0.5f);
-	if (ThePlayer->Y() < -FieldSize.y * 0.5f) ThePlayer->Y(FieldSize.y * 0.5f);
+	if (ThePlayer->X() > AdjustedSize.x) ThePlayer->X(-AdjustedSize.x);
+	if (ThePlayer->X() < -AdjustedSize.x) ThePlayer->X(AdjustedSize.x);
+	if (ThePlayer->Y() > AdjustedSize.y) ThePlayer->Y(-AdjustedSize.y);
+	if (ThePlayer->Y() < -AdjustedSize.y) ThePlayer->Y(AdjustedSize.y);
 }
 
 void GameLogic::CameraUpdate()
 {
-	Cam->position.x = ThePlayer->Position.x;
-	Cam->position.y = ThePlayer->Position.y;
-	Cam->target.x = Cam->position.x;
-	Cam->target.y = Cam->position.y;
+	TheCamera.position.x = ThePlayer->Position.x;
+	TheCamera.position.y = ThePlayer->Position.y;
+	TheCamera.target.x = TheCamera.position.x;
+	TheCamera.target.y = TheCamera.position.y;
 }
 
 void GameLogic::CheckForOreToSpawn()

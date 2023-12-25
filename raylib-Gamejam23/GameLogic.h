@@ -13,8 +13,8 @@ public:
 	virtual ~GameLogic();
 
 	std::vector<Ore*> OreCollection;
+	Camera OtherSideCameras[3];
 
-	void SetCamera(Camera* cam);
 	void SetPlayer(Player* thePlayer);
 	void SetEnemies(EnemyControl* enemies);
 	void SetOreModel(Model& model);
@@ -30,9 +30,9 @@ public:
 private:
 	size_t RockSpawnTimer = 0;
 	int RocksToSpawn = 0;
+	Vector2 AdjustedSize = {};
 
 	Model OreModel = {};
-	Camera* Cam = {};
 	Player* ThePlayer = {};
 	EnemyControl* Enemies = {};
 

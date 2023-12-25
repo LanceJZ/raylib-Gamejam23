@@ -30,6 +30,11 @@ void ShotMaster::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
+	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
+	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
+	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
+
 	if (TheManagers.EM.Timers[TimerID]->Elapsed())
 	{
 		Enabled = false;
@@ -44,8 +49,8 @@ void ShotMaster::Draw()
 
 void ShotMaster::Spawn(Vector3 position, Vector3 velocity, float timer)
 {
-	Enabled = true;
-	Position = position;
+	Entity::Spawn(position);
+
 	Velocity = velocity;
 	TheManagers.EM.Timers[TimerID]->Reset(timer);
 }

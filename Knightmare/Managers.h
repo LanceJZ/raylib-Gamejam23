@@ -14,7 +14,7 @@ public:
 
 	bool Initialize();
 	bool BeginRun();
-	bool SetCamera(Camera* camera);
+	bool SetCamera(Camera& camera);
 
 	virtual void Update(float deltaTime);
 

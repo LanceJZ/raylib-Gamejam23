@@ -1,14 +1,14 @@
 #pragma once
 #include "Globals.h"
-#include "Model3D.h"
+#include "Mirrored.h"
 #include "ShotMaster.h"
 #include "Player.h"
 
-class EnemyBase : public Model3D
+class Enemy : public Mirrored
 {
 public:
-	EnemyBase();
-	virtual ~EnemyBase();
+	Enemy();
+	virtual ~Enemy();
 
 	std::vector<ShotMaster*> Shots;
 
@@ -28,8 +28,6 @@ public:
 protected:
 	size_t ShotTimer = 0;
 	float ShotTimerTime = 0;
-
-	Player* ThePlayer = {};
 
 	void Fire();
 
