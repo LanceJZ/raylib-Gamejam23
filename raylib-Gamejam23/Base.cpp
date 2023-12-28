@@ -43,11 +43,10 @@ bool Base::BeginRun()
 		MirrorModelB->AddChild(Turrets[i]->MirrorModelB);
 		MirrorModelL->AddChild(Turrets[i]->MirrorModelL);
 		MirrorModelR->AddChild(Turrets[i]->MirrorModelR);
-
-		Turrets[i]->MirrorModelT->Cull = false;
-		Turrets[i]->MirrorModelB->Cull = false;
-		Turrets[i]->MirrorModelL->Cull = false;
-		Turrets[i]->MirrorModelR->Cull = false;
+		MirrorModelTL->AddChild(Turrets[i]->MirrorModelTL);
+		MirrorModelBL->AddChild(Turrets[i]->MirrorModelBL);
+		MirrorModelTR->AddChild(Turrets[i]->MirrorModelTR);
+		MirrorModelBR->AddChild(Turrets[i]->MirrorModelBR);
 	}
 
 	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
@@ -77,18 +76,13 @@ bool Base::BeginRun()
 		turret->MirrorModelB->Position = turret->Position;
 		turret->MirrorModelL->Position = turret->Position;
 		turret->MirrorModelR->Position = turret->Position;
-		//turret->MirrorModelTR->Position = turret->Position;
-		//turret->MirrorModelTL->Position = turret->Position;
-		//turret->MirrorModelBL->Position = turret->Position;
-		//turret->MirrorModelBR->Position = turret->Position;
+		turret->MirrorModelTR->Position = turret->Position;
+		turret->MirrorModelTL->Position = turret->Position;
+		turret->MirrorModelBL->Position = turret->Position;
+		turret->MirrorModelBR->Position = turret->Position;
 	}
 
 	RotationVelocityZ = 0.05f;
-
-	MirrorModelT->Radius = Radius;
-	MirrorModelB->Radius = Radius;
-	MirrorModelL->Radius = Radius;
-	MirrorModelR->Radius = Radius;
 
 	return true;
 }

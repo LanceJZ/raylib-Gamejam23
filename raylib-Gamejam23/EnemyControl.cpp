@@ -34,6 +34,11 @@ void EnemyControl::SetEnemyOneModel(Model& enemyModel)
 	EnemyOneModel = enemyModel;
 }
 
+void EnemyControl::SetEnemyTwoModel(Model& enemyModel)
+{
+	EnemyTwoModel = enemyModel;
+}
+
 void EnemyControl::SetRockModel(Model& rockModel)
 {
 	RockModel = rockModel;
@@ -69,8 +74,9 @@ void EnemyControl::Update()
 void EnemyControl::Reset()
 {
 	SpawnEnemyBase();
-	SpawnRocks(10);
+	SpawnRocks(20);
 	SpawnEnemyOne(10);
+	SpawnEnemyTwo(5);
 }
 
 void EnemyControl::SpawnEnemyBase()
@@ -109,6 +115,39 @@ void EnemyControl::SpawnEnemyOne(int amount)
 		}
 
 		Ones[spawnNumber]->Spawn(PositionAwayFromPlayer());
+	}
+}
+
+void EnemyControl::SpawnEnemyTwo(int amount)
+{
+	for (int i = 0; i < amount; i++)
+	{
+		bool spawnNew = true;
+		size_t spawnNumber = Twos.size();
+
+		for (size_t check = 0; check < spawnNumber; check++)
+		{
+			if (!Twos[check]->Enabled)
+			{
+				spawnNew = false;
+				spawnNumber = check;
+				break;
+			}
+		}
+
+		if (spawnNew)
+		{
+			//When adding as a new class, make sure to use DBG_NEW.
+			Twos.push_back(DBG_NEW EnemyTwo());
+			TheManagers.EM.AddModel3D(Twos[spawnNumber], EnemyTwoModel);
+			Twos[spawnNumber]->SetPlayer(ThePlayer);
+			Twos[spawnNumber]->SetShotModel(ShotModel);
+			Twos[spawnNumber]->SetOnes(Ones);
+			Twos[spawnNumber]->Initialize(TheUtilities);
+			Twos[spawnNumber]->BeginRun();
+		}
+
+		Twos[spawnNumber]->Spawn(PositionAwayFromPlayer());
 	}
 }
 

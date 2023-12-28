@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Base.h"
 #include "EnemyOne.h"
+#include "EnemyTwo.h"
 #include "Rock.h"
 
 class EnemyControl : public Common
@@ -13,6 +14,7 @@ public:
 	virtual ~EnemyControl();
 
 	std::vector<EnemyOne*> Ones;
+	std::vector<EnemyTwo*> Twos;
 	std::vector<Rock*> Rocks;
 	Base* EnemyBase = {};
 
@@ -21,6 +23,7 @@ public:
 	void SetEnemyBaseTurretModel(Model& turretModel);
 	void SetShotModel(Model& shotModel);
 	void SetEnemyOneModel(Model& enemyModel);
+	void SetEnemyTwoModel(Model& enemyModel);
 	void SetRockModel(Model& rockModel);
 
 	bool Initialize(Utilities* utilities);
@@ -35,6 +38,7 @@ private:
 	Model EnemyBaseTurretModel = {};
 	Model ShotModel = {};
 	Model EnemyOneModel = {};
+	Model EnemyTwoModel = {};
 	Model RockModel = {};
 	Player* ThePlayer = {};
 
@@ -42,6 +46,7 @@ private:
 
 	void SpawnEnemyBase();
 	void SpawnEnemyOne(int amount);
+	void SpawnEnemyTwo(int amount);
 
 	Vector3 PositionAwayFromPlayer();
 };

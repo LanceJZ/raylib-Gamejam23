@@ -37,18 +37,15 @@ void Background::Update()
 void Background::BuildStars()
 {
 
-	size_t numberToMake = 300;
+	size_t numberToMake = 200;
 
 	for (int i = 0; i < numberToMake; i++)
 	{
 		size_t star = Stars.size();
 
-		Stars.push_back(DBG_NEW Star());
+		Stars.push_back(DBG_NEW Mirrored());
 		TheManagers.EM.AddModel3D(Stars[i],
 			TheManagers.CM.GetModel(StarModelID), 1.75f);
-
-		int sw = GetScreenWidth() / 2;
-		int sh = GetScreenHeight() / 2;
 
 		float starX = GetRandomFloat(-FieldSize.x * 0.5f, FieldSize.x * 0.5f);
 		float starY = GetRandomFloat(-FieldSize.y * 0.5f, FieldSize.y * 0.5f);

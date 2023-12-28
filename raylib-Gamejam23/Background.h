@@ -1,7 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Common.h"
-#include "Star.h"
+#include "Mirrored.h"
 
 class Background : public Common
 {
@@ -18,7 +18,7 @@ public:
 private:
 	size_t StarModelID = {};
 
-	std::vector<Star*> Stars;
+	std::vector<Mirrored*> Stars;
 
 	void BuildStars();
 	void BuildBorders();

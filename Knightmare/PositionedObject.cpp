@@ -113,7 +113,9 @@ float PositionedObject::Z()
 	return Position.z;
 }
 
-//Sets Acceleration based on acceleration amount this frame, to a max amount.
+//Sets Acceleration based on acceleration amount this frame, to topSpeed a max amount.
+//Max set at 1, would be an max of zero. The smaller the number, the higher
+//the max or topSpeed is.
 void PositionedObject::SetAccelerationToMaxAtRotation(float accelerationAmount,
 	float topSpeed, float deltaTime)
 {

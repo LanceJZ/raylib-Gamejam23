@@ -29,11 +29,12 @@ protected:
 	size_t ShotTimer = 0;
 	float ShotTimerTime = 0;
 
+	Player* ThePlayer = {};
+
 	void Fire();
 
 private:
 
 	Model ShotModel = {};
-	Player* ThePlayer = {};
 
 };

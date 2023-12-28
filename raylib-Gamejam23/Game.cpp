@@ -50,6 +50,7 @@ bool Game::Load()
 	Enemies->SetEnemyBaseTurretModel(TheManagers.CM.LoadAndGetModel("Base-0"));
 	Enemies->SetShotModel(TheManagers.CM.GetModel(cubeID));
 	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
+	Enemies->SetEnemyTwoModel(TheManagers.CM.LoadAndGetModel("EnemyTwo"));
 	Enemies->SetRockModel(TheManagers.CM.LoadAndGetModel("Rock"));
 	Logic->SetOreModel(TheManagers.CM.LoadAndGetModel("Ore"));
 

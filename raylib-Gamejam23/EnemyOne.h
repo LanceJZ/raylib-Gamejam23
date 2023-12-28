@@ -22,8 +22,8 @@ public:
 	virtual ~EnemyOne();
 
 	void SetBase(Base* base);
-	void SetRocks(std::vector<Rock*> rocks);
-	void SetOre(std::vector<Ore*> ore);
+	void SetRocks(std::vector<Rock*> &rocks);
+	void SetOre(std::vector<Ore*> &ore);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -32,12 +32,12 @@ public:
 	void Draw();
 
 private:
+	bool WasBumped = {};
+	bool HasOre = {};
+
 	size_t MineTimer = {};
 	size_t BumpTimer = {};
 	size_t ThrustTimer = {};
-
-	bool WasBumped = {};
-	bool HasOre = {};
 
 	AIState InState = {};
 
@@ -55,7 +55,7 @@ private:
 	std::vector<Ore*> OreCollection;
 
 	void Search();
-	Rock* FindCloseRock();
+	Rock* FindRock();
 	Ore* FindCloseOre();
 	void HeadToRock(float deltaTime);
 	void HeadToOre(float deltaTime);

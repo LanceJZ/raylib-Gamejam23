@@ -13,12 +13,12 @@ void EnemyOne::SetBase(Base* base)
 	EnemyBase = base;
 }
 
-void EnemyOne::SetRocks(std::vector<Rock*> rocks)
+void EnemyOne::SetRocks(std::vector<Rock*> &rocks)
 {
 	Rocks = rocks;
 }
 
-void EnemyOne::SetOre(std::vector<Ore*> ore)
+void EnemyOne::SetOre(std::vector<Ore*> &ore)
 {
 	OreCollection = ore;
 }
@@ -85,16 +85,15 @@ void EnemyOne::Draw()
 void EnemyOne::Search()
 {
 	Acceleration = {};
-	RockToMine = FindCloseRock();
+	RockToMine = FindRock();
 	InState = AIState::GoToRock;
 }
 
-Rock* EnemyOne::FindCloseRock()
+Rock* EnemyOne::FindRock()
 {
 	float distance = -1.0f;
 	Velocity = {};
 	Acceleration = {};
-	RotationVelocityZ = 0;
 	Rock* foundRock = nullptr;
 
 	for (auto rock : Rocks)
@@ -288,11 +287,7 @@ bool EnemyOne::CheckMining()
 		{
 			if (shot->CirclesIntersect(*rock) && rock->Enabled && shot->Enabled)
 			{
-				shot->Enabled = false;
-				shot->MirrorModelT->Enabled = false;
-				shot->MirrorModelB->Enabled = false;
-				shot->MirrorModelL->Enabled = false;
-				shot->MirrorModelR->Enabled = false;
+				shot->Disable();
 
 				rock->Hardness -= 10;
 
