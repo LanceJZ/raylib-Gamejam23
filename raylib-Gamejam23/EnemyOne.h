@@ -41,7 +41,7 @@ private:
 
 	AIState InState = {};
 
-	float Thrust = 100.666f;
+	float Thrust = 10.666f;
 	float Deceleration = 0.125f;
 	float MaxVelocity = 50;
 	float MinVelocity = 3;
@@ -55,7 +55,7 @@ private:
 	std::vector<Ore*> OreCollection;
 
 	void Search();
-	Rock* FindRock();
+	Rock* GetNearbyRock();
 	Ore* FindCloseOre();
 	void HeadToRock(float deltaTime);
 	void HeadToOre(float deltaTime);

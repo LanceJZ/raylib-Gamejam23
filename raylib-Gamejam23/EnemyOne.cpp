@@ -85,11 +85,11 @@ void EnemyOne::Draw()
 void EnemyOne::Search()
 {
 	Acceleration = {};
-	RockToMine = FindRock();
+	RockToMine = GetNearbyRock();
 	InState = AIState::GoToRock;
 }
 
-Rock* EnemyOne::FindRock()
+Rock* EnemyOne::GetNearbyRock()
 {
 	float distance = -1.0f;
 	Velocity = {};
@@ -322,11 +322,16 @@ bool EnemyOne::CheckForOre()
 
 void EnemyOne::Reset()
 {
+	InState = AIState::FindRock;
 	Velocity = {};
 	Acceleration = {};
 	RotationVelocityZ = 0;
-	OreToGrab->Enabled = false;
-	OreToGrab->Grabbed = false;
-	OreToGrab = nullptr;
-	InState = AIState::FindRock;
+
+	if (OreToGrab != nullptr)
+	{
+		OreToGrab->Enabled = false;
+		OreToGrab->Grabbed = false;
+		OreToGrab->Disable();
+		OreToGrab = nullptr;
+	}
 }

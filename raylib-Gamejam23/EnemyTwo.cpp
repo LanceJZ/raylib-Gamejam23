@@ -18,6 +18,7 @@ bool EnemyTwo::Initialize(Utilities* utilities)
 	Enemy::Initialize(utilities);
 
 	ThrustTimer = TheManagers.EM.AddTimer();
+	ShotTimerTime = 2.0f;
 
 	return false;
 }
@@ -49,6 +50,7 @@ void EnemyTwo::Update(float deltaTime)
 		PatrolArea(deltaTime);
 		break;
 	case AttackPlayer:
+		Attack(deltaTime);
 		break;
 	default:
 		break;
@@ -85,18 +87,17 @@ void EnemyTwo::Search()
 void EnemyTwo::HeadToDrone(float deltaTime)
 {
 	float distance = Vector3Distance(Position, DroneProtecting->Position);
-	float thrust = 10;
 
 	if (distance > 300.0f + DroneProtecting->Radius)
 	{//Closer
 		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
 		{
-			thrust = GetRandomFloat(10.0f, 30.0f);
+			Thrust = GetRandomFloat(10.0f, 30.0f);
 			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
 		}
 
 		SetHeading(DroneProtecting->Position, 3.666f);
-		SetAccelerationToMaxAtRotation(thrust, 0.01f, deltaTime);
+		SetAccelerationToMaxAtRotation(Thrust, 0.001f, deltaTime);
 	}
 	else
 	{
@@ -104,8 +105,28 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 		RotationAccelerationZ = {};
 		InState = AIState::Patrol;
 
-		float farX = DroneProtecting->Position.x + 250;
-		float farY = DroneProtecting->Position.x + 200;
+		float farX = 0;
+		float farY = 0;
+
+		if (DroneProtecting->Position.x > 0)
+		{
+			farX = DroneProtecting->Position.x + 150;
+
+		}
+		else
+		{
+			farX = DroneProtecting->Position.x - 150;
+		}
+
+		if (DroneProtecting->Position.y > 0)
+		{
+
+			farY = DroneProtecting->Position.y + 100;
+		}
+		else
+		{
+			farY = DroneProtecting->Position.y - 100;
+		}
 
 		Waypoints[0] = {-farX, farY, 0}; //Top Left
 		Waypoints[1] = {farX, farY, 0}; //Top Right
@@ -120,20 +141,19 @@ void EnemyTwo::PatrolArea(float deltaTime)
 {
 	float distance = Vector3Distance(Position, DroneProtecting->Position);
 	float distanceFromPlayer = Vector3Distance(Position, ThePlayer->Position);
-	float thrust = 10;
 
-	if (distance < 300)
+	if (distance < 400)
 	{
 		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
 		{
-			thrust = GetRandomFloat(10.0f, 30.0f);
-			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
+			Thrust = GetRandomFloat(10.0f, 30.0f);
+			TheManagers.EM.Timers[ThrustTimer]->Reset(5.0f);
 		}
 
 		SetHeading(Waypoints[WaypointNumber], 0.666f);
-		SetAccelerationToMaxAtRotation(thrust, 0.03f, deltaTime);
+		SetAccelerationToMaxAtRotation(Thrust, 0.015f, deltaTime);
 
-		if (Vector3Distance(Waypoints[WaypointNumber], Position) < 10)
+		if (Vector3Distance(Waypoints[WaypointNumber], Position) < 40)
 		{
 			if (WaypointNumber < 3) WaypointNumber++;
 			else WaypointNumber = 0;
@@ -145,12 +165,31 @@ void EnemyTwo::PatrolArea(float deltaTime)
 	}
 
 	if (!DroneProtecting->Enabled) InState = AIState::SearchForDrone;
+
+	if (distance > distanceFromPlayer) InState = AIState::AttackPlayer;
 }
 
 void EnemyTwo::Attack(float deltaTime)
 {
 	float distanceFromDrone = Vector3Distance(Position, DroneProtecting->Position);
 	float distanceFromPlayer = Vector3Distance(Position, ThePlayer->Position);
+
+	if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
+	{
+		Thrust = GetRandomFloat(10.0f, 40.0f);
+		TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
+	}
+
+	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
+	{
+		Fire();
+		TheManagers.EM.Timers[ShotTimer]->Reset(1.5f);
+	}
+
+	SetHeading(ThePlayer->Position, 1.666f);
+	SetAccelerationToMaxAtRotation(Thrust, 0.01f, deltaTime);
+
+	if (distanceFromDrone < distanceFromPlayer) InState = AIState::SearchForDrone;
 }
 
 EnemyOne* EnemyTwo::FindDrone()
