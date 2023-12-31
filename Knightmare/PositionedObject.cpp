@@ -374,6 +374,11 @@ float PositionedObject::AimAtTarget(Vector3& target, float facingAngle, float ma
 	return turnVelocity;
 }
 
+void PositionedObject::SetRotationZFromVectors(Vector3& target)
+{
+	RotationZ = GetAngleFromVectors(target);
+}
+
 float PositionedObject::GetAngleFromVectors(Vector3& target)
 {
 	return (float)(atan2f(target.y - Position.y, target.x - Position.x));
@@ -384,6 +389,7 @@ void PositionedObject::SetHeading(Vector3& waypoint, float rotationSpeed)
 	RotationVelocityZ = AimAtTarget(waypoint, RotationZ, rotationSpeed);
 }
 
+//Internal method.
 float PositionedObject::RadianSpin(float radian)
 {
 	if (radian > PI * 2)
@@ -398,6 +404,7 @@ float PositionedObject::RadianSpin(float radian)
 	return radian;
 }
 
+//Internal method.
 float PositionedObject::AddRotationVelAcc(float rotation, float rotationVelocity,
 	float rotationAcceleration, float deltaTime)
 {

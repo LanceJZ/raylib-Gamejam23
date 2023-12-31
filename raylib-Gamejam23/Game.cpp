@@ -18,7 +18,8 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic)
 	//https://itch.io/jam/raylib-slo-jam
 	SetWindowTitle("Knightmare Game for raylib Game Jam");
 
-	FieldSize = { GetScreenWidth() * 3.0f, GetScreenHeight() * 3.0f };
+	float multi = 4.0f;
+	FieldSize = { GetScreenWidth() * multi, GetScreenHeight() * multi };
 
 	//When adding classes to EM, must be pointer to heap,IE: Name = new Class().
 	LogicID = TheManagers.EM.AddCommon(Logic = DBG_NEW GameLogic());
@@ -52,6 +53,7 @@ bool Game::Load()
 	Enemies->SetEnemyOneModel(TheManagers.CM.LoadAndGetModel("EnemyOne"));
 	Enemies->SetEnemyTwoModel(TheManagers.CM.LoadAndGetModel("EnemyTwo"));
 	Enemies->SetRockModel(TheManagers.CM.LoadAndGetModel("Rock"));
+	Enemies->SetArrowModel(TheManagers.CM.LoadAndGetModel("Arrow"));
 	Logic->SetOreModel(TheManagers.CM.LoadAndGetModel("Ore"));
 
 	return true;

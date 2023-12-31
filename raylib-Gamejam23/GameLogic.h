@@ -13,7 +13,6 @@ public:
 	virtual ~GameLogic();
 
 	std::vector<Ore*> OreCollection;
-	Camera OtherSideCameras[3];
 
 	void SetPlayer(Player* thePlayer);
 	void SetEnemies(EnemyControl* enemies);

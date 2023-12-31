@@ -3,6 +3,7 @@
 #include "Mirrored.h"
 #include "ShotMaster.h"
 #include "Player.h"
+#include "Radar.h"
 
 class Enemy : public Mirrored
 {
@@ -16,6 +17,7 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetShotModel(Model &shotModel);
+	void SetArrowModel(Model& arrowModel);
 
 	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();
@@ -30,6 +32,7 @@ protected:
 	float ShotTimerTime = 0;
 
 	Player* ThePlayer = {};
+	Radar* RadarArrow = {};
 
 	void Fire();
 

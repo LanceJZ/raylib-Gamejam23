@@ -44,6 +44,11 @@ void EnemyControl::SetRockModel(Model& rockModel)
 	RockModel = rockModel;
 }
 
+void EnemyControl::SetArrowModel(Model& arrowModel)
+{
+	ArrowModel = arrowModel;
+}
+
 bool EnemyControl::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
@@ -110,6 +115,7 @@ void EnemyControl::SpawnEnemyOne(int amount)
 			Ones[spawnNumber]->SetBase(EnemyBase);
 			Ones[spawnNumber]->SetRocks(Rocks);
 			Ones[spawnNumber]->SetShotModel(ShotModel);
+			Ones[spawnNumber]->SetArrowModel(ArrowModel);
 			Ones[spawnNumber]->Initialize(TheUtilities);
 			Ones[spawnNumber]->BeginRun();
 		}
@@ -142,6 +148,7 @@ void EnemyControl::SpawnEnemyTwo(int amount)
 			TheManagers.EM.AddModel3D(Twos[spawnNumber], EnemyTwoModel);
 			Twos[spawnNumber]->SetPlayer(ThePlayer);
 			Twos[spawnNumber]->SetShotModel(ShotModel);
+			Twos[spawnNumber]->SetArrowModel(ArrowModel);
 			Twos[spawnNumber]->SetOnes(Ones);
 			Twos[spawnNumber]->Initialize(TheUtilities);
 			Twos[spawnNumber]->BeginRun();

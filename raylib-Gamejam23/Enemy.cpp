@@ -18,6 +18,12 @@ void Enemy::SetShotModel(Model &shotModel)
 	ShotModel = shotModel;
 }
 
+void Enemy::SetArrowModel(Model& model)
+{
+	TheManagers.EM.AddModel3D(RadarArrow = DBG_NEW Radar(), model);
+	RadarArrow->ModelColor = RED;
+}
+
 bool Enemy::Initialize(Utilities* utilities)
 {
 	Mirrored::Initialize(utilities);
@@ -38,6 +44,12 @@ void Enemy::Update(float deltaTime)
 {
 	Mirrored::Update(deltaTime);
 
+	if (RadarArrow != nullptr)
+	{
+		RadarArrow->Position = ThePlayer->Position;
+		RadarArrow->Enabled = Enabled;
+		RadarArrow->SetTarget(Position);
+	}
 }
 
 void Enemy::Draw()

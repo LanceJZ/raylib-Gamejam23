@@ -25,6 +25,7 @@ public:
 	void SetEnemyOneModel(Model& enemyModel);
 	void SetEnemyTwoModel(Model& enemyModel);
 	void SetRockModel(Model& rockModel);
+	void SetArrowModel(Model& arrowModel);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -40,6 +41,8 @@ private:
 	Model EnemyOneModel = {};
 	Model EnemyTwoModel = {};
 	Model RockModel = {};
+	Model ArrowModel = {};
+
 	Player* ThePlayer = {};
 
 	void Reset();

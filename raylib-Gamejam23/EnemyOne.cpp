@@ -56,6 +56,7 @@ void EnemyOne::Update(float deltaTime)
 			break;
 
 		case AIState::GoToRock:
+			RadarArrow->ModelColor = DARKGRAY;
 			HeadToRock(deltaTime);
 			break;
 
@@ -64,6 +65,7 @@ void EnemyOne::Update(float deltaTime)
 			break;
 
 		case AIState::ReturnToBase:
+			RadarArrow->ModelColor = PURPLE;
 			HeadToBase(deltaTime);
 			break;
 
@@ -80,6 +82,13 @@ void EnemyOne::Draw()
 {
 	Enemy::Draw();
 
+}
+
+void EnemyOne::Spawn(Vector3 position)
+{
+	Enemy::Spawn(position);
+
+	RadarArrow->ModelColor = DARKGRAY;
 }
 
 void EnemyOne::Search()
@@ -154,6 +163,7 @@ void EnemyOne::HeadToRock(float deltaTime)
 	if (distance < 30 + RockToMine->Radius)
 	{
 		InState = AIState::Mine;
+		RadarArrow->ModelColor = DARKPURPLE;
 		TheManagers.EM.Timers[ShotTimer]->Reset(10.0f);
 		return;
 	}

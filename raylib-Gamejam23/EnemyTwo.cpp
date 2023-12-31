@@ -164,7 +164,11 @@ void EnemyTwo::PatrolArea(float deltaTime)
 		InState = AIState::GoToDrone;
 	}
 
-	if (!DroneProtecting->Enabled) InState = AIState::SearchForDrone;
+	if (!DroneProtecting->Enabled)
+	{
+		InState = AIState::SearchForDrone;
+		return;
+	}
 
 	if (distance > distanceFromPlayer) InState = AIState::AttackPlayer;
 }

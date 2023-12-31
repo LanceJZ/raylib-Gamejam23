@@ -21,8 +21,6 @@ bool Rock::Initialize(Utilities* utilities)
 	RotationVelocityY = GetRandomFloat(-0.25f, 0.25f);
 	RotationVelocityZ = GetRandomFloat(-0.1f, 0.1f);
 
-	Radius = 25.0f;
-
 	return false;
 }
 
@@ -37,9 +35,7 @@ void Rock::Update(float deltaTime)
 {
 	Mirrored::Update(deltaTime);
 
-	if (Hit = CheckCollision())
-	{
-	}
+	Hit = CheckCollision();
 }
 
 void Rock::Draw()
@@ -53,10 +49,13 @@ void Rock::Spawn(Vector3 position)
 	Mirrored::Spawn(position);
 
 	Hardness = 100;
-	float speed = 30.0f;
-	OreAmount = GetRandomValue(0, 5);
+	float maxSpeed = 30.0f;
+	Scale = GetRandomFloat(0.25f, 1.25f);
+	Radius = 25.0f * Scale;
+	OreAmount = GetRandomValue(0, int(Scale * 4));
 
-	Velocity = { GetRandomFloat(-speed, speed), GetRandomFloat(-speed, speed), 0.0f };
+	Velocity = { GetRandomFloat(-maxSpeed, maxSpeed),
+		GetRandomFloat(-maxSpeed, maxSpeed), 0.0f };
 }
 
 bool Rock::CheckCollision()

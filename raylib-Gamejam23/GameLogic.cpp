@@ -30,26 +30,14 @@ bool GameLogic::Initialize(Utilities* utilities)
 
 	AdjustedSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 
-	for (int i = 0; i < 3; i++)
-	{
-		// Camera up vector (rotation towards target)
-		OtherSideCameras[i].up = {0.0f, -1.0f, 0.0f};
-		//Camera/World space is screen space.
-		OtherSideCameras[i].fovy = (float)GetScreenHeight();
-		// Camera mode type
-		OtherSideCameras[i].projection = CAMERA_ORTHOGRAPHIC;
-		OtherSideCameras[i].target = {};
-		OtherSideCameras[i].position = {};
-	}
-
-	return false;
+	return true;
 }
 
 bool GameLogic::BeginRun()
 {
 	RockSpawnTimer = TheManagers.EM.AddTimer();
 
-	return false;
+	return true;
 }
 
 void GameLogic::Input()
@@ -123,7 +111,7 @@ void GameLogic::CheckForOreToSpawn()
 		{
 			rock->Disable();
 
-			SpawnOre(GetRandomValue(0, 5), rock->Position);
+			SpawnOre(rock->GetAmountOfOre(), rock->Position);
 			RocksToSpawn++;
 			TheManagers.EM.Timers[RockSpawnTimer]->Reset(3);
 

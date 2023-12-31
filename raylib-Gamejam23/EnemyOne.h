@@ -31,6 +31,8 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
+	void Spawn(Vector3 position);
+
 private:
 	bool WasBumped = {};
 	bool HasOre = {};
