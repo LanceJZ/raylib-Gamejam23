@@ -25,8 +25,9 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
+	void SetScale(float scale);
 	void Disable();
 private:
-	Vector2 AdjustedSize = {};
+	Vector2 AdjustedFieldSize = {};
 
 };

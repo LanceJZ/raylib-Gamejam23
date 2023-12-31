@@ -89,15 +89,15 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 	float distance = Vector3Distance(Position, DroneProtecting->Position);
 
 	if (distance > 300.0f + DroneProtecting->Radius)
-	{//Closer
+	{//Far away
 		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
 		{
-			Thrust = GetRandomFloat(10.0f, 30.0f);
+			Thrust = GetRandomFloat(10.0f, 50.0f);
 			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
 		}
 
 		SetHeading(DroneProtecting->Position, 3.666f);
-		SetAccelerationToMaxAtRotation(Thrust, 0.001f, deltaTime);
+		SetAccelerationToMaxAtRotation(Thrust, 0.005f, deltaTime);
 	}
 	else
 	{

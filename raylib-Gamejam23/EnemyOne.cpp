@@ -56,7 +56,8 @@ void EnemyOne::Update(float deltaTime)
 			break;
 
 		case AIState::GoToRock:
-			RadarArrow->ModelColor = DARKGRAY;
+			Color darkGray = DARKGRAY;
+			RadarArrow->SetColor(darkGray);
 			HeadToRock(deltaTime);
 			break;
 
@@ -65,7 +66,8 @@ void EnemyOne::Update(float deltaTime)
 			break;
 
 		case AIState::ReturnToBase:
-			RadarArrow->ModelColor = PURPLE;
+			Color purple = PURPLE;
+			RadarArrow->SetColor(purple);
 			HeadToBase(deltaTime);
 			break;
 
@@ -88,7 +90,8 @@ void EnemyOne::Spawn(Vector3 position)
 {
 	Enemy::Spawn(position);
 
-	RadarArrow->ModelColor = DARKGRAY;
+	Color darkGray = DARKGRAY;
+	RadarArrow->SetColor(darkGray);
 }
 
 void EnemyOne::Search()
@@ -163,7 +166,8 @@ void EnemyOne::HeadToRock(float deltaTime)
 	if (distance < 30 + RockToMine->Radius)
 	{
 		InState = AIState::Mine;
-		RadarArrow->ModelColor = DARKPURPLE;
+		Color darkPurple = DARKPURPLE;
+		RadarArrow->SetColor(darkPurple);
 		TheManagers.EM.Timers[ShotTimer]->Reset(10.0f);
 		return;
 	}
@@ -268,12 +272,6 @@ void EnemyOne::MineRock()
 	Velocity = RockToMine->Velocity;
 	Acceleration = {};
 	SetHeading(RockToMine->Position, 4.666f);
-
-	//if (Vector3Distance(RockToMine->Position, Position) > 40 + RockToMine->Radius)
-	//{
-	//	InState = AIState::FindRock;
-	//	return;
-	//}
 
 	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
 	{

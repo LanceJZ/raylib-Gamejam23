@@ -21,7 +21,8 @@ void Enemy::SetShotModel(Model &shotModel)
 void Enemy::SetArrowModel(Model& model)
 {
 	TheManagers.EM.AddModel3D(RadarArrow = DBG_NEW Radar(), model);
-	RadarArrow->ModelColor = RED;
+	Color red = RED;
+	RadarArrow->SetColor(red);
 }
 
 bool Enemy::Initialize(Utilities* utilities)

@@ -28,7 +28,7 @@ bool GameLogic::Initialize(Utilities* utilities)
 {
 	Common::Initialize(utilities);
 
-	AdjustedSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
+	AdjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
 
 	return true;
 }
@@ -87,10 +87,10 @@ void GameLogic::SpawnOre(int amount, Vector3 position)
 
 void GameLogic::PlayerOverEdge()
 {
-	if (ThePlayer->X() > AdjustedSize.x) ThePlayer->X(-AdjustedSize.x);
-	if (ThePlayer->X() < -AdjustedSize.x) ThePlayer->X(AdjustedSize.x);
-	if (ThePlayer->Y() > AdjustedSize.y) ThePlayer->Y(-AdjustedSize.y);
-	if (ThePlayer->Y() < -AdjustedSize.y) ThePlayer->Y(AdjustedSize.y);
+	if (ThePlayer->X() > AdjustedFieldSize.x) ThePlayer->X(-AdjustedFieldSize.x);
+	if (ThePlayer->X() < -AdjustedFieldSize.x) ThePlayer->X(AdjustedFieldSize.x);
+	if (ThePlayer->Y() > AdjustedFieldSize.y) ThePlayer->Y(-AdjustedFieldSize.y);
+	if (ThePlayer->Y() < -AdjustedFieldSize.y) ThePlayer->Y(AdjustedFieldSize.y);
 }
 
 void GameLogic::CameraUpdate()

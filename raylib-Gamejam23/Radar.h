@@ -17,8 +17,13 @@ public:
 	void Draw();
 
 	void SetTarget(Vector3& target);
+	void SetColor(Color& color);
 
 private:
+	int ScreenTop = 0;
+	int FieldAdjusted = 0;
+	Color ArrowColor = {};
+
 	Vector3 Target = {};
 
 };

@@ -29,7 +29,7 @@ public:
 private:
 	size_t RockSpawnTimer = 0;
 	int RocksToSpawn = 0;
-	Vector2 AdjustedSize = {};
+	Vector2 AdjustedFieldSize = {};
 
 	Model OreModel = {};
 	Player* ThePlayer = {};
