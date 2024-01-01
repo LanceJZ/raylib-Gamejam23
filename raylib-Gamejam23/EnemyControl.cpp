@@ -14,39 +14,39 @@ void EnemyControl::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
-void EnemyControl::SetEnemyBaseModel(Model& baseModel)
+void EnemyControl::SetEnemyBaseModel(Model& model)
 {
-	EnemyBaseModel = baseModel;
+	EnemyBaseModel = model;
 }
 
-void EnemyControl::SetEnemyBaseTurretModel(Model& turretModel)
+void EnemyControl::SetEnemyBaseTurretModel(Model& model)
 {
-	EnemyBaseTurretModel = turretModel;
+	EnemyBaseTurretModel = model;
 }
 
-void EnemyControl::SetShotModel(Model& shotModel)
+void EnemyControl::SetShotModel(Model& model)
 {
-	ShotModel = shotModel;
+	ShotModel = model;
 }
 
-void EnemyControl::SetEnemyOneModel(Model& enemyModel)
+void EnemyControl::SetEnemyOneModel(Model& model)
 {
-	EnemyOneModel = enemyModel;
+	EnemyOneModel = model;
 }
 
-void EnemyControl::SetEnemyTwoModel(Model& enemyModel)
+void EnemyControl::SetEnemyTwoModel(Model& model)
 {
-	EnemyTwoModel = enemyModel;
+	EnemyTwoModel = model;
 }
 
-void EnemyControl::SetRockModel(Model& rockModel)
+void EnemyControl::SetRockModel(Model& model)
 {
-	RockModel = rockModel;
+	RockModel = model;
 }
 
-void EnemyControl::SetArrowModel(Model& arrowModel)
+void EnemyControl::SetArrowModel(Model& model)
 {
-	ArrowModel = arrowModel;
+	ArrowModel = model;
 }
 
 bool EnemyControl::Initialize(Utilities* utilities)
@@ -61,6 +61,8 @@ bool EnemyControl::BeginRun()
 	EnemyBase = new Base();
 	TheManagers.EM.AddModel3D(EnemyBase, EnemyBaseModel);
 	EnemyBase->SetTurretModel(EnemyBaseTurretModel);
+	EnemyBase->SetArrowModel(ArrowModel);
+	EnemyBase->SetShotModel(ShotModel);
 	EnemyBase->SetPlayer(ThePlayer);
 	EnemyBase->Initialize(TheUtilities);
 	EnemyBase->BeginRun();

@@ -90,9 +90,16 @@ void Enemy::Fire()
 		Shots[shotNumber]->BeginRun();
 	}
 
-	float speed = 100.0f;
 	Vector3 drift = { 0.01f, 0.01f, 0.01f };
 
-	Shots[shotNumber]->Spawn(Position,
-		Vector3Add(Velocity, VelocityFromAngleZ(speed)), ShotTimerTime);
+	ShotNumber = shotNumber;
+
+	float speed = 100.0f;
+
+	Fire(Position, VelocityFromAngleZ(speed));
+}
+
+void Enemy::Fire(Vector3 position, Vector3 velocity)
+{
+	Shots[ShotNumber]->Spawn(Position, Vector3Add(Velocity, velocity), ShotTimerTime);
 }

@@ -1,9 +1,10 @@
 #pragma once
 #include "Globals.h"
-#include "Mirrored.h"
+#include "Enemy.h"
 #include "Turret.h"
+#include "Radar.h"
 
-class Base : public Mirrored
+class Base : public Enemy
 {
 public:
 	Base();
@@ -11,8 +12,9 @@ public:
 
 	Turret* Turrets[8] = {};
 
-	void SetTurretModel(Model& turretModel);
+	void SetTurretModel(Model& model);
 	void SetPlayer(Player* thePlayer);
+	void SetArrowModel(Model& model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();
@@ -27,6 +29,9 @@ private:
 	int AmountOfOre = 0;
 
 	Model TurretModel = {};
-
 	Player* ThePlayer = {};
+	Radar* RadarArrow = {};
+
+	void Fire(Vector3 velocity);
+
 };

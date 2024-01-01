@@ -8,9 +8,9 @@ Base::~Base()
 {
 }
 
-void Base::SetTurretModel(Model& turretModel)
+void Base::SetTurretModel(Model& model)
 {
-	TurretModel = turretModel;
+	TurretModel = model;
 }
 
 void Base::SetPlayer(Player* thePlayer)
@@ -18,18 +18,26 @@ void Base::SetPlayer(Player* thePlayer)
 	ThePlayer = thePlayer;
 }
 
+void Base::SetArrowModel(Model& model)
+{
+	TheManagers.EM.AddModel3D(RadarArrow = DBG_NEW Radar(), model);
+	Color white = WHITE;
+	RadarArrow->SetColor(white);
+}
+
 bool Base::Initialize(Utilities* utilities)
 {
-	Mirrored::Initialize(utilities);
+	Enemy::Initialize(utilities);
 
 	Radius = 45;
+	ShotTimerTime = 3.25f;
 
 	return true;
 }
 
 bool Base::BeginRun()
 {
-	Mirrored::BeginRun();
+	Enemy::BeginRun();
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -89,7 +97,11 @@ bool Base::BeginRun()
 
 void Base::Update(float deltaTime)
 {
-	Mirrored::Update(deltaTime);
+	Enemy::Update(deltaTime);
+
+	RadarArrow->Position = ThePlayer->Position;
+	RadarArrow->Enabled = Enabled;
+	RadarArrow->SetTarget(Position);
 
 	for (auto turret : Turrets)
 	{
@@ -98,12 +110,22 @@ void Base::Update(float deltaTime)
 
 		turret->WorldPosition = Vector3Add(turret->Position, Position);
 		// Take rotation into account.
+
+		float speed = 150.0f;
+
+		if (Vector3Distance(Position, ThePlayer->Position) < 1200 && turret->Enabled)
+		{
+			if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
+			{
+				Fire(turret->GetVelocityFromAngleZ(turret->RotationZ + RotationZ, speed));
+			}
+		}
 	}
 }
 
 void Base::Draw()
 {
-	Mirrored::Draw();
+	Enemy::Draw();
 
 }
 
@@ -113,9 +135,23 @@ void Base::Spawn(Vector3 position)
 	Position = position;
 	Z(-200.0f);
 
+	for (auto turret : Turrets)
+	{
+		turret->Enabled = false;
+	}
+
 }
 
 void Base::DropOffOre()
 {
+	if (AmountOfOre < 8) Turrets[AmountOfOre]->Enabled = true;
+
 	AmountOfOre++;
+}
+
+void Base::Fire(Vector3 velocity)
+{
+	Enemy::Fire();
+
+	Enemy::Fire(Position, velocity);
 }

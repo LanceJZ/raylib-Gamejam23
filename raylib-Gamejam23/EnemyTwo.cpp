@@ -18,7 +18,7 @@ bool EnemyTwo::Initialize(Utilities* utilities)
 	Enemy::Initialize(utilities);
 
 	ThrustTimer = TheManagers.EM.AddTimer();
-	ShotTimerTime = 2.0f;
+	ShotTimerTime = 2.75f;
 
 	return false;
 }
@@ -187,7 +187,7 @@ void EnemyTwo::Attack(float deltaTime)
 	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
 	{
 		Fire();
-		TheManagers.EM.Timers[ShotTimer]->Reset(1.5f);
+		TheManagers.EM.Timers[ShotTimer]->Reset(3.15f);
 	}
 
 	SetHeading(ThePlayer->Position, 1.666f);

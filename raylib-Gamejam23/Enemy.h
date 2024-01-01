@@ -16,8 +16,8 @@ public:
 	bool Hit = false;
 
 	void SetPlayer(Player* player);
-	void SetShotModel(Model &shotModel);
-	void SetArrowModel(Model& arrowModel);
+	void SetShotModel(Model &model);
+	void SetArrowModel(Model& model);
 
 	virtual bool Initialize(Utilities* utilities);
 	virtual bool BeginRun();
@@ -29,12 +29,14 @@ public:
 
 protected:
 	size_t ShotTimer = 0;
+	size_t ShotNumber = 0;
 	float ShotTimerTime = 0;
 
 	Player* ThePlayer = {};
 	Radar* RadarArrow = {};
 
 	void Fire();
+	void Fire(Vector3 position, Vector3 velocity);
 
 private:
 

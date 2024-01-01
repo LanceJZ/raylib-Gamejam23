@@ -19,13 +19,13 @@ public:
 	Base* EnemyBase = {};
 
 	void SetPlayer(Player* player);
-	void SetEnemyBaseModel(Model& baseModel);
-	void SetEnemyBaseTurretModel(Model& turretModel);
-	void SetShotModel(Model& shotModel);
-	void SetEnemyOneModel(Model& enemyModel);
-	void SetEnemyTwoModel(Model& enemyModel);
-	void SetRockModel(Model& rockModel);
-	void SetArrowModel(Model& arrowModel);
+	void SetEnemyBaseModel(Model& model);
+	void SetEnemyBaseTurretModel(Model& model);
+	void SetShotModel(Model& model);
+	void SetEnemyOneModel(Model& model);
+	void SetEnemyTwoModel(Model& model);
+	void SetRockModel(Model& model);
+	void SetArrowModel(Model& model);
 
 	bool Initialize(Utilities* utilities);
 	bool BeginRun();

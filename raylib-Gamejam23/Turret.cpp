@@ -25,7 +25,9 @@ bool Turret::BeginRun()
 void Turret::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
+
 	PointAtPlayer();
+
 }
 
 void Turret::Draw()
