@@ -81,23 +81,6 @@ Vector3 PositionedObject::DecelerationToZero(float decelerationAmount, float del
 	return deceleration;
 }
 
-Quaternion PositionedObject::EulerToQuaternion(float yaw, float pitch, float roll)
-{
-	float quaternionX, quaternionY, quaternionZ, quaternionW;
-	float yawDev = yaw / 2, pitchDev = pitch / 2, rollDev = roll / 2;
-
-	quaternionX = sinf(rollDev) * cosf(pitchDev) * cosf(yawDev) -
-		cosf(rollDev) * sinf(pitchDev) * sinf(yawDev);
-	quaternionY = cosf(rollDev) * sinf(pitchDev) * cosf(yawDev) +
-		sinf(rollDev) * cosf(pitchDev) * sinf(yawDev);
-	quaternionZ = cosf(rollDev) * cosf(pitchDev) * sinf(yawDev) -
-		sinf(rollDev) * sinf(pitchDev) * cosf(yawDev);
-	quaternionW = cosf(rollDev) * cosf(pitchDev) * cosf(yawDev) +
-		sinf(rollDev) * sinf(pitchDev) * sinf(yawDev);
-
-	return {quaternionX, quaternionY, quaternionZ, quaternionW};
-}
-
 float PositionedObject::X()
 {
 	return Position.x;
@@ -153,8 +136,6 @@ void PositionedObject::SetParent(PositionedObject* parent)
 
 	parent->IsParent = true;
 	IsChild = true;
-	ChildPosition = Position;
-	//ChildRotation = Rotation;
 }
 
 void PositionedObject::RemoveFromParents()
@@ -171,11 +152,8 @@ void PositionedObject::DisconnectChild(PositionedObject* child)
 	if (!child->IsChild) return;
 
 	child->IsConnectedChild = false;
-	child->ChildPosition = child->Position;
-	//child->ChildRotation = child->Rotation;
 	child->IsChild = false;
 	child->Position = WorldPosition;
-	//child->Rotation = WorldRotation;
 }
 
 void PositionedObject::ConnectChild(PositionedObject* child)
@@ -183,8 +161,6 @@ void PositionedObject::ConnectChild(PositionedObject* child)
 	if (child->IsChild)	return;
 
 	child->IsChild = true;
-	child->Position = child->ChildPosition;
-	//child->Rotation = child->ChildRotation;
 }
 
 void PositionedObject::CheckScreenEdge()

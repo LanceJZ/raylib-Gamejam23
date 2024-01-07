@@ -105,6 +105,15 @@ void Base::Update(float deltaTime)
 
 	for (auto turret : Turrets)
 	{
+		turret->MirrorModelT->Enabled = turret->Enabled;
+		turret->MirrorModelB->Enabled = turret->Enabled;
+		turret->MirrorModelL->Enabled = turret->Enabled;
+		turret->MirrorModelR->Enabled = turret->Enabled;
+		turret->MirrorModelTR->Enabled = turret->Enabled;
+		turret->MirrorModelTL->Enabled = turret->Enabled;
+		turret->MirrorModelBL->Enabled = turret->Enabled;
+		turret->MirrorModelBR->Enabled = turret->Enabled;
+
 		turret->RotationZ = turret->GetAngleFromVectorsZ(Position,
 			ThePlayer->Position) - RotationZ;
 
@@ -117,7 +126,8 @@ void Base::Update(float deltaTime)
 		{
 			if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
 			{
-				Fire(turret->GetVelocityFromAngleZ(turret->RotationZ + RotationZ, speed));
+				Fire(turret->GetVelocityFromAngleZ(
+					turret->RotationZ + RotationZ, speed));
 			}
 		}
 	}

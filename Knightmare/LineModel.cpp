@@ -38,12 +38,16 @@ void LineModel::Draw()
 		for (auto parent : Parents)
 		{
 			rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
-			//rlRotatef(parent->Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
+			rlRotatef(parent->RotationX, 1, 0, 0);
+			rlRotatef(parent->RotationY, 0, 1, 0);
+			rlRotatef(parent->RotationZ, 0, 0, 1);
 		}
 	}
 
 	rlTranslatef(Position.x, Position.y, Position.z);
-	//rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
+	rlRotatef(RotationX, 1, 0, 0);
+	rlRotatef(RotationY, 0, 1, 0);
+	rlRotatef(RotationZ, 0, 0, 1);
 	rlScalef(Scale, Scale, Scale);
 	rlBegin(RL_LINES);
 	rlColor4ub(ModelColor.r, ModelColor.g, ModelColor.b, ModelColor.a);
@@ -58,11 +62,9 @@ void LineModel::Draw()
 		);
 	}
 
-	Matrix transform = rlGetMatrixTransform();
-	Quaternion quaternion = QuaternionFromMatrix(transform);
-
-	WorldPosition = Vector3Transform(Vector3Zero(), transform);
-	//WorldRotation = quaternion.z;
+	WorldMatrix = rlGetMatrixTransform();
+	WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
+	WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));
 
 	rlPopMatrix();
 	rlEnd();

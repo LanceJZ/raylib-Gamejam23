@@ -32,6 +32,7 @@ public:
 	Vector3 GetRandomVelocity(float speed, float radianDirection);
 	Vector3 GetVelocityFromAngleZ(float rotation, float magnitude);
 	Color GetRandomColor();
+	Quaternion EulerToQuaternion(float yaw, float pitch, float roll);
 
 private:
 };

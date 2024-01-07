@@ -102,3 +102,20 @@ Color Common::GetRandomColor()
 		(unsigned char)GetRandomValue(0, 255),
 		(unsigned char)GetRandomValue(0, 255), 255};
 }
+
+Quaternion Common::EulerToQuaternion(float yaw, float pitch, float roll)
+{
+	float quaternionX, quaternionY, quaternionZ, quaternionW;
+	float yawDev = yaw / 2, pitchDev = pitch / 2, rollDev = roll / 2;
+
+	quaternionX = sinf(rollDev) * cosf(pitchDev) * cosf(yawDev) -
+		cosf(rollDev) * sinf(pitchDev) * sinf(yawDev);
+	quaternionY = cosf(rollDev) * sinf(pitchDev) * cosf(yawDev) +
+		sinf(rollDev) * cosf(pitchDev) * sinf(yawDev);
+	quaternionZ = cosf(rollDev) * cosf(pitchDev) * sinf(yawDev) -
+		sinf(rollDev) * sinf(pitchDev) * cosf(yawDev);
+	quaternionW = cosf(rollDev) * cosf(pitchDev) * cosf(yawDev) +
+		sinf(rollDev) * sinf(pitchDev) * sinf(yawDev);
+
+	return {quaternionX, quaternionY, quaternionZ, quaternionW};
+}

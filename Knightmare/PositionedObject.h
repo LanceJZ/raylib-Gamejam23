@@ -15,28 +15,27 @@ public:
 	float Radius = 0;
 	float WindowWidth = 0;
 	float WindowHeight = 0;
-	//float Rotation = 0;
 	float RotationX = 0;
 	float RotationY = 0;
 	float RotationZ = 0;
-	//float RotationVelocity = 0;
 	float RotationVelocityX = 0;
 	float RotationVelocityY = 0;
 	float RotationVelocityZ = 0;
-	float RotationAcceleration = 0;
 	float RotationAccelerationX = 0;
 	float RotationAccelerationY = 0;
 	float RotationAccelerationZ = 0;
-	//float ChildRotation = 0;
-	//float WorldRotation = 0;
 
-	Vector3 WorldPosition = Vector3Zero();
 	Vector3 Acceleration = Vector3Zero();
 	Vector3 Velocity = Vector3Zero();
 	Vector3 Position = Vector3Zero();
+	Vector3 Rotation = Vector3Zero();
+	Vector3 RotationVelocity = Vector3Zero();
+	Vector3 RotationAcceleration = Vector3Zero();
 	Vector3 LastFramePosition = Vector3Zero();
-	//Vector3 RotationAxis = { 0, 0, 1 };
-	Vector3 ChildPosition = Vector3Zero();
+	Vector3 WorldPosition = Vector3Zero();
+	Vector3 WorldRotation = Vector3Zero();
+	Quaternion RotationQ = {};
+	Matrix WorldMatrix = MatrixIdentity();
 	std::vector<PositionedObject*> Parents;
 
 	virtual bool Initialize(Utilities* utilities);
@@ -54,7 +53,6 @@ public:
 	Vector3 RandomVelocity(float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
 	Vector3 DecelerationToZero(float decelerationAmount, float deltaTime);
-	Quaternion EulerToQuaternion(float yaw, float pitch, float roll);
 	void SetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed,
 		float deltaTime);
 	void SetParent(PositionedObject* parent);
