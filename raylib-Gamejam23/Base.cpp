@@ -47,7 +47,6 @@ bool Base::BeginRun()
 		Turrets[i]->SetShotModel(ShotModel);
 		Turrets[i]->BeginRun();
 		Turrets[i]->SetParent(this);
-		//Turrets[i]->IgnoreParentRotation = true;
 		// Have to do for all of the mirrors too.
 		Turrets[i]->MirrorModelT->SetParent(MirrorModelT);
 		Turrets[i]->MirrorModelB->SetParent(MirrorModelB);
@@ -118,17 +117,6 @@ void Base::Update(float deltaTime)
 
 		turret->RotationZ = turret->GetAngleFromVectorsZ(turret->WorldPosition,
 			ThePlayer->Position) - RotationZ;
-
-		//float speed = 150.0f;
-
-		//if (Vector3Distance(Position, ThePlayer->Position) < 1200 && turret->Enabled)
-		//{
-		//	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
-		//	{
-		//		Fire(turret->GetVelocityFromAngleZ(
-		//			turret->RotationZ + RotationZ, speed));
-		//	}
-		//}
 	}
 }
 
@@ -146,7 +134,7 @@ void Base::Spawn(Vector3 position)
 
 	for (auto turret : Turrets)
 	{
-		//turret->Enabled = false;
+		turret->Enabled = false;
 	}
 
 }

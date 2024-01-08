@@ -50,7 +50,7 @@ void Rock::Spawn(Vector3 position)
 
 	Hardness = 100;
 	float maxSpeed = 30.0f;
-	SetScale(GetRandomFloat(0.25f, 1.25f));
+	SetScale(GetRandomFloat(0.45f, 1.25f));
 	Radius = 25.0f * Scale;
 	OreAmount = GetRandomValue(0, int(Scale * 4));
 

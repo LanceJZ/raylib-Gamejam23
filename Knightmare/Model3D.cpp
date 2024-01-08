@@ -1,5 +1,4 @@
 #include "Model3D.h"
-#include "rlgl.h"
 
 Model3D::Model3D()
 {
@@ -122,40 +121,13 @@ void Model3D::Draw()
 		}
 
 		WasCulled = false;
-		rlPushMatrix();
+		BeforeCalculate();
 
-		if (IsChild)
-		{
-			for (auto parent : Parents)
-			{
-				rlTranslatef(parent->Position.x, parent->Position.y,
-					parent->Position.z);
-
-				if (!IgnoreParentRotation)
-				{
-					rlRotatef(parent->RotationX, 1, 0, 0);
-					rlRotatef(parent->RotationY, 0, 1, 0);
-					rlRotatef(parent->RotationZ, 0, 0, 1);
-				}
-
-				rlScalef(parent->Scale, parent->Scale, parent->Scale);
-			}
-		}
-
-		rlTranslatef(Position.x, Position.y, Position.z);
-		rlRotatef(RotationX, 1, 0, 0);
-		rlRotatef(RotationY, 0, 1, 0);
-		rlRotatef(RotationZ, 0, 0, 1);
-		rlScalef(Scale, Scale, Scale);
+		CalculateWorldVectors();
 
 		DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
 
-		WorldMatrix = rlGetMatrixTransform();
-		WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
-		WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));
-
-		rlPopMatrix();
-		rlEnd();
+		AfterCalculate();
 	}
 }
 

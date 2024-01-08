@@ -28,7 +28,7 @@ void Turret::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	if (WasCulled) return;
+	//if (WasCulled) return;
 
 	FireAtPlayer();
 }
@@ -42,6 +42,11 @@ void Turret::Draw()
 void Turret::FireAtPlayer()
 {
 	float speed = 150.0f;
+
+	BeforeCalculate();
+	CalculateWorldVectors();
+	CalculateWorldSpace();
+	AfterCalculate();
 
 	if (Vector3Distance(WorldPosition, ThePlayer->Position) < 1000 && Enabled)
 	{

@@ -1,4 +1,5 @@
 #include "PositionedObject.h"
+#include "rlgl.h"
 
 PositionedObject::PositionedObject()
 {
@@ -322,10 +323,11 @@ void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 	}
 }
 
-float PositionedObject::AimAtTarget(Vector3& target, float facingAngle, float magnitude)
+//Sets Rotation Velocity Z to Aim at the Target.
+void PositionedObject::AimAtTargetZ(Vector3& target, float facingAngle, float magnitude)
 {
 	float turnVelocity = 0;
-	float targetAngle = GetAngleFromVectors(target);
+	float targetAngle = GetAngleFromVectors(target); //This is why it is here.
 	float targetLessFacing = targetAngle - facingAngle;
 	float facingLessTarget = facingAngle - targetAngle;
 
@@ -350,7 +352,7 @@ float PositionedObject::AimAtTarget(Vector3& target, float facingAngle, float ma
 		turnVelocity = magnitude;
 	}
 
-	return turnVelocity;
+	RotationVelocityZ = turnVelocity;
 }
 
 void PositionedObject::SetRotationZFromVectors(Vector3& target)
@@ -365,7 +367,54 @@ float PositionedObject::GetAngleFromVectors(Vector3& target)
 
 void PositionedObject::SetHeading(Vector3& waypoint, float rotationSpeed)
 {
-	RotationVelocityZ = AimAtTarget(waypoint, RotationZ, rotationSpeed);
+	AimAtTargetZ(waypoint, RotationZ, rotationSpeed);
+}
+
+void PositionedObject::BeforeCalculate()
+{
+	rlPushMatrix();
+}
+
+//Must have Push then CalculateWorldVectors/Pop/End before/after.
+void PositionedObject::CalculateWorldSpace()
+{
+	WorldMatrix = rlGetMatrixTransform();
+	WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
+	WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));
+}
+
+// Must have Push/Pop/End before/after.
+void PositionedObject::CalculateWorldVectors()
+{
+	if (IsChild)
+	{
+		for (auto parent : Parents)
+		{
+			rlTranslatef(parent->Position.x, parent->Position.y,
+				parent->Position.z);
+
+			if (!IgnoreParentRotation)
+			{
+				rlRotatef(parent->RotationX, 1, 0, 0);
+				rlRotatef(parent->RotationY, 0, 1, 0);
+				rlRotatef(parent->RotationZ, 0, 0, 1);
+			}
+
+			rlScalef(parent->Scale, parent->Scale, parent->Scale);
+		}
+	}
+
+	rlTranslatef(Position.x, Position.y, Position.z);
+	rlRotatef(RotationX, 1, 0, 0);
+	rlRotatef(RotationY, 0, 1, 0);
+	rlRotatef(RotationZ, 0, 0, 1);
+	rlScalef(Scale, Scale, Scale);
+}
+
+void PositionedObject::AfterCalculate()
+{
+	rlPopMatrix();
+	rlEnd();
 }
 
 //Internal method.

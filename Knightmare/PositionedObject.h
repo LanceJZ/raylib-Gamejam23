@@ -51,12 +51,20 @@ public:
 	virtual void X(float x);
 	virtual void Y(float y);
 	virtual void Z(float z);
+
+	bool ScreenEdgeBoundY();
+	bool ScreenEdgeBoundY(float topOffset, float bottomOffset);
+	bool OffScreen();
+	bool OffScreenSide();
+	bool OffScreenTopBottom();
 	float Chase(PositionedObject Chasing);
-	void RotateTowardsTargetZ(Vector3& target, float magnitude);
 	float AngleFromVectorZ(Vector3 target);
+	float GetAngleFromVectors(Vector3& target);
 	Vector3 RandomVelocity(float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
 	Vector3 DecelerationToZero(float decelerationAmount, float deltaTime);
+
+	void RotateTowardsTargetZ(Vector3& target, float magnitude);
 	void SetAccelerationToMaxAtRotation(float accelerationAmount, float topSpeed,
 		float deltaTime);
 	void SetParent(PositionedObject* parent);
@@ -66,23 +74,20 @@ public:
 	void CheckScreenEdge();
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();
-	bool ScreenEdgeBoundY();
-	bool ScreenEdgeBoundY(float topOffset, float bottomOffset);
-	bool OffScreen();
-	bool OffScreenSide();
-	bool OffScreenTopBottom();
 	void LeavePlay(float turnSpeed, float speed);
 	void RotateVelocity(Vector3& position, float turnSpeed, float speed);
 	void CheckPlayfieldSidesWarp(float left, float right);
 	void CheckPlayfieldHeightWarp(float top, float bottom);
-	float AimAtTarget(Vector3& target, float facingAngle, float magnitute);
+	void AimAtTargetZ(Vector3& target, float facingAngle, float magnitute);
 	void SetRotationZFromVectors(Vector3& target);
-	float GetAngleFromVectors(Vector3& target);
 	void SetHeading(Vector3& waypoint, float rotationSpeed);
+	void BeforeCalculate();
+	void CalculateWorldSpace();
+	void CalculateWorldVectors();
+	void AfterCalculate();
 
 private:
 	float RadianSpin(float radian);
 	float AddRotationVelAcc(float rotation, float rotationVelocity,
 		float rotationAcceleration, float deltaTime);
 };
-
