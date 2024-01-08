@@ -16,6 +16,7 @@ public:
 
 private:
 
-	void PointAtPlayer();
+	void FireAtPlayer();
+	void Fire(Vector3 velocity);
 
 };

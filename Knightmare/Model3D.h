@@ -10,9 +10,6 @@ public:
 	Vector3 ModelPosition = { 0 };
 	Color ModelColor = WHITE;
 
-	std::vector <Model3D*> Parents;
-	std::vector <Model3D*> Children;
-
 	Model3D();
 	~Model3D();
 
@@ -24,7 +21,7 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-	void AddChild(Model3D* child);
+	//void AddChild(Model3D* child);
 	void SetModel(Model &model, float scale);
 	void SetModel(Model &model);
 	void SetModelCopy(Model model, float scale);

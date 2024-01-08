@@ -101,5 +101,5 @@ void Enemy::Fire()
 
 void Enemy::Fire(Vector3 position, Vector3 velocity)
 {
-	Shots[ShotNumber]->Spawn(Position, Vector3Add(Velocity, velocity), ShotTimerTime);
+	Shots[ShotNumber]->Spawn(position, Vector3Add(Velocity, velocity), ShotTimerTime);
 }

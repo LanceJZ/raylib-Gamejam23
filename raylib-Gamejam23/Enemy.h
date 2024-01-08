@@ -31,6 +31,7 @@ protected:
 	size_t ShotTimer = 0;
 	size_t ShotNumber = 0;
 	float ShotTimerTime = 0;
+	Model ShotModel = {};
 
 	Player* ThePlayer = {};
 	Radar* RadarArrow = {};
@@ -40,6 +41,5 @@ protected:
 
 private:
 
-	Model ShotModel = {};
 
 };

@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 #include "Globals.h"
-#include "Utilities.h"
 #include "Common.h"
+#include "Utilities.h"
 #include "GameLogic.h"
 #include "Background.h"
 #include "Player.h"

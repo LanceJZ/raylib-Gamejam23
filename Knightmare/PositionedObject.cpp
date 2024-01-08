@@ -24,12 +24,15 @@ void PositionedObject::Update(float deltaTime)
 	LastFramePosition = Position;
 
 	Velocity = Vector3Add(Velocity, Acceleration);
-	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime }, Velocity), Position);
+	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime },
+		Velocity), Position);
 
-	//Rotation = AddRotationVelAcc(Rotation, RotationVelocity, RotationAcceleration, deltaTime);
-	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX, RotationAccelerationX, deltaTime);
-	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY, RotationAccelerationY, deltaTime);
-	RotationZ = AddRotationVelAcc(RotationZ, RotationVelocityZ, RotationAccelerationZ, deltaTime);
+	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX,
+		RotationAccelerationX, deltaTime);
+	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY,
+		RotationAccelerationY, deltaTime);
+	RotationZ = AddRotationVelAcc(RotationZ, RotationVelocityZ,
+		RotationAccelerationZ, deltaTime);
 
 	RotationX = RadianSpin(RotationX);
 	RotationY = RadianSpin(RotationY);
@@ -357,7 +360,7 @@ void PositionedObject::SetRotationZFromVectors(Vector3& target)
 
 float PositionedObject::GetAngleFromVectors(Vector3& target)
 {
-	return (float)(atan2f(target.y - Position.y, target.x - Position.x));
+	return (atan2f(target.y - Position.y, target.x - Position.x));
 }
 
 void PositionedObject::SetHeading(Vector3& waypoint, float rotationSpeed)

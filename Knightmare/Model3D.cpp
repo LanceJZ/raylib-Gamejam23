@@ -9,13 +9,13 @@ Model3D::~Model3D()
 {
 	if (IsChild)
 	{
-		Children.clear();
+		//Children.clear();
 		IsChild = false;
 	}
 
 	if (IsParent)
 	{
-		Parents.clear();
+		//Parents.clear();
 		IsParent = false;
 	}
 }
@@ -92,12 +92,14 @@ void Model3D::Draw()
 				if (TheCamera->position.x > parentTest.x + radius + Radius + ViewableArea.x
 					|| TheCamera->position.x < parentTest.x + -radius + -Radius + -ViewableArea.x)
 				{
+					WasCulled = true;
 					return;
 				}
 
 				if (TheCamera->position.y > parentTest.y + radius + Radius + ViewableArea.y ||
 					TheCamera->position.y < parentTest.y + -radius + -Radius + -ViewableArea.y)
 				{
+					WasCulled = true;
 					return;
 				}
 			}
@@ -106,27 +108,36 @@ void Model3D::Draw()
 				if (TheCamera->position.x > Position.x + Radius + ViewableArea.x
 					|| TheCamera->position.x < Position.x + -Radius + -ViewableArea.x)
 				{
+					WasCulled = true;
 					return;
 				}
 
 				if (TheCamera->position.y > Position.y + Radius + ViewableArea.y ||
 					TheCamera->position.y < Position.y + -Radius + -ViewableArea.y)
 				{
+					WasCulled = true;
 					return;
 				}
 			}
 		}
 
+		WasCulled = false;
 		rlPushMatrix();
 
 		if (IsChild)
 		{
 			for (auto parent : Parents)
 			{
-				rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
-				rlRotatef(parent->RotationX, 1, 0, 0);
-				rlRotatef(parent->RotationY, 0, 1, 0);
-				rlRotatef(parent->RotationZ, 0, 0, 1);
+				rlTranslatef(parent->Position.x, parent->Position.y,
+					parent->Position.z);
+
+				if (!IgnoreParentRotation)
+				{
+					rlRotatef(parent->RotationX, 1, 0, 0);
+					rlRotatef(parent->RotationY, 0, 1, 0);
+					rlRotatef(parent->RotationZ, 0, 0, 1);
+				}
+
 				rlScalef(parent->Scale, parent->Scale, parent->Scale);
 			}
 		}
@@ -148,19 +159,19 @@ void Model3D::Draw()
 	}
 }
 
-void Model3D::AddChild(Model3D* child)
-{
-	for (auto parent : Parents)
-	{
-		parent->AddChildren(child);
-	}
-
-	Children.push_back(child);
-	child->Parents.push_back(this);
-	child->IsChild = true;
-	IsParent = true;
-
-}
+//void Model3D::AddChild(Model3D* child)
+//{
+//	for (auto parent : Parents)
+//	{
+//		parent->AddChildren(child);
+//	}
+//
+//	Children.push_back(child);
+//	child->Parents.push_back(this);
+//	child->IsChild = true;
+//	IsParent = true;
+//
+//}
 
 void Model3D::SetModel(Model &model, float scale)
 {

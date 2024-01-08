@@ -43,7 +43,7 @@ bool Player::BeginRun()
 
 	FlameModel->X(-30.0f);
 	FlameModel->RotationVelocityX = 50.0f;
-	AddChild(FlameModel);
+	FlameModel->SetParent(this);
 
 	return false;
 }

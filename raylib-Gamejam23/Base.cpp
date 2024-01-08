@@ -44,17 +44,19 @@ bool Base::BeginRun()
 		TheManagers.EM.AddModel3D(Turrets[i] = new Turret(), TurretModel);
 		Turrets[i]->Initialize(TheUtilities);
 		Turrets[i]->SetPlayer(ThePlayer);
+		Turrets[i]->SetShotModel(ShotModel);
 		Turrets[i]->BeginRun();
-		AddChild(Turrets[i]);
+		Turrets[i]->SetParent(this);
+		//Turrets[i]->IgnoreParentRotation = true;
 		// Have to do for all of the mirrors too.
-		MirrorModelT->AddChild(Turrets[i]->MirrorModelT);
-		MirrorModelB->AddChild(Turrets[i]->MirrorModelB);
-		MirrorModelL->AddChild(Turrets[i]->MirrorModelL);
-		MirrorModelR->AddChild(Turrets[i]->MirrorModelR);
-		MirrorModelTL->AddChild(Turrets[i]->MirrorModelTL);
-		MirrorModelBL->AddChild(Turrets[i]->MirrorModelBL);
-		MirrorModelTR->AddChild(Turrets[i]->MirrorModelTR);
-		MirrorModelBR->AddChild(Turrets[i]->MirrorModelBR);
+		Turrets[i]->MirrorModelT->SetParent(MirrorModelT);
+		Turrets[i]->MirrorModelB->SetParent(MirrorModelB);
+		Turrets[i]->MirrorModelL->SetParent(MirrorModelL);
+		Turrets[i]->MirrorModelR->SetParent(MirrorModelR);
+		Turrets[i]->MirrorModelTL->SetParent(MirrorModelTL);
+		Turrets[i]->MirrorModelBL->SetParent(MirrorModelBL);
+		Turrets[i]->MirrorModelTR->SetParent(MirrorModelTR);
+		Turrets[i]->MirrorModelBR->SetParent(MirrorModelBR);
 	}
 
 	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
@@ -114,22 +116,19 @@ void Base::Update(float deltaTime)
 		turret->MirrorModelBL->Enabled = turret->Enabled;
 		turret->MirrorModelBR->Enabled = turret->Enabled;
 
-		turret->RotationZ = turret->GetAngleFromVectorsZ(Position,
+		turret->RotationZ = turret->GetAngleFromVectorsZ(turret->WorldPosition,
 			ThePlayer->Position) - RotationZ;
 
-		turret->WorldPosition = Vector3Add(turret->Position, Position);
-		// Take rotation into account.
+		//float speed = 150.0f;
 
-		float speed = 150.0f;
-
-		if (Vector3Distance(Position, ThePlayer->Position) < 1200 && turret->Enabled)
-		{
-			if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
-			{
-				Fire(turret->GetVelocityFromAngleZ(
-					turret->RotationZ + RotationZ, speed));
-			}
-		}
+		//if (Vector3Distance(Position, ThePlayer->Position) < 1200 && turret->Enabled)
+		//{
+		//	if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
+		//	{
+		//		Fire(turret->GetVelocityFromAngleZ(
+		//			turret->RotationZ + RotationZ, speed));
+		//	}
+		//}
 	}
 }
 
@@ -147,7 +146,7 @@ void Base::Spawn(Vector3 position)
 
 	for (auto turret : Turrets)
 	{
-		turret->Enabled = false;
+		//turret->Enabled = false;
 	}
 
 }

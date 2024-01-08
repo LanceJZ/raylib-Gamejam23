@@ -10,7 +10,11 @@ public:
 	bool IsChild = false;
 	bool IsParent = false;
 	bool IsConnectedChild = true;
+	bool Enabled = true;
+	bool IgnoreParentRotation = false;
+	bool WasCulled = false;
 	int ChildNumber = 0;
+	float Scale = 1;
 	float MaxSpeed = 0;
 	float Radius = 0;
 	float WindowWidth = 0;

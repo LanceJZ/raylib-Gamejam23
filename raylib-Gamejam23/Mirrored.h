@@ -7,7 +7,6 @@ public:
 	Mirrored();
 	virtual ~Mirrored();
 
-	Vector3 WorldPosition = {};
 	Model3D* MirrorModelL = {};
 	Model3D* MirrorModelR = {};
 	Model3D* MirrorModelT = {};

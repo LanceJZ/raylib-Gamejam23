@@ -46,8 +46,8 @@ void Mirrored::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	if (IsChild)
-		return;
+	//if (IsChild)
+	//	return;
 
 	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
 	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
@@ -199,52 +199,48 @@ void Mirrored::Update(float deltaTime)
 	}
 
 
-	if (IsParent)
+	if (IsChild)
 	{
-		for (auto child : MirrorModelB->Children)
+		for (auto parent : MirrorModelB->Parents)
 		{
-			child->Enabled = MirrorModelB->Enabled;
+			MirrorModelB->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelT->Children)
+		for (auto parent : MirrorModelT->Parents)
 		{
-			child->Enabled = MirrorModelT->Enabled;
+			MirrorModelT->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelR->Children)
+		for (auto parent : MirrorModelR->Parents)
 		{
-			child->Enabled = MirrorModelR->Enabled;
+			MirrorModelR->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelL->Children)
+		for (auto parent : MirrorModelL->Parents)
 		{
-			child->Enabled = MirrorModelL->Enabled;
+			MirrorModelL->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelTL->Children)
+		for (auto parent : MirrorModelTL->Parents)
 		{
-			child->Enabled = MirrorModelTL->Enabled;
+			MirrorModelTL->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelBL->Children)
+		for (auto parent : MirrorModelBL->Parents)
 		{
-			child->Enabled = MirrorModelBL->Enabled;
+			MirrorModelBL->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelTR->Children)
+		for (auto parent : MirrorModelTR->Parents)
 		{
-			child->Enabled = MirrorModelTR->Enabled;
+			MirrorModelTR->Enabled = parent->Enabled;
 		}
 
-		for (auto child : MirrorModelBR->Children)
+		for (auto parent : MirrorModelBR->Parents)
 		{
-			child->Enabled = MirrorModelBR->Enabled;
+			MirrorModelBR->Enabled = parent->Enabled;
 		}
 	}
-
-
-	//if (Position.y)
-
 }
 
 void Mirrored::Draw()

@@ -15,29 +15,31 @@ void Entity::Update(float deltaTime)
 
 	if (!EntityOnly) return;
 
-	//rlPushMatrix();
+	rlPushMatrix();
 
-	//if (IsChild)
-	//{
-	//	for (auto parent : Parents)
-	//	{
-	//		rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
-	//		//rlRotatef(parent->Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
-	//	}
-	//}
+	if (IsChild)
+	{
+		for (auto parent : Parents)
+		{
+			rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
+			rlRotatef(parent->RotationX, 1, 0, 0);
+			rlRotatef(parent->RotationY, 0, 1, 0);
+			rlRotatef(parent->RotationZ, 0, 0, 1);
+		}
+	}
 
-	//rlTranslatef(Position.x, Position.y, Position.z);
-	////rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
-	//rlScalef(Scale, Scale, Scale);
+	rlTranslatef(Position.x, Position.y, Position.z);
+	rlRotatef(RotationX, 1, 0, 0);
+	rlRotatef(RotationY, 0, 1, 0);
+	rlRotatef(RotationZ, 0, 0, 1);
+	rlScalef(Scale, Scale, Scale);
 
-	//Matrix transform = rlGetMatrixTransform();
-	//Quaternion quaternion = QuaternionFromMatrix(transform);
+	WorldMatrix = rlGetMatrixTransform();
+	WorldPosition = { WorldMatrix.m12, WorldMatrix.m13, WorldMatrix.m14 };
+	WorldRotation = QuaternionToEuler(QuaternionFromMatrix(WorldMatrix));
 
-	//WorldPosition = Vector3Transform(Vector3Zero(), transform);
-	//WorldRotation = quaternion.z;
-
-	//rlPopMatrix();
-	//rlEnd();
+	rlPopMatrix();
+	rlEnd();
 }
 
 void Entity::Draw()
