@@ -95,7 +95,9 @@ void Base::Update(float deltaTime)
 
 	RadarArrow->Position = ThePlayer->Position;
 	RadarArrow->Enabled = Enabled;
-	RadarArrow->SetTarget(Position);
+	Vector3 arrowTarget = CheckOtherForPlayerSide(ThePlayer->Position, Position);
+
+	RadarArrow->SetTarget(arrowTarget);
 
 	Vector3 target = CheckOtherSide(ThePlayer->Position);
 

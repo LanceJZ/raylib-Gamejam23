@@ -49,7 +49,8 @@ void Enemy::Update(float deltaTime)
 	{
 		RadarArrow->Position = ThePlayer->Position;
 		RadarArrow->Enabled = Enabled;
-		RadarArrow->SetTarget(Position);
+		Vector3 target = CheckOtherForPlayerSide(ThePlayer->Position, Position);
+		RadarArrow->SetTarget(target);
 	}
 }
 
@@ -126,6 +127,39 @@ Vector3 Enemy::CheckOtherSide(Vector3 target)
 		target.y - WorldPosition.y > otherSide.y)
 	{
 		if (target.y < WorldPosition.y)
+		{
+			target.y += FieldSize.y;
+		}
+		else
+		{
+			target.y -= FieldSize.y;
+		}
+	}
+
+	return target;
+}
+
+Vector3 Enemy::CheckOtherForPlayerSide(Vector3 player, Vector3 target)
+{
+	Vector2 adjustedFieldSize = Vector2Multiply(FieldSize, { 0.5f, 0.5f });
+
+	if (player.x - target.x > adjustedFieldSize.x ||
+		target.x - player.x > adjustedFieldSize.x)
+	{
+		if (target.x < player.x)
+		{
+			target.x += FieldSize.x;
+		}
+		else
+		{
+			target.x -= FieldSize.x;
+		}
+	}
+
+	if (player.y - target.y > adjustedFieldSize.y ||
+		target.y - player.y > adjustedFieldSize.y)
+	{
+		if (target.y < player.y)
 		{
 			target.y += FieldSize.y;
 		}
