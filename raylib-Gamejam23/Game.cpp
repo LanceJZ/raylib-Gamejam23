@@ -16,7 +16,7 @@ bool Game::Initialize(Utilities &utilities, GameLogic* gameLogic)
 
 	Common::Initialize(&utilities);
 	//https://itch.io/jam/raylib-slo-jam
-	SetWindowTitle("Knightmare Game for raylib Game Jam");
+	SetWindowTitle("Knightmare Game - Sinistar meets Blasteroids");
 
 	float multi = 4.0f;
 	FieldSize = { GetScreenWidth() * multi, GetScreenHeight() * multi };
@@ -141,6 +141,11 @@ void Game::GameInput()
 		if (IsKeyPressed(KEY_P))
 		{
 			State = Pause;
+		}
+
+		if (IsKeyPressed(KEY_B))
+		{
+			Enemies->SpawnEnemyBase();
 		}
 	}
 	else if (State == Pause)

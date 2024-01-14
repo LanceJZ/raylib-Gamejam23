@@ -30,6 +30,11 @@ void Turret::Update(float deltaTime)
 
 	//if (WasCulled) return;
 
+	BeforeCalculate();
+	CalculateWorldVectors();
+	CalculateWorldSpace();
+	AfterCalculate();
+
 	FireAtPlayer();
 }
 
@@ -43,12 +48,9 @@ void Turret::FireAtPlayer()
 {
 	float speed = 150.0f;
 
-	BeforeCalculate();
-	CalculateWorldVectors();
-	CalculateWorldSpace();
-	AfterCalculate();
+	Vector3 target = CheckOtherSide(ThePlayer->Position);
 
-	if (Vector3Distance(WorldPosition, ThePlayer->Position) < 1000 && Enabled)
+	if (Vector3Distance(WorldPosition, target) < 1000 && Enabled)
 	{
 		if (TheManagers.EM.Timers[ShotTimer]->Elapsed())
 		{

@@ -33,6 +33,7 @@ public:
 	void Update();
 
 	void SpawnRocks(int amount);
+	void SpawnEnemyBase();
 
 private:
 	Model EnemyBaseModel = {};
@@ -47,7 +48,6 @@ private:
 
 	void Reset();
 
-	void SpawnEnemyBase();
 	void SpawnEnemyOne(int amount);
 	void SpawnEnemyTwo(int amount);
 

@@ -18,5 +18,4 @@ private:
 
 	void FireAtPlayer();
 	void Fire(Vector3 velocity);
-
 };

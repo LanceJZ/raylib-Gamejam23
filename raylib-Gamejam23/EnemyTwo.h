@@ -3,15 +3,16 @@
 #include "Enemy.h"
 #include "EnemyOne.h"
 
-	enum  AIState
-	{
-		Evade,
-		SearchForDrone,
-		Wait,
-		GoToDrone,
-		Patrol,
-		AttackPlayer,
-	};
+enum  AIState
+{
+	EvadePlayer,
+	SearchForDrone,
+	WaitForTime,
+	GoToDrone,
+	Patrol,
+	AttackPlayer,
+};
+
 
 class EnemyTwo : public Enemy
 {
@@ -41,8 +42,10 @@ private:
 	EnemyOne* DroneProtecting = {};
 	std::vector<EnemyOne*> Ones;
 
+	void Evade(float deltaTime);
 	void Runaway(float deltaTime);
-	void Search();
+	void Search(float deltaTime);
+	void Wait(float deltaTime);
 	void HeadToDrone(float deltaTime);
 	void PatrolArea(float deltaTime);
 	void Attack(float deltaTime);

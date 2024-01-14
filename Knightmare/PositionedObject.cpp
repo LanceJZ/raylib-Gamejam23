@@ -28,6 +28,8 @@ void PositionedObject::Update(float deltaTime)
 	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime },
 		Velocity), Position);
 
+	if (!IsChild) WorldPosition = Position;
+
 	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX,
 		RotationAccelerationX, deltaTime);
 	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY,

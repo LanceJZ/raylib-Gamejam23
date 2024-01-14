@@ -58,8 +58,8 @@ bool Base::BeginRun()
 		Turrets[i]->MirrorModelBR->SetParent(MirrorModelBR);
 	}
 
-	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -100.0f};
-	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, -100.0f};
+	Turrets[0]->Position = { 73.5f - 50.0f, 93.5f - 50.0f, -200.0f};
+	Turrets[1]->Position = { 93.5f - 50.0f, 73.5f - 50.0f, -200.0f};
 
 	Turrets[2]->Position = Turrets[0]->Position;
 	Turrets[2]->X(Turrets[2]->Position.x *= -1);
@@ -81,14 +81,7 @@ bool Base::BeginRun()
 
 	for (auto turret : Turrets)
 	{
-		turret->MirrorModelT->Position = turret->Position;
-		turret->MirrorModelB->Position = turret->Position;
-		turret->MirrorModelL->Position = turret->Position;
-		turret->MirrorModelR->Position = turret->Position;
-		turret->MirrorModelTR->Position = turret->Position;
-		turret->MirrorModelTL->Position = turret->Position;
-		turret->MirrorModelBL->Position = turret->Position;
-		turret->MirrorModelBR->Position = turret->Position;
+		turret->SetPosition(turret->Position);
 	}
 
 	RotationVelocityZ = 0.05f;
@@ -104,20 +97,17 @@ void Base::Update(float deltaTime)
 	RadarArrow->Enabled = Enabled;
 	RadarArrow->SetTarget(Position);
 
+	Vector3 target = CheckOtherSide(ThePlayer->Position);
+
 	for (auto turret : Turrets)
 	{
-		turret->MirrorModelT->Enabled = turret->Enabled;
-		turret->MirrorModelB->Enabled = turret->Enabled;
-		turret->MirrorModelL->Enabled = turret->Enabled;
-		turret->MirrorModelR->Enabled = turret->Enabled;
-		turret->MirrorModelTR->Enabled = turret->Enabled;
-		turret->MirrorModelTL->Enabled = turret->Enabled;
-		turret->MirrorModelBL->Enabled = turret->Enabled;
-		turret->MirrorModelBR->Enabled = turret->Enabled;
-
 		turret->RotationZ = turret->GetAngleFromVectorsZ(turret->WorldPosition,
-			ThePlayer->Position) - RotationZ;
+			target) - RotationZ;
+
+		turret->SetRotation(turret->RotationZ);
 	}
+
+	if (!UpdatedAfterSpawn) UpdateAfterSpawn();
 }
 
 void Base::Draw()
@@ -129,19 +119,20 @@ void Base::Draw()
 void Base::Spawn(Vector3 position)
 {
 	Enabled = true;
+	UpdatedAfterSpawn = false;
 	Position = position;
 	Z(-200.0f);
 
 	for (auto turret : Turrets)
 	{
-		turret->Enabled = false;
+		//turret->SetEnabled(false);
 	}
 
 }
 
 void Base::DropOffOre()
 {
-	if (AmountOfOre < 8) Turrets[AmountOfOre]->Enabled = true;
+	if (AmountOfOre < 8) Turrets[AmountOfOre]->SetEnabled(true);
 
 	AmountOfOre++;
 }
@@ -151,4 +142,21 @@ void Base::Fire(Vector3 velocity)
 	Enemy::Fire();
 
 	Enemy::Fire(Position, velocity);
+}
+
+void Base::UpdateAfterSpawn()
+{
+	UpdatedAfterSpawn = true;
+
+	for (auto turret : Turrets)
+	{
+		turret->MirrorModelB->Enabled = MirrorModelB->Enabled;
+		turret->MirrorModelT->Enabled = MirrorModelT->Enabled;
+		turret->MirrorModelBR->Enabled = MirrorModelBR->Enabled;
+		turret->MirrorModelBL->Enabled = MirrorModelBL->Enabled;
+		turret->MirrorModelTR->Enabled = MirrorModelTR->Enabled;
+		turret->MirrorModelTL->Enabled = MirrorModelTL->Enabled;
+		turret->MirrorModelL->Enabled = MirrorModelL->Enabled;
+		turret->MirrorModelR->Enabled = MirrorModelR->Enabled;
+	}
 }

@@ -6,6 +6,7 @@ class Entity : public PositionedObject
 public:
 	bool BeenHit = false;
 	bool EntityOnly = false;
+	std::string EntityName = {};
 
 	virtual bool Initialize(Utilities* utilities);
 	virtual void Update(float deltaTime);

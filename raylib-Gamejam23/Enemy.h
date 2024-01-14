@@ -38,6 +38,7 @@ protected:
 
 	void Fire();
 	void Fire(Vector3 position, Vector3 velocity);
+	Vector3 CheckOtherSide(Vector3 target);
 
 private:
 

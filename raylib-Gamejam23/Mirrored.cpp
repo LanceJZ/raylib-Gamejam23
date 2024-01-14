@@ -44,20 +44,15 @@ bool Mirrored::BeginRun()
 
 void Mirrored::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
-
-	//if (IsChild)
-	//	return;
+	if (IsChild)
+		return;
 
 	if (X() > FieldSize.x * 0.5f) X(-FieldSize.x * 0.5f);
 	if (X() < -FieldSize.x * 0.5f) X(FieldSize.x * 0.5f);
 	if (Y() > FieldSize.y * 0.5f) Y(-FieldSize.y * 0.5f);
 	if (Y() < -FieldSize.y * 0.5f) Y(FieldSize.y * 0.5f);
 
-	float sw = GetScreenWidth() * 0.5f;
-	float sh = GetScreenWidth() * 0.5f;
-
-	if (Position.x > AdjustedFieldSize.x - sw)
+	if (Position.x > AdjustedFieldSize.x - AdjustedFieldSize.x)
 	{
 		MirrorModelL->Position.x = Position.x - FieldSize.x;
 		MirrorModelL->Position.y = Position.y;
@@ -74,7 +69,7 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelL->Enabled = false;
 	}
 
-	if (Position.x < (-AdjustedFieldSize.x + sh))
+	if (Position.x < (-AdjustedFieldSize.x + AdjustedFieldSize.x))
 	{
 		MirrorModelR->Position.x = Position.x + FieldSize.x;
 		MirrorModelR->Position.y = Position.y;
@@ -92,7 +87,7 @@ void Mirrored::Update(float deltaTime)
 	}
 
 
-	if (Position.y > (AdjustedFieldSize.y - sh))
+	if (Position.y > (AdjustedFieldSize.y - AdjustedFieldSize.y))
 	{
 		MirrorModelT->Position.x = Position.x;
 		MirrorModelT->Position.y = Position.y - FieldSize.y;
@@ -109,7 +104,7 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelT->Enabled = false;
 	}
 
-	if (Position.y < (-AdjustedFieldSize.y + sh))
+	if (Position.y < (-AdjustedFieldSize.y + AdjustedFieldSize.y))
 	{
 		MirrorModelB->Position.x = Position.x;
 		MirrorModelB->Position.y = Position.y + FieldSize.y;
@@ -126,8 +121,8 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelB->Enabled = false;
 	}
 
-	if (Position.x > (AdjustedFieldSize.x - sw) &&
-		Position.y > (AdjustedFieldSize.y - sh))
+	if (Position.x > (AdjustedFieldSize.x - AdjustedFieldSize.x) &&
+		Position.y > (AdjustedFieldSize.y - AdjustedFieldSize.y))
 	{
 		MirrorModelTL->Position.x = Position.x - FieldSize.x;
 		MirrorModelTL->Position.y = Position.y - FieldSize.y;
@@ -144,8 +139,8 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelTL->Enabled = false;
 	}
 
-	if (Position.x > (AdjustedFieldSize.x - sw) &&
-		Position.y < (-AdjustedFieldSize.y + sh))
+	if (Position.x > (AdjustedFieldSize.x - AdjustedFieldSize.x) &&
+		Position.y < (-AdjustedFieldSize.y + AdjustedFieldSize.y))
 	{
 		MirrorModelBL->Position.x = Position.x - FieldSize.x;
 		MirrorModelBL->Position.y = Position.y + FieldSize.y;
@@ -162,8 +157,8 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelBL->Enabled = false;
 	}
 
-	if (Position.x < (-AdjustedFieldSize.x + sw) &&
-		Position.y > (AdjustedFieldSize.y - sh))
+	if (Position.x < (-AdjustedFieldSize.x + AdjustedFieldSize.x) &&
+		Position.y > (AdjustedFieldSize.y - AdjustedFieldSize.y))
 	{
 		MirrorModelTR->Position.x = Position.x + FieldSize.x;
 		MirrorModelTR->Position.y = Position.y - FieldSize.y;
@@ -180,8 +175,8 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelTR->Enabled = false;
 	}
 
-	if (Position.x < (-AdjustedFieldSize.x + sw) &&
-		Position.y < (-AdjustedFieldSize.y + sh))
+	if (Position.x < (-AdjustedFieldSize.x + AdjustedFieldSize.x) &&
+		Position.y < (-AdjustedFieldSize.y + AdjustedFieldSize.y))
 	{
 		MirrorModelBR->Position.x = Position.x + FieldSize.x;
 		MirrorModelBR->Position.y = Position.y + FieldSize.y;;
@@ -198,49 +193,7 @@ void Mirrored::Update(float deltaTime)
 		MirrorModelBR->Enabled = false;
 	}
 
-
-	if (IsChild)
-	{
-		for (auto parent : MirrorModelB->Parents)
-		{
-			MirrorModelB->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelT->Parents)
-		{
-			MirrorModelT->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelR->Parents)
-		{
-			MirrorModelR->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelL->Parents)
-		{
-			MirrorModelL->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelTL->Parents)
-		{
-			MirrorModelTL->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelBL->Parents)
-		{
-			MirrorModelBL->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelTR->Parents)
-		{
-			MirrorModelTR->Enabled = parent->Enabled;
-		}
-
-		for (auto parent : MirrorModelBR->Parents)
-		{
-			MirrorModelBR->Enabled = parent->Enabled;
-		}
-	}
+	Model3D::Update(deltaTime);
 }
 
 void Mirrored::Draw()
@@ -262,17 +215,41 @@ void Mirrored::SetScale(float scale)
 	MirrorModelBL->Scale = scale;
 }
 
-void Mirrored::Disable()
+void Mirrored::SetEnabled(bool enabled)
 {
-	Enabled = false;
-	MirrorModelT->Enabled = false;
-	MirrorModelB->Enabled = false;
-	MirrorModelL->Enabled = false;
-	MirrorModelR->Enabled = false;
-	MirrorModelTR->Enabled = false;
-	MirrorModelBR->Enabled = false;
-	MirrorModelTL->Enabled = false;
-	MirrorModelBL->Enabled = false;
+	Enabled = enabled;
+	MirrorModelT->Enabled = enabled;
+	MirrorModelB->Enabled = enabled;
+	MirrorModelL->Enabled = enabled;
+	MirrorModelR->Enabled = enabled;
+	MirrorModelTR->Enabled = enabled;
+	MirrorModelBR->Enabled = enabled;
+	MirrorModelTL->Enabled = enabled;
+	MirrorModelBL->Enabled = enabled;
+}
+//Used for children of a parent.
+void Mirrored::SetPosition(Vector3 position)
+{
+	MirrorModelT->Position = position;
+	MirrorModelB->Position = position;
+	MirrorModelL->Position = position;
+	MirrorModelR->Position = position;
+	MirrorModelTR->Position = position;
+	MirrorModelTL->Position = position;
+	MirrorModelBL->Position = position;
+	MirrorModelBR->Position = position;
+}
+//Used for children of a parent.
+void Mirrored::SetRotation(float rotationZ)
+{
+	MirrorModelB->RotationZ = rotationZ;
+	MirrorModelBR->RotationZ = rotationZ;
+	MirrorModelBL->RotationZ = rotationZ;
+	MirrorModelT->RotationZ = rotationZ;
+	MirrorModelTR->RotationZ = rotationZ;
+	MirrorModelTL->RotationZ = rotationZ;
+	MirrorModelL->RotationZ = rotationZ;
+	MirrorModelR->RotationZ = rotationZ;
 }
 
 void Mirrored::Spawn(Vector3 position)

@@ -295,7 +295,7 @@ bool EnemyOne::CheckMining()
 		{
 			if (shot->CirclesIntersect(*rock) && rock->Enabled && shot->Enabled)
 			{
-				shot->Disable();
+				shot->SetEnabled(false);
 
 				rock->Hardness -= 10;
 
@@ -339,7 +339,7 @@ void EnemyOne::Reset()
 	{
 		OreToGrab->Enabled = false;
 		OreToGrab->Grabbed = false;
-		OreToGrab->Disable();
+		OreToGrab->SetEnabled(false);
 		OreToGrab = nullptr;
 	}
 }

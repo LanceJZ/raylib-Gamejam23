@@ -26,6 +26,7 @@ public:
 	void DropOffOre();
 
 private:
+	bool UpdatedAfterSpawn = false;
 	int AmountOfOre = 0;
 
 	Model TurretModel = {};
@@ -33,5 +34,5 @@ private:
 	Radar* RadarArrow = {};
 
 	void Fire(Vector3 velocity);
-
+	void UpdateAfterSpawn();
 };

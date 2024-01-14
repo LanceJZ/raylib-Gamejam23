@@ -66,7 +66,7 @@ bool Rock::CheckCollision()
 	{
 		if (CirclesIntersect(*shot) && shot->Enabled)
 		{
-			shot->Disable();
+			shot->SetEnabled(false);
 
 			Hardness -= 50;
 

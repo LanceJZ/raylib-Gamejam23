@@ -109,7 +109,7 @@ void GameLogic::CheckForOreToSpawn()
 
 		if (rock->Hit && rock->Enabled)
 		{
-			rock->Disable();
+			rock->SetEnabled(false);
 
 			SpawnOre(rock->GetAmountOfOre(), rock->Position);
 			RocksToSpawn++;

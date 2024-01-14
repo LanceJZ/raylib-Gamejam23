@@ -25,7 +25,9 @@ public:
 	void Draw();
 
 	void SetScale(float scale);
-	void Disable();
+	void SetEnabled(bool enabled);
+	void SetPosition(Vector3 position);
+	void SetRotation(float rotationZ);
 private:
 	Vector2 AdjustedFieldSize = {};
 

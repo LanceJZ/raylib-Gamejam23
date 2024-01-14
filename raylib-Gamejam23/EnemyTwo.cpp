@@ -36,15 +36,17 @@ void EnemyTwo::Update(float deltaTime)
 
 	switch (InState)
 	{
-	case Evade:
+	case EvadePlayer:
+		Evade(deltaTime);
 		break;
 	case SearchForDrone:
-		Search();
+		Search(deltaTime);
 		break;
 	case GoToDrone:
 		HeadToDrone(deltaTime);
 		break;
-	case Wait:
+	case WaitForTime:
+		Wait(deltaTime);
 		break;
 	case Patrol:
 		PatrolArea(deltaTime);
@@ -70,13 +72,19 @@ void EnemyTwo::Spawn(Vector3 position)
 	InState = AIState::SearchForDrone;
 }
 
-void EnemyTwo::Runaway(float deltaTime)
+void EnemyTwo::Evade(float deltaTime)
 {
-	float distance = Vector3Distance(Position, DroneProtecting->Position);
-	float distanceFromPlayer = Vector3Distance(Position, ThePlayer->Position);
 }
 
-void EnemyTwo::Search()
+void EnemyTwo::Runaway(float deltaTime)
+{
+	float distance = Vector3Distance(Position,
+		CheckOtherSide(DroneProtecting->Position));
+	float distanceFromPlayer = Vector3Distance(Position,
+		CheckOtherSide(ThePlayer->Position));
+}
+
+void EnemyTwo::Search(float deltaTime)
 {
 	Acceleration = {};
 	RotationAccelerationZ = {};
@@ -84,9 +92,15 @@ void EnemyTwo::Search()
 	InState = AIState::GoToDrone;
 }
 
+void EnemyTwo::Wait(float deltaTime)
+{
+}
+
 void EnemyTwo::HeadToDrone(float deltaTime)
 {
-	float distance = Vector3Distance(Position, DroneProtecting->Position);
+	Vector3 dronePosition = CheckOtherSide(DroneProtecting->Position);
+
+	float distance = Vector3Distance(Position, dronePosition);
 
 	if (distance > 300.0f + DroneProtecting->Radius)
 	{//Far away
@@ -96,7 +110,7 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 			TheManagers.EM.Timers[ThrustTimer]->Reset(3.0f);
 		}
 
-		SetHeading(DroneProtecting->Position, 3.666f);
+		SetHeading(dronePosition, 3.666f);
 		SetAccelerationToMaxAtRotation(Thrust, 0.005f, deltaTime);
 	}
 	else
@@ -108,24 +122,24 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 		float farX = 0;
 		float farY = 0;
 
-		if (DroneProtecting->Position.x > 0)
+		if (dronePosition.x > 0)
 		{
-			farX = DroneProtecting->Position.x + 150;
+			farX = dronePosition.x + 150;
 
 		}
 		else
 		{
-			farX = DroneProtecting->Position.x - 150;
+			farX = dronePosition.x - 150;
 		}
 
-		if (DroneProtecting->Position.y > 0)
+		if (dronePosition.y > 0)
 		{
 
-			farY = DroneProtecting->Position.y + 100;
+			farY = dronePosition.y + 100;
 		}
 		else
 		{
-			farY = DroneProtecting->Position.y - 100;
+			farY = dronePosition.y - 100;
 		}
 
 		Waypoints[0] = {-farX, farY, 0}; //Top Left
@@ -139,10 +153,15 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 
 void EnemyTwo::PatrolArea(float deltaTime)
 {
-	float distance = Vector3Distance(Position, DroneProtecting->Position);
-	float distanceFromPlayer = Vector3Distance(Position, ThePlayer->Position);
 
-	if (distance < 400)
+	Vector3 dronePosition = CheckOtherSide(DroneProtecting->Position);
+
+	float distance = Vector3Distance(Position,
+		dronePosition);
+	float distanceFromPlayer = Vector3Distance(Position,
+		CheckOtherSide(ThePlayer->Position));
+
+	if (800 > distance)
 	{
 		if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
 		{
@@ -175,8 +194,9 @@ void EnemyTwo::PatrolArea(float deltaTime)
 
 void EnemyTwo::Attack(float deltaTime)
 {
-	float distanceFromDrone = Vector3Distance(Position, DroneProtecting->Position);
-	float distanceFromPlayer = Vector3Distance(Position, ThePlayer->Position);
+	Vector3 playerAt = CheckOtherSide(ThePlayer->Position);
+
+	float distanceFromPlayer = Vector3Distance(Position, playerAt);
 
 	if (TheManagers.EM.Timers[ThrustTimer]->Elapsed())
 	{
@@ -190,10 +210,10 @@ void EnemyTwo::Attack(float deltaTime)
 		TheManagers.EM.Timers[ShotTimer]->Reset(3.15f);
 	}
 
-	SetHeading(ThePlayer->Position, 1.666f);
+	SetHeading(playerAt, 1.666f);
 	SetAccelerationToMaxAtRotation(Thrust, 0.01f, deltaTime);
 
-	if (distanceFromDrone < distanceFromPlayer) InState = AIState::SearchForDrone;
+	if (distanceFromPlayer > 800) InState = AIState::SearchForDrone;
 }
 
 EnemyOne* EnemyTwo::FindDrone()
@@ -207,7 +227,8 @@ EnemyOne* EnemyTwo::FindDrone()
 	{
 		if (drone->Enabled)
 		{
-			float droneDistance = Vector3Distance(drone->Position, Position);
+			float droneDistance = Vector3Distance(CheckOtherSide(drone->Position),
+				Position);
 
 			if (droneDistance < distance || distance < 0.0f)
 			{

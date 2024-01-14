@@ -32,7 +32,7 @@ void ShotMaster::Update(float deltaTime)
 
 	if (TheManagers.EM.Timers[TimerID]->Elapsed())
 	{
-		Disable();
+		SetEnabled(false);
 	}
 }
 

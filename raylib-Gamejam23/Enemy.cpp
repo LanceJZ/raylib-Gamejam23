@@ -103,3 +103,37 @@ void Enemy::Fire(Vector3 position, Vector3 velocity)
 {
 	Shots[ShotNumber]->Spawn(position, Vector3Add(Velocity, velocity), ShotTimerTime);
 }
+
+Vector3 Enemy::CheckOtherSide(Vector3 target)
+{
+	Vector2 screenSize = { GetScreenWidth(), GetScreenHeight() };
+	Vector2 otherSide = Vector2Subtract(FieldSize, screenSize);
+
+	if (WorldPosition.x - target.x > otherSide.x ||
+		target.x - WorldPosition.x > otherSide.x)
+	{
+		if (target.x < WorldPosition.x)
+		{
+			target.x += FieldSize.x;
+		}
+		else
+		{
+			target.x -= FieldSize.x;
+		}
+	}
+
+	if (WorldPosition.y - target.y > otherSide.y ||
+		target.y - WorldPosition.y > otherSide.y)
+	{
+		if (target.y < WorldPosition.y)
+		{
+			target.y += FieldSize.y;
+		}
+		else
+		{
+			target.y -= FieldSize.y;
+		}
+	}
+
+	return target;
+}
