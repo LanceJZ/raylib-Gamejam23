@@ -6,7 +6,7 @@
 
 class EnemyOne : public Enemy
 {
-	enum  AIState
+	enum AIState
 	{
 		Evade,
 		FindRock,

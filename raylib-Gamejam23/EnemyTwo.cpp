@@ -119,33 +119,16 @@ void EnemyTwo::HeadToDrone(float deltaTime)
 		RotationAccelerationZ = {};
 		InState = AIState::Patrol;
 
-		float farX = 0;
-		float farY = 0;
+		float dist = 100;
 
-		if (dronePosition.x > 0)
-		{
-			farX = dronePosition.x + 150;
-
-		}
-		else
-		{
-			farX = dronePosition.x - 150;
-		}
-
-		if (dronePosition.y > 0)
-		{
-
-			farY = dronePosition.y + 100;
-		}
-		else
-		{
-			farY = dronePosition.y - 100;
-		}
-
-		Waypoints[0] = {-farX, farY, 0}; //Top Left
-		Waypoints[1] = {farX, farY, 0}; //Top Right
-		Waypoints[2] = {farX, -farY, 0}; //Bottom Right
-		Waypoints[3] = {-farX, -farY, 0}; // Bottom Left
+		Waypoints[0] = {DroneProtecting->X() - dist,
+			DroneProtecting->Y() + dist, 0}; //Top Left
+		Waypoints[1] = {DroneProtecting->X() + dist,
+			DroneProtecting->Y() + dist, 0}; //Top Right
+		Waypoints[2] = {DroneProtecting->X() + dist,
+			DroneProtecting->Y() - dist, 0}; //Bottom Right
+		Waypoints[3] = {DroneProtecting->X() - dist,
+			DroneProtecting->Y() - dist, 0}; // Bottom Left
 	}
 
 	if (!DroneProtecting->Enabled) InState = AIState::SearchForDrone;
